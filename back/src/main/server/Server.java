@@ -10,21 +10,38 @@ import FDAHandler;
  * and hooking them up to the API.
  */
 public class Server {
-
     static final int port = 3232;
 
+    public Server() {
 
-    public static void main(String[] args) {
-        int port = 3234;
         Spark.port(port);
 
-        Spark.get("/searchdrug", new FDAHandler());
+        after(
+            (request, response) -> {
+                response.header("Access-Control-Allow-Origin", "*");
+                response.header("Access-Control-Allow-Methods", "*");
+            });
 
+        Spark.get("/searchdrug", new FDAHandler());
         Spark.init();
         Spark.awaitInitialization();
-        System.out.println("Server started at http://localhost:" + port);
+
     }
 
-    
+    public void tearDown() {
+        Spark.unmap("/searchdrug");
+
+        Spark.awaitStop(); // don't proceed until the server is stopped
+
+    }
+
+    public static void main(String args[]) {
+        try {
+            Server server = new Server(new ACSAPIDataSource());
+            System.out.println("Server started on http://localhost:" + port + "/");
+        } catch (DatasourceException e) {
+            System.err.println("Server failed to start: " + e.getMessage());
+        }
+    }
 
 }
