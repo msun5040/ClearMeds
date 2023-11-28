@@ -17,10 +17,10 @@ public class Server {
         Spark.port(port);
 
         after(
-            (request, response) -> {
-                response.header("Access-Control-Allow-Origin", "*");
-                response.header("Access-Control-Allow-Methods", "*");
-            });
+                (request, response) -> {
+                    response.header("Access-Control-Allow-Origin", "*");
+                    response.header("Access-Control-Allow-Methods", "*");
+                });
 
         Spark.get("/searchdrug", new FDAHandler());
         Spark.init();
