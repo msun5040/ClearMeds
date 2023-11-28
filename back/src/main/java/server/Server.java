@@ -2,8 +2,11 @@ package server;
 
 import static spark.Spark.after;
 
+import org.eclipse.jetty.util.IO;
 import server.Handlers.DrugHandler;
 import spark.Spark;
+
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,12 +43,8 @@ public class Server {
     }
 
     public static void main(String args[]) {
-        try {
-            Server server = new Server(new ACSAPIDataSource());
-            System.out.println("Server started on http://localhost:" + port + "/");
-        } catch (DatasourceException e) {
-            System.err.println("Server failed to start: " + e.getMessage());
-        }
+        Server server = new Server();
+        System.out.println("Server started on http://localhost:" + port + "/");
     }
 
 }
