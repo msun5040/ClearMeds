@@ -1,4 +1,6 @@
 package server.Handlers;
+
+import Caching.CacheAPI;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -26,7 +28,7 @@ public class DrugHandler implements Route {
      * @return
      */
     @Override
-    public Object handle(Request request, Response response) {
+    public Object handle(Request request, Response response) throws Exception {
 
         // format: /searchdrug?drugname=_&allergy=_&age=_&currentdrugs=_
         String drugName = request.queryParams("drugname");
@@ -39,6 +41,22 @@ public class DrugHandler implements Route {
         Type mapStringObject = Types.newParameterizedType(Map.class, String.class, Object.class);
         JsonAdapter<Map<String, Object>> adapter = moshi.adapter(mapStringObject);
         Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+
+            /** if the drug/ingredient name is null, return error_bad_request * */
+            if (drugName == null) {
+                responseMap.put("response", "error_bad_request");
+                responseMap.put("error_message", "please enter drug/ingredient lookup value");
+                return adapter.toJson(responseMap);
+            }
+
+            // this is the main call
+
+
+        } catch () {
+
+        }
 
         return adapter.toJson(responseMap);
 
