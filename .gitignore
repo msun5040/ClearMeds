@@ -1,5 +1,10 @@
-node_modules/
 .DS_Store
 /.vscode
 /.idea
 test-results/
+front/node_modules/
+front/src/*.js
+.DS_Store
+front/test-results/
+front/playwright-report/
+front/playwright/.cache/
