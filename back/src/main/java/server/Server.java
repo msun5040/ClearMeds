@@ -16,7 +16,6 @@ import java.util.Set;
  * more functionality classes, etc. we could make sure they all had the same shared state.
  */
 public class Server {
-    asdfadsfaadsfadsf
     public static void main(String[] args) {
         int port = 3232;
         Set<Soup> menu = new HashSet<>();
