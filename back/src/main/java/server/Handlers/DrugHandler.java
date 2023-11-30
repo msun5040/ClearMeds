@@ -1,6 +1,6 @@
 package server.Handlers;
 
-import Caching.CacheAPI;
+//import Caching.CacheAPI;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+import server.Exceptions.BadRequestException;
 import server.FDADataSource;
 import spark.Request;
 import spark.Response;
@@ -43,19 +44,17 @@ public class DrugHandler implements Route {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-
-            /** if the drug/ingredient name is null, return error_bad_request * */
+            //if the drug/ingredient name is null, return error_bad_request
             if (drugName == null) {
-                responseMap.put("response", "error_bad_request");
-                responseMap.put("error_message", "please enter drug/ingredient lookup value");
-                return adapter.toJson(responseMap);
+                throw new BadRequestException("'drug name' parameter missing");
             }
 
-            // this is the main call
 
 
-        } catch () {
-
+        } catch (BadRequestException e) {
+            responseMap.put("type", "error");
+            responseMap.put("error_type", "error_bad_request");
+            responseMap.put("details", e.getMessage());
         }
 
         return adapter.toJson(responseMap);
