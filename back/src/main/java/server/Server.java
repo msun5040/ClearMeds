@@ -29,14 +29,14 @@ public class Server {
                     response.header("Access-Control-Allow-Methods", "*");
                 });
 
-        Spark.get("/searchdrug", new DrugHandler());
+        Spark.get("/searchactiveingredient", new DrugHandler());
         Spark.init();
         Spark.awaitInitialization();
 
     }
 
     public void tearDown() {
-        Spark.unmap("/searchdrug");
+        Spark.unmap("/searchactiveingredient");
 
         Spark.awaitStop(); // don't proceed until the server is stopped
 

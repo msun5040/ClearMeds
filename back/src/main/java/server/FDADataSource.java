@@ -26,13 +26,13 @@ public class FDADataSource {
 
     }
 
-    public List<List<String>> searchDrugs(String drugname) throws DatasourceException {
+    public List<List<String>> searchActiveIngredient(String activeIngredient) throws DatasourceException {
         try {
             URL requestURL =
                     new URL(
                             "https",
                             "api.fda.gov",
-                            "/drug/drugsfda.json?search="+drugname+"&limit=5");
+                            "/drug/drugsfda.json?search="+activeIngredient+"&limit=10");
             HttpURLConnection clientConnection = connect(requestURL);
             Moshi moshi = new Moshi.Builder().build();
             Type mapStringObject = Types.newParameterizedType(List.class, List.class, String.class);
@@ -41,7 +41,7 @@ public class FDADataSource {
                     adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
             Map<String, String> responseMap = new HashMap<String, String>();
-
+            clientConnection.disconnect();
             return responseList;
         } catch (Exception e) {
             throw new DatasourceException(e.getMessage(), e.getCause());

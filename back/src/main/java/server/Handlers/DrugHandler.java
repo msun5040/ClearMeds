@@ -51,6 +51,7 @@ public class DrugHandler implements Route {
 
 
 
+
         } catch (BadRequestException e) {
             responseMap.put("type", "error");
             responseMap.put("error_type", "error_bad_request");
