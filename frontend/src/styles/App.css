@@ -1,0 +1,145 @@
+.App {
+  text-align: center;
+  overflow-y: auto;
+  height: 100vh;
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(1px + 2vmin);
+  color: white;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: "Overpass", sans-serif;
+  letter-spacing: 0px;
+  font-size: 17px;
+  color: #8d8f90;
+  font-weight: 400;
+  line-height: 32px;
+  background-color: #edefef;
+}
+/* h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #25292a;
+  margin: 0px 0px 10px 0px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1;
+} */
+h1 {
+  font-size: 34px;
+}
+h2 {
+  font-size: 28px;
+  line-height: 38px;
+}
+h3 {
+  font-size: 22px;
+  line-height: 32px;
+}
+h4 {
+  font-size: 20px;
+}
+h5 {
+  font-size: 17px;
+}
+h6 {
+  font-size: 12px;
+}
+p {
+  margin: 0 0 20px;
+  line-height: 1.7;
+}
+p:last-child {
+  margin: 0px;
+}
+
+
+a {
+  text-decoration: none;
+  color: #8d8f90;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+a:focus,
+a:hover {
+  text-decoration: none;
+  color: #f85759;
+}
+
+.page-header {
+  background: url(https://qtxasset.com/quartz/qcloud5/media/image/GettyImages-1300036753thisone.jpg?VersionId=gN_SUq436ytBNKaO0mAKZU9B0KWYhqt5)
+    no-repeat;
+  position: relative;
+  background-size: cover;
+  width: 100%;
+}
+.page-caption {
+  padding-top: 170px;
+  padding-bottom: 174px;
+}
+.page-title {
+  color: #016064;
+  margin: 0px 0px 10px 0px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-size: 80px;
+  text-align: center;
+}
+
+.card-section {
+  position: relative;
+  bottom: 60px;
+}
+.card-block {
+  padding: 80px;
+}
+.section-title {
+  margin-bottom: 60px;
+}
+
+.alert.alert-warning.alert-dismissible.fade.show {
+  position: fixed; /* Position the alert */
+  top: 50%; /* Place it at 50% from the top */
+  left: 50%; /* Place it at 50% from the left */
+  transform: translate(-50%, -50%); /* Center the alert using translation */
+  max-width: 400px; /* Set a maximum width for the alert */
+  padding: 15px; /* Adjust padding */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow */
+}
+
+.alert strong {
+  font-weight: bold; /* Style for strong text */
+}
+
+.alert .close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 0;
+  line-height: 1;
+  font-size: 20px;
+  color: transparent; /* Make the button transparent */
+  background-color: transparent; /* Make the button background transparent */
+  border: none; /* Remove the border */
+}
+
+/* Style the "X" icon inside the close button */
+.alert .close span {
+  color: #8f8f8f; /* Color for the "X" icon */
+}
