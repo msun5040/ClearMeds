@@ -1,6 +1,17 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function OutputBox() {
+  const navigate = useNavigate();
+
+  const handleClickPatient = () => {
+    navigate("/patientinput");
+  };
+
+  const handleClickProvider = () => {
+    navigate("/providerinput");
+  };
+
   useEffect(() => {
     const handleResize = () => {
       const textBox = document.getElementById("text-box");
@@ -36,8 +47,12 @@ export default function OutputBox() {
         <div className="text-line-bold"> Healthy Lives.</div>
       </div>
       <div className="user-selector-container">
-        <button className="user-selector-button">Button1</button>
-        <button className="user-selector-button">Button2</button>
+        <button className="user-selector-button" onClick={handleClickPatient}>
+          Patients Start Here
+        </button>
+        <button className="user-selector-button" onClick={handleClickProvider}>
+          Providers Start Here
+        </button>
       </div>
     </div>
   );

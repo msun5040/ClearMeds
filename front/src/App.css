@@ -40,6 +40,41 @@ body {
   overflow: hidden;
 }
 
+.form-body {
+  background: #c2e2e5;
+  border: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+}
+
+.form {
+  background: #f8e06a;
+  border: none;
+  border-radius: 15px;
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.form-side {
+  background: #f8e06a;
+  border: none;
+  border-radius: 15px;
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+}
+
 .App-header {
   min-height: 100vh;
   display: flex;
@@ -89,7 +124,7 @@ body {
 }
 
 .accept-button {
-  background-color: #fff3cd;
+  background-color: #f8e06a;
   border: 2px solid black;
   color: black;
   padding: 10px 20px;
