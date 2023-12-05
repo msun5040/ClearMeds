@@ -2,14 +2,9 @@ package server;
 
 import static spark.Spark.after;
 
-import org.eclipse.jetty.util.IO;
+import server.Handlers.ActiveIngredientHandler;
 import server.Handlers.DrugHandler;
 import spark.Spark;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
 
 
 /**
@@ -29,14 +24,15 @@ public class Server {
                     response.header("Access-Control-Allow-Methods", "*");
                 });
 
-        Spark.get("/searchactiveingredient", new DrugHandler());
+        Spark.get("/searchdrug", new DrugHandler());
+        Spark.get("/search_active_ingredient", new ActiveIngredientHandler());
         Spark.init();
         Spark.awaitInitialization();
 
     }
 
     public void tearDown() {
-        Spark.unmap("/searchactiveingredient");
+        Spark.unmap("/searchdrug");
 
         Spark.awaitStop(); // don't proceed until the server is stopped
 

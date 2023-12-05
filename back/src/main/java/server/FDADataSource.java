@@ -1,5 +1,6 @@
 package server;
 
+import Caching.CacheSearchActiveIngredient;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -15,6 +16,7 @@ import okio.Buffer;
 
 import server.Exceptions.BadJSONException;
 import server.Exceptions.DatasourceException;
+import server.Handlers.SearchResponse;
 import spark.Spark;
 
 public class FDADataSource {
@@ -26,24 +28,25 @@ public class FDADataSource {
 
     }
 
-    public List<List<String>> searchActiveIngredient(String activeIngredient) throws DatasourceException {
+    public SearchResponse searchActiveIngredient(String activeIngredient) throws DatasourceException {
         try {
+            //1000 is the maximum limit
+//            https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:IBUPROFEN&limit=1000
             URL requestURL =
                     new URL(
                             "https",
                             "api.fda.gov",
-                            "/drug/drugsfda.json?search="+activeIngredient+"&limit=10");
+                            "/drug/drugsfda.json?search=products.active_ingredients.name:"+activeIngredient+"&limit=1000");
             HttpURLConnection clientConnection = connect(requestURL);
             Moshi moshi = new Moshi.Builder().build();
-            Type mapStringObject = Types.newParameterizedType(List.class, List.class, String.class);
-            JsonAdapter<List<List<String>>> adapter = moshi.adapter(mapStringObject);
-            List<List<String>> responseList =
+            JsonAdapter<SearchResponse> adapter = moshi.adapter(SearchResponse.class);
+            SearchResponse response =
                     adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
-            Map<String, String> responseMap = new HashMap<String, String>();
             clientConnection.disconnect();
-            return responseList;
+            return response;
         } catch (Exception e) {
+            //this is if there is an exception probably if a parameter doesn't exist or a search value doesn't exist
             throw new DatasourceException(e.getMessage(), e.getCause());
         }
     }
