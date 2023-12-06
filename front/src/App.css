@@ -55,24 +55,34 @@ body {
   background: #f8e06a;
   border: none;
   border-radius: 15px;
-  width: 50%;
-  height: 50%;
+  width: 40%;
+  height: 25%;
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 50px;
   transform: translateY(-50%);
 }
 
 .form-side {
   background: #f8e06a;
-  border: none;
-  border-radius: 15px;
-  width: 50%;
-  height: 50%;
+  width: 45%;
+  height: 100%;
   position: absolute;
   top: 50%;
-  right: 50px;
+  left: 0px;
   transform: translateY(-50%);
+}
+
+.form-image {
+  background: url(https://cdn.prgloo.com/media/b52c054ed7c342e8be0db817aec19cd5.jpg?width=968&height=1452)
+    no-repeat right bottom;
+  border: none;
+  border-radius: 15px;
+  width: 45%;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 50px;
 }
 
 .App-header {
