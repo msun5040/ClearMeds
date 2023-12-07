@@ -14,6 +14,8 @@ public record SearchResponse(
       @Json(name = "application_number") String application_number,
       @Json(name = "sponsor_name") String sponsor_name,
       @Json(name = "products") List<Product> products,
+      @Json(name = "inactive_ingredient") List<String> inactive_ingredient,
+      @Json(name = "active_ingredient") List<String> active_ingredient,
       @Json(name = "openfda") OpenFDA openFDA
   ) {}
 

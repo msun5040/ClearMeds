@@ -20,9 +20,11 @@ import okio.Buffer;
 import org.testng.reporters.jq.ResultsByClass;
 import server.Exceptions.BadJSONException;
 import server.Exceptions.DatasourceException;
+import server.Handlers.LabelResponse;
 import server.Handlers.SearchResponse;
 import server.Handlers.SearchResponse.ActiveIngredient;
 import server.Handlers.SearchResponse.Result;
+
 import spark.Spark;
 
 public class FDADataSource {
@@ -65,16 +67,35 @@ public class FDADataSource {
 
 
 
-    public void parse() {
+    public void parse() throws DatasourceException {
         for (Result result: this.searchResponse.results()) {
-
+            // what should we do here if the openFDA does not exist?
             List<String> product_ndcs = result.openFDA().product_ndc();
 
             for (String ndc: product_ndcs) {
 
                 List<String> ingredients = new ArrayList<String>();
-//                fill out ingredientrs list
+//                fill out ingredients list
 //                make api call to the other side to get the active ingredients
+
+                try {
+                    URL requestURL =
+                            new URL("https",
+                                    "api.fda.gov",
+                                    "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1000");
+                    HttpURLConnection clientConnection = connect(requestURL);
+                    Moshi moshi = new Moshi.Builder().build();
+                    JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
+                    LabelResponse response =
+                            adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+                    System.out.println(response);
+
+                    ingredients.add(response.results().active_ingredient());
+                    ingredients.add(response.results().inactive_ingredient());
+
+                } catch (Exception e) {
+                    throw new DatasourceException(e.getMessage(), e.getCause());
+                }
                 this.ndc_to_ingredients.put(ndc, ingredients);
                 this.ndc_to_result.put(ndc, result);
 
@@ -107,9 +128,9 @@ public class FDADataSource {
                     adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
             clientConnection.disconnect();
-            System.out.println("hello?");
-            System.out.println(response.results().get(1).openFDA().product_ndc());
-            System.out.println(response.results().get(1).products().get(0).active_ingredients());
+            //System.out.println(this.searchResponse);
+            //System.out.println("PRODUCT_NDC" + this.searchResponse.results().get(0).openFDA().product_ndc());
+            //System.out.println("ACTIVE_INGREDIENTS:" + this.searchResponse.results().get(1).products().get(0).active_ingredients());
             return response;
         } catch (Exception e) {
             //this is if there is an exception probably if a parameter doesn't exist or a search value doesn't exist
