@@ -13,7 +13,25 @@ public record SearchResponse(
   public record Result(
       @Json(name = "application_number") String application_number,
       @Json(name = "sponsor_name") String sponsor_name,
-      @Json(name = "products") List<Product> products
+      @Json(name = "products") List<Product> products,
+      @Json(name = "openfda") OpenFDA openFDA
+  ) {}
+
+  public record OpenFDA(
+      @Json(name = "application_number") List<String> application_number,
+      @Json(name = "brand_name") List<String> brand_name,
+      @Json(name = "generic_name") List<String> generic_name,
+      @Json(name = "manufacturer_name") List<String> manufacturer_name,
+      @Json(name = "product_ndc") List<String> product_ndc,
+      @Json(name = "product_type") List<String> product_type,
+      @Json(name = "route") List<String> route,
+      @Json(name = "substance_name") List<String> substance_name,
+      @Json(name = "rxcui") List<String> rxcui,
+      @Json(name = "spl_id") List<String> spl_id,
+      @Json(name = "package_ndc") List<String> package_ndc,
+      @Json(name = "unii") List<String> unii
+
+//      @Json(name = "product_ndc") List<String> product_ndc
   ) {}
 
   public record Product(
@@ -27,7 +45,7 @@ public record SearchResponse(
       @Json(name = "marketing_status") String marketing_status
   ) {}
 
-  public record ActiveIngredients(
+  public record ActiveIngredient(
       @Json(name = "name") String name,
       @Json(name = "strength") String strength
   ){}

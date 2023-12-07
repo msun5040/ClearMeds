@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import server.Exceptions.BadRequestException;
@@ -35,6 +36,10 @@ public class ActiveIngredientHandler implements Route {
 
     // format: /search_active_ingredient?active_ingredient=_
     String active_ingredient = request.queryParams("active_ingredient");
+    String hello = request.queryParams("hello");
+
+    System.out.println(Arrays.asList(active_ingredient.split(",")));
+    System.out.println(hello);
 //    String allergy = request.queryParams("allergy");
 //    String age = request.queryParams("age");
 //    String currentDrugs = request.queryParams("currentdrugs");

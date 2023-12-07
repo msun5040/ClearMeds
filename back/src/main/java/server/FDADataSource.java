@@ -44,6 +44,9 @@ public class FDADataSource {
                     adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
             clientConnection.disconnect();
+            System.out.println("hello?");
+            System.out.println(response.results().get(1).openFDA().product_ndc());
+            System.out.println(response.results().get(1).products().get(0).active_ingredients());
             return response;
         } catch (Exception e) {
             //this is if there is an exception probably if a parameter doesn't exist or a search value doesn't exist

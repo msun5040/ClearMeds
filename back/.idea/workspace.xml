@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="" />
+    <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/SearchResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/SearchResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredients.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,12 +95,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701375759829</updated>
-      <workItem from="1701375761160" duration="7674000" />
+      <workItem from="1701375761160" duration="8386000" />
+      <workItem from="1701643482138" duration="636000" />
+      <workItem from="1701669734475" duration="34000" />
+      <workItem from="1701809399498" duration="355000" />
+      <workItem from="1701897360382" duration="3389000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -104,7 +131,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
-          <line>33</line>
+          <line>34</line>
           <properties class="server.Handlers.ActiveIngredientHandler" method="handle">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
