@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import PatientInput from "./pages/PatientInput";
+import ProviderInput from "./pages/ProviderInput";
 
 const App: React.FC = () => {
   return (
@@ -14,7 +15,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/patientinput" element={<PatientInput />} />
-          {/* <Route path="/providerinput" element={<ProviderInput />} /> */}
+          <Route path="/providerinput" element={<ProviderInput />} />
+          {/*  */}
         </Routes>
       </div>
     </Router>
