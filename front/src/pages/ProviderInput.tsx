@@ -3,7 +3,7 @@ import Logo from "../components/logo";
 import OutputBox from "../components/OutputBox";
 import { useNavigate } from "react-router-dom";
 
-const PatientInput: React.FC = () => {
+const ProviderInput: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClickBack = () => {
@@ -19,9 +19,9 @@ const PatientInput: React.FC = () => {
       <div className="form-side"></div>
       <div className="form-image"></div>
       <div className="form">
-        Welcome Patients
+        Welcome Providers
         <input
-          className="form-control custom-search-input"
+          className="form-control"
           type="text"
           placeholder="Active Ingredients"
           onSubmit={handleSubmit}
@@ -49,4 +49,4 @@ const PatientInput: React.FC = () => {
   );
 };
 
-export default PatientInput;
+export default ProviderInput;
