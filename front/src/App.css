@@ -70,7 +70,6 @@ body {
   opacity: 85%;
 }
 
-
 .form-side {
   background: #f8e06a;
   width: 45%;
@@ -184,10 +183,13 @@ body {
   top: 50%;
   right: 50px;
   transform: translateY(-50%);
+  overflow: auto;
+  margin-bottom: 0;
 }
 
 .text-box {
-  margin-left: 2.5%;
+  margin-top: 5%;
+  margin-left: 3.5%;
   margin-bottom: 0;
   width: 90%; /* Set width relative to parent */
   height: 80%; /* Set height relative to parent */
@@ -205,6 +207,7 @@ body {
   font-size: calc(3vw + 3vh); /* Adjusted font size using vw and vh units */
   color: black;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .user-selector-container {
@@ -214,14 +217,17 @@ body {
 }
 
 .user-selector-button {
-  padding: 2vw 4vw; /* Using vw units for padding */
-  margin: 0 2vw; /* Using vw units for margin */
-  font-size: 2vw; /* Using vw units for font size */
+  padding: 10px 20px; /* Adjusted padding for better proportions */
+  margin: 0 10px; /* Adjusted margin for better spacing */
+  font-size: 1rem; /* Using rem units for font size */
   cursor: pointer;
-  border: 1px solid #000;
-  border-radius: 4px;
-  background-color: #f0f0f0;
-  transition: all 0.3s ease; /* Adding a transition for smooth resizing */
+  height: 14%;
+  width: 47%;
+  border: 2px solid #96cfdb; /* Changed border color */
+  border-radius: 6px; /* Increased border-radius for a softer look */
+  background-color: #96cfdb; /* Changed background color */
+  color: #000; /* Set text color to white for better contrast */
+  transition: all 0.3s ease;
 }
 
 .user-selector-button:hover {

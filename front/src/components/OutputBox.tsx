@@ -45,8 +45,6 @@ export default function OutputBox() {
         <div className="text-line">Clear Answers,</div>
         <div className="text-line"> Informed Decisions,</div>
         <div className="text-line-bold"> Healthy Lives.</div>
-      </div>
-      <div className="user-selector-container">
         <button className="user-selector-button" onClick={handleClickPatient}>
           Patients Start Here
         </button>
