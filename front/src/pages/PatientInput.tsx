@@ -16,7 +16,10 @@ const PatientInput: React.FC = () => {
 
   return (
     <div className="form-body">
-      <div className="form-side"></div>
+      
+      <div className="form-side">
+        <button className="btn">Back</button>
+      </div>
       <div className="form-image"></div>
       <div className="form">
         Welcome Patients
@@ -38,9 +41,10 @@ const PatientInput: React.FC = () => {
           placeholder="Additional Fields"
           onSubmit={handleSubmit}
         ></input>
-        <button className="form-button" onClick={handleClickBack}>
+        {/* <button className="form-button" onClick={handleClickBack}>
           Back
-        </button>
+        </button> */}
+        <button type="button" className="btn btn-outline-light">Back</button>
         <button className="form-button" onClick={handleSubmit}>
           Submit
         </button>
