@@ -24,7 +24,8 @@ const buildTrie = (words: string[]): TrieNode => {
 
 const findSuggestions = (trie: TrieNode, prefix: string): string[] => {
   let node = trie;
-  for (const char of prefix) {
+  let lowercasedPrefix = prefix.toLowerCase();
+  for (const char of lowercasedPrefix) {
     if (!node.children[char]) {
       return [];
     }
