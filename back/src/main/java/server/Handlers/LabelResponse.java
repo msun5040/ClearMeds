@@ -9,7 +9,7 @@ public record LabelResponse(
         @Json(name = "results") Result results
 ) {
     public record Result(
-        @Json(name = "active_ingredient") String active_ingredient,
-        @Json(name = "inactive_ingredient") String inactive_ingredient
+        @Json(name = "active_ingredient") List<String> active_ingredient,
+        @Json(name = "inactive_ingredient") List<String> inactive_ingredient
         ) {}
 }

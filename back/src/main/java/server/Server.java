@@ -31,7 +31,7 @@ public class Server {
 
   public void tearDown() {
     Spark.unmap("/searchdrug");
-
+    Spark.unmap("/search_active_ingredient");
     Spark.awaitStop(); // don't proceed until the server is stopped
   }
 

@@ -67,6 +67,7 @@ public class FDADataSource {
 
     public void parse() throws DatasourceException {
         for (Result result : this.searchResponse.results()) {
+
             // what should we do here if the openFDA does not exist?
             List<String> product_ndcs = result.openFDA().product_ndc();
 
@@ -76,20 +77,26 @@ public class FDADataSource {
 //                fill out ingredients list
 //                make api call to the other side to get the active ingredients
 
-                try {
+                try { // this call fails
                     URL requestURL =
                             new URL("https",
                                     "api.fda.gov",
-                                    "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1000");
+                                    "/drug/label.json?search=openfda.product_ndc:" + ndc + "&limit=1");
+
                     HttpURLConnection clientConnection = connect(requestURL);
+
                     Moshi moshi = new Moshi.Builder().build();
                     JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
+
                     LabelResponse response =
                             adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-                    System.out.println(response);
-
-                    ingredients.add(response.results().active_ingredient());
-                    ingredients.add(response.results().inactive_ingredient());
+                    // breaks at this line ^^. i think the issue is that it doesn't always have an inactive ingredient so we need to check our record class
+                    if (response.results() != null) {
+                        System.out.println(response.results().active_ingredient().toString());
+                        System.out.println(response.results().inactive_ingredient().toString());
+                        ingredients.add(response.results().active_ingredient().toString());
+                        ingredients.add(response.results().inactive_ingredient().toString());
+                    }
 
                 } catch (Exception e) {
                     throw new DatasourceException(e.getMessage(), e.getCause());
@@ -130,6 +137,9 @@ public class FDADataSource {
           adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
       clientConnection.disconnect();
+        System.out.println("datasource");
+        this.searchResponse = response;
+        this.parse();
       return response;
     } catch (Exception e) {
       // this is if there is an exception probably if a parameter doesn't exist or a search value
