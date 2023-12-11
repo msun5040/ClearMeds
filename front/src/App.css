@@ -61,13 +61,12 @@ body {
   top: 50%;
   right: 50px;
   transform: translateY(-50%);
-  font-family: "HKGrotesk", HKGrotesk Regular;
-  font-size: 20pt;
 }
 
 .form .form-control {
   margin-bottom: 10px;
   margin-left: 10px;
+  margin-top: 15px;
   width: 96.5%;
   opacity: 85%;
 }
@@ -82,7 +81,19 @@ body {
   transform: translateY(-50%);
 }
 
-.form-image {
+.form-provider-image {
+ background: url(https://d2jx2rerrg6sh3.cloudfront.net/images/news/ImageForNews_733664_16727472543818749.jpg)
+    no-repeat left center;
+  border: none;
+  border-radius: 15px;
+  width: 45%;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 50px;
+}
+
+.form-patient-image {
   background: url(https://cdn.prgloo.com/media/b52c054ed7c342e8be0db817aec19cd5.jpg?width=968&height=1452)
     no-repeat right bottom;
   border: none;
@@ -94,18 +105,39 @@ body {
   left: 50px;
 }
 
-.form .form-button {
+.form-text {
+  background: #96cfdb;
+  border: black;
+  left: 50%;
+  top: 17%;
+  width: 50%;
+  height: 10%;
+  position: absolute;
+}
+
+.form-button {
   background-color: #faefe0;
   border: 2px solid #faefe0;
   color: black;
   padding: 10px 20px;
   text-align: center;
   display: inline-block;
-  margin: 10px 10px;
+  margin: 4px 10px;
   cursor: pointer;
   border-radius: 16px;
-  font-size: 12pt;
+  width: 200px;
   transition: background-color 0.25s ease-in;
+}
+
+.result-body{
+  background: #78B6C1;
+  border: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
 }
 
 .App-header {
@@ -157,7 +189,7 @@ body {
 }
 
 .accept-button {
-  background-color: #fff4cc;
+  background-color: #f8e06a;
   border: 2px solid black;
   color: black;
   padding: 10px 20px;
@@ -171,7 +203,7 @@ body {
 }
 
 .accept-button:hover {
-  background-color: #539848;
+  background-color: #9c9c9c;
 }
 
 .output-box {
@@ -179,7 +211,7 @@ body {
   border: none;
   border-radius: 15px;
   width: 60vw;
-  height: 55%;
+  height: 60%;
   text-align: left;
   position: absolute;
   top: 50%;
@@ -215,7 +247,6 @@ body {
 .user-selector-container {
   display: flex;
   justify-content: center;
-  height: 5vh;
   margin-top: 0px;
 }
 
@@ -234,7 +265,7 @@ body {
 }
 
 .user-selector-button:hover {
-  background-color: #d5d5d5;
+  background-color: #e0e0e0;
 }
 
 @keyframes App-logo-spin {
@@ -244,26 +275,4 @@ body {
   to {
     transform: rotate(360deg);
   }
-}
-
-.back-button {
-  top: 75px;
-  left: 75px;
-  border-radius: 50% !important;
-  color: rgb(42, 42, 42);
-  border: none !important;
-  padding: 30px 30px !important;
-  transition: background-color 1s, transform 0.5s;
-}
-
-
-
-.btn {
-  border-width: 2px !important;
-  border-color: black !important;
-  color: black !important;
-}
-
-.btn:hover {
-  background-color: #98d4dc !important;
 }
