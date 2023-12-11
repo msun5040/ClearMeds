@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 public record SearchResponse(
-    //either looks like this, or just error hashmap with code, and message
-    @Json(name="meta") Map<String,Object> meta,
-    @Json(name = "results") List<Result> results
-) {
+    // either looks like this, or just error hashmap with code, and message
+    @Json(name = "meta") Map<String, Object> meta, @Json(name = "results") List<Result> results) {
 
   public record Result(
       @Json(name = "application_number") String application_number,
@@ -35,6 +33,7 @@ public record SearchResponse(
 
 //      @Json(name = "product_ndc") List<String> product_ndc
   ) {}
+//      @Json(name = "products") List<Product> products) {} merge conflict here idk if we need this so im leaving it here
 
   public record Product(
       @Json(name = "product_number") String product_number,
@@ -44,14 +43,13 @@ public record SearchResponse(
       @Json(name = "reference_standard") String reference_standard,
       @Json(name = "dosage_form") String dosage_form,
       @Json(name = "route") String route,
-      @Json(name = "marketing_status") String marketing_status
-  ) {}
+      @Json(name = "marketing_status") String marketing_status) {}
 
   public record ActiveIngredient(
       @Json(name = "name") String name,
       @Json(name = "strength") String strength
   ){}
 
+  public record ActiveIngredients(
+      @Json(name = "name") String name, @Json(name = "strength") String strength) {}
 }
-
-

@@ -1,17 +1,18 @@
 package Caching;
 //
-//import com.google.common.cache.CacheBuilder;
-//import com.google.common.cache.CacheLoader;
-//import com.google.common.cache.LoadingCache;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.concurrent.TimeUnit;
+// import com.google.common.cache.CacheBuilder;
+// import com.google.common.cache.CacheLoader;
+// import com.google.common.cache.LoadingCache;
+// import java.time.LocalDateTime;
+// import java.util.ArrayList;
+// import java.util.concurrent.TimeUnit;
 //
-///**
-// * This is the CacheAPI class which effictevely caches the response from getBroadbandPercentage, so
+/// **
+// * This is the CacheAPI class which effictevely caches the response from getBroadbandPercentage,
+// so
 // * as to reduce the amount of API calls especially if a specific call has been made before.
 // */
-//public class CacheAPI {
+// public class CacheAPI {
 //    private final LoadingCache<ArrayList<String>, ArrayList<String>> cache;
 //    private final ACSDataSource acsDataSource;
 //
@@ -32,8 +33,10 @@ package Caching;
 //                                new CacheLoader<>() {
 //
 //                                    /**
-//                                     * This is the load method, if a key does not exist inside of the cache, fill it
-//                                     * in with the get broadbandPercentage If getBroadbandPercentage throws an error,
+//                                     * This is the load method, if a key does not exist inside of
+// the cache, fill it
+//                                     * in with the get broadbandPercentage If
+// getBroadbandPercentage throws an error,
 //                                     * propagate it back up.
 //                                     *
 //                                     * @param key (formatted as (state, county))
@@ -47,13 +50,15 @@ package Caching;
 //                                        // the key is formatted as (state, county)
 //                                        ArrayList<String> result = new ArrayList<>();
 //
-//                                        result.add(acsDataSource.getBroadBandPercentage(key.get(0), key.get(1)));
+//
+// result.add(acsDataSource.getBroadBandPercentage(key.get(0), key.get(1)));
 //
 //                                        LocalDateTime retrievalTime = LocalDateTime.now();
 //                                        result.add(retrievalTime.toString());
 //
 //                                        return result;
-//                                        // the result is formated as , the (broadband percentage, the retrieval time)
+//                                        // the result is formated as , the (broadband percentage,
+// the retrieval time)
 //                                    }
 //                                });
 //    }
@@ -78,7 +83,8 @@ package Caching;
 //        try {
 //            return this.cache.getUnchecked(inputArr);
 //        } catch (Exception e) {
-//            //      used instance of to check what kind of exception was thrown, and then more formally
+//            //      used instance of to check what kind of exception was thrown, and then more
+// formally
 //            // throw the
 //            //      datasource or badjson exception, to be handled in BroadbandHandler to put the
 //            // necessary responses in
@@ -93,4 +99,4 @@ package Caching;
 //        // this should never be thrown as Datasource and BadJSON are caught above.
 //        throw new DatasourceException("error while searching");
 //    }
-//}
+// }

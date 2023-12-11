@@ -1,29 +1,30 @@
-//package edu.brown.cs32.examples.moshiExample;
+// package edu.brown.cs32.examples.moshiExample;
 //
-//import ingredients.Carrots;
-//import ingredients.HotPeppers;
-//import soup.ActualFlavorException;
-//import soup.Soup;
+// import ingredients.Carrots;
+// import ingredients.HotPeppers;
+// import soup.ActualFlavorException;
+// import soup.Soup;
 //
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
 //
-//import java.io.IOException;
-//import java.util.Set;
+// import java.io.IOException;
+// import java.util.Set;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertThrows;
 //
-///**
+/// **
 // *  Test deserializing soup recipes
 // *
 // *  Because we're using JUnit here, we needed to add JUnit to pom.xml.
 // *
-// *  In a real application, we'd want to test better---e.g., if it's part of our spec that SoupHandler throws
+// *  In a real application, we'd want to test better---e.g., if it's part of our spec that
+// SoupHandler throws
 // *  an IOException on invalid JSON, we'd want to test that.
 // */
-//public class TestSoupAPIUtilities {
+// public class TestSoupAPIUtilities {
 //
 //    @BeforeEach
 //    public void setup() {
@@ -50,16 +51,19 @@
 //    @Test
 //    public void testFrom_TooSpicyIngredientsList() {
 //        // Without special processing, JSON strings must use double quotes.
-//        String hot = "[{\"type\": \"carrot\", \"amount\": 5}, {\"type\": \"hotpeppers\", \"amount\": 1, \"scovilles\": 90000}]";
+//        String hot = "[{\"type\": \"carrot\", \"amount\": 5}, {\"type\": \"hotpeppers\",
+// \"amount\": 1, \"scovilles\": 90000}]";
 //
-//        // This *should* throw a flavor exception. Don't forget to wrap the offending statement in a function,
+//        // This *should* throw a flavor exception. Don't forget to wrap the offending statement in
+// a function,
 //        // or JUnit won't be able to detect the exception properly.
 //        assertThrows(ActualFlavorException.class,
 //                () -> SoupAPIUtilities.fromJSON(hot, true));
 //    }
 //
 //    /**
-//     * This saves some effort vs. repeating the code as in edu.brown.cs32.examples.moshiExample.TestSoupAPIHandlers.
+//     * This saves some effort vs. repeating the code as in
+// edu.brown.cs32.examples.moshiExample.TestSoupAPIHandlers.
 //     * @return a freshly created Soup object containing matchstick carrots and very mild peppers.
 //     */
 //    static Soup mixFreshBowlTimid() {
@@ -81,4 +85,4 @@
 //        // If the above produces an exception, the JUnit test will fail.
 //    }
 //
-//}
+// }

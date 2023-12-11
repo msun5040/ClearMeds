@@ -5,56 +5,107 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_82.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_18_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_failureaccess_1_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_32_1_2_jre.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_2_8.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sparkjava_spark_core_2_9_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_moshi_moshi_1_13_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_moshi_moshi_adapters_1_13_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okio_okio_2_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_33_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_client_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_api_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_client_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_common_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_server_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_servlet_9_4_31_v20200723.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_annotations_13_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_1_4_20.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_common_1_4_20.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_6_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_6_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_testng_testng_7_8_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_jquery_3_6_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/App.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/OutputBox.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/capsule.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/logo.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Black.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Black.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-BlackItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-BlackItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Bold.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Bold.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-BoldItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-BoldItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraBold.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraBold.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraBoldItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraBoldItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraLight.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraLight.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraLightItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ExtraLightItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Italic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Italic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Light.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Light.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-LightItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-LightItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-MediumItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-MediumItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-SemiBold.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-SemiBold.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-SemiBoldItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-SemiBoldItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Thin.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-Thin.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ThinItalic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/fonts/WEB/HKGrotesk-ThinItalic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/pages/Home.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/pages/PatientInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/pages/PatientOutput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/pages/ProviderInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/pages/ProviderOutput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/react-app-env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/setupTests.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Caching/CacheAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Caching/CacheAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadJSONException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadJSONException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadRequestException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Exceptions/DatasourceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Exceptions/DatasourceException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/DrugHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/DrugHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/DrugResults.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/DrugResults.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/SearchResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/SearchResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs32/examples/moshiExample/TestSoupAPIHandlers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs32/examples/moshiExample/TestSoupAPIHandlers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs32/examples/moshiExample/TestSoupAPIUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs32/examples/moshiExample/TestSoupAPIUtilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/DrugHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/DrugHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/DrugResults$ActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/DrugResults$ActiveIngredient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredients.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredients.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/ControlledInput.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/HelpScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/REPL.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/REPLHistory.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/REPLInput.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/styles/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/styles/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/styles/main.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +134,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
   <component name="ProjectId" id="2YuW5B0kGMChSuO14baVfr5oocJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -92,9 +146,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "backend-handlers-thomas",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging backend-handlers-thomas",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -135,6 +194,7 @@
       <workItem from="1701669734475" duration="34000" />
       <workItem from="1701809399498" duration="355000" />
       <workItem from="1701897360382" duration="6353000" />
+      <workItem from="1702332486076" duration="569000" />
     </task>
     <servers />
   </component>
@@ -157,8 +217,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>110</line>
-          <properties class="server.FDADataSource" method="searchActiveIngredient">
+          <line>108</line>
+          <properties class="server.FDADataSource">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
@@ -166,8 +226,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
-          <line>34</line>
-          <properties class="server.Handlers.ActiveIngredientHandler" method="handle">
+          <line>31</line>
+          <properties class="server.Handlers.ActiveIngredientHandler">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'HKGrotesk'
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  font-family: 'HKGrotesk';
+  font-style: normal;
+  font-weight: 400; /* Font weight for regular */
+  src: local('HKGrotesk Regular'), url(./fonts/WEB/HKGrotesk-Regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'HKGrotesk';
+  font-style: normal;
+  font-weight: 700; /* Font weight for bold */
+  src: local('HKGrotesk Bold'), url(./fonts/WEB/HKGrotesk-ExtraBold.woff) format('woff');
+}

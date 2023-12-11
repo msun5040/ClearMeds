@@ -1,11 +1,8 @@
 package server;
 
-import Caching.CacheSearchActiveIngredient;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -19,6 +16,7 @@ import okio.Buffer;
 
 import org.testng.reporters.jq.ResultsByClass;
 import server.Exceptions.BadJSONException;
+import okio.Buffer;
 import server.Exceptions.DatasourceException;
 import server.Handlers.LabelResponse;
 import server.Handlers.SearchResponse;
@@ -68,11 +66,11 @@ public class FDADataSource {
 
 
     public void parse() throws DatasourceException {
-        for (Result result: this.searchResponse.results()) {
+        for (Result result : this.searchResponse.results()) {
             // what should we do here if the openFDA does not exist?
             List<String> product_ndcs = result.openFDA().product_ndc();
 
-            for (String ndc: product_ndcs) {
+            for (String ndc : product_ndcs) {
 
                 List<String> ingredients = new ArrayList<String>();
 //                fill out ingredients list
@@ -99,7 +97,7 @@ public class FDADataSource {
                 this.ndc_to_ingredients.put(ndc, ingredients);
                 this.ndc_to_result.put(ndc, result);
 
-                for (ActiveIngredient active_ingredient_obj: result.products().get(0).active_ingredients()) {
+                for (ActiveIngredient active_ingredient_obj : result.products().get(0).active_ingredients()) {
                     String active_ingredient = active_ingredient_obj.name();
                     if (!this.active_ingredient_to_ndc.containsKey(active_ingredient)) {
                         this.active_ingredient_to_ndc.put(active_ingredient, new ArrayList<String>());
@@ -112,50 +110,53 @@ public class FDADataSource {
         }
     }
 
-    public SearchResponse searchActiveIngredient(String activeIngredient) throws DatasourceException {
-        try {
-            //1000 is the maximum limit
-//            https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:IBUPROFEN&limit=1000
-            URL requestURL =
-                    new URL(
-                            "https",
-                            "api.fda.gov",
-                            "/drug/drugsfda.json?search=products.active_ingredients.name:"+activeIngredient+"&limit=1000");
-            HttpURLConnection clientConnection = connect(requestURL);
-            Moshi moshi = new Moshi.Builder().build();
-            JsonAdapter<SearchResponse> adapter = moshi.adapter(SearchResponse.class);
-            SearchResponse response =
-                    adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
-            clientConnection.disconnect();
-            //System.out.println(this.searchResponse);
-            //System.out.println("PRODUCT_NDC" + this.searchResponse.results().get(0).openFDA().product_ndc());
-            //System.out.println("ACTIVE_INGREDIENTS:" + this.searchResponse.results().get(1).products().get(0).active_ingredients());
-            return response;
-        } catch (Exception e) {
-            //this is if there is an exception probably if a parameter doesn't exist or a search value doesn't exist
-            throw new DatasourceException(e.getMessage(), e.getCause());
-        }
+  public SearchResponse searchActiveIngredient(String activeIngredient) throws DatasourceException {
+    try {
+      // 1000 is the maximum limit
+      //
+      // https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:IBUPROFEN&limit=1000
+      URL requestURL =
+          new URL(
+              "https",
+              "api.fda.gov",
+              "/drug/drugsfda.json?search=products.active_ingredients.name:"
+                  + activeIngredient
+                  + "&limit=1000");
+      HttpURLConnection clientConnection = connect(requestURL);
+      Moshi moshi = new Moshi.Builder().build();
+      JsonAdapter<SearchResponse> adapter = moshi.adapter(SearchResponse.class);
+      SearchResponse response =
+          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+
+      clientConnection.disconnect();
+      return response;
+    } catch (Exception e) {
+      // this is if there is an exception probably if a parameter doesn't exist or a search value
+      // doesn't exist
+      throw new DatasourceException(e.getMessage(), e.getCause());
     }
+  }
 
 
-    /**
-     * Private helper method; throws IOException so different callers can handle differently if
-     * needed.
-     *
-     * @param requestURL
-     * @return
-     * @throws IOException
-     */
-    private static HttpURLConnection connect(URL requestURL) throws IOException {
-        URLConnection urlConnection = requestURL.openConnection();
-        if (!(urlConnection instanceof HttpURLConnection))
-            throw new IOException("Unexpected: result of connection wasn't HTTP");
-        HttpURLConnection clientConnection = (HttpURLConnection) urlConnection;
-        clientConnection.connect(); // GET
-        if (clientConnection.getResponseCode() != 200)
-            throw new IOException(
-                    "Unexpected: API connection not success status " + clientConnection.getResponseMessage());
-        return clientConnection;
-    }
+
+  /**
+   * Private helper method; throws IOException so different callers can handle differently if
+   * needed.
+   *
+   * @param requestURL
+   * @return
+   * @throws IOException
+   */
+  private static HttpURLConnection connect(URL requestURL) throws IOException {
+    URLConnection urlConnection = requestURL.openConnection();
+    if (!(urlConnection instanceof HttpURLConnection))
+      throw new IOException("Unexpected: result of connection wasn't HTTP");
+    HttpURLConnection clientConnection = (HttpURLConnection) urlConnection;
+    clientConnection.connect(); // GET
+    if (clientConnection.getResponseCode() != 200)
+      throw new IOException(
+          "Unexpected: API connection not success status " + clientConnection.getResponseMessage());
+    return clientConnection;
+  }
 }

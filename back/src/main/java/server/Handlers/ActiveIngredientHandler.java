@@ -8,7 +8,6 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import server.Exceptions.BadRequestException;
 import server.Exceptions.DatasourceException;
 import server.FDADataSource;
 import spark.Request;
@@ -22,12 +21,10 @@ public class ActiveIngredientHandler implements Route {
   public ActiveIngredientHandler() {
     this.fdaDataSource = new FDADataSource();
     this.cache = new CacheSearchActiveIngredient(10, 10, this.fdaDataSource);
-
   }
 
   /**
-   *
-   * @param request  The request object providing information about the HTTP request
+   * @param request The request object providing information about the HTTP request
    * @param response The response object providing functionality for modifying the response
    * @return
    */
@@ -43,6 +40,9 @@ public class ActiveIngredientHandler implements Route {
 //    String allergy = request.queryParams("allergy");
 //    String age = request.queryParams("age");
 //    String currentDrugs = request.queryParams("currentdrugs");
+    //    String allergy = request.queryParams("allergy");
+    //    String age = request.queryParams("age");
+    //    String currentDrugs = request.queryParams("currentdrugs");
 
     // prepare to send a reply
     Moshi moshi = new Moshi.Builder().build();
@@ -50,7 +50,7 @@ public class ActiveIngredientHandler implements Route {
     JsonAdapter<Map<String, Object>> adapter = moshi.adapter(mapStringObject);
     Map<String, Object> responseMap = new HashMap<>();
 
-    //if the drug/ingredient name is null, return error_bad_request
+    // if the drug/ingredient name is null, return error_bad_request
     if (active_ingredient == null) {
       responseMap.put("type", "error");
       responseMap.put("error_type", "error_bad_request");
@@ -70,6 +70,5 @@ public class ActiveIngredientHandler implements Route {
     }
 
     return adapter.toJson(responseMap);
-
   }
 }

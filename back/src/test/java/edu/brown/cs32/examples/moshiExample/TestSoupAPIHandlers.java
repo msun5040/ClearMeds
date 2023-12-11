@@ -1,32 +1,33 @@
-//package edu.brown.cs32.examples.moshiExample;
+// package edu.brown.cs32.examples.moshiExample;
 //
-//import com.squareup.moshi.Moshi;
-//import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
-//import ingredients.Carrots;
-//import ingredients.HotPeppers;
-//import ingredients.Ingredient;
-//import soup.Soup;
-//import okio.Buffer;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import spark.Spark;
+// import com.squareup.moshi.Moshi;
+// import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
+// import ingredients.Carrots;
+// import ingredients.HotPeppers;
+// import ingredients.Ingredient;
+// import soup.Soup;
+// import okio.Buffer;
+// import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.BeforeAll;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import spark.Spark;
 //
-//import java.io.IOException;
-//import java.net.HttpURLConnection;
-//import java.net.URL;
-//import java.util.HashSet;
-//import java.util.Set;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
+// import java.io.IOException;
+// import java.net.HttpURLConnection;
+// import java.net.URL;
+// import java.util.HashSet;
+// import java.util.Set;
+// import java.util.logging.Level;
+// import java.util.logging.Logger;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
 //
-///**
+/// **
 // * Test the actual handlers.
 // *
-// * On Sprint 2, you'll need to deserialize API responses. Although this demo doesn't need to do that,
+// * On Sprint 2, you'll need to deserialize API responses. Although this demo doesn't need to do
+// that,
 // * these _tests_ do.
 // *
 // * https://junit.org/junit5/docs/current/user-guide/
@@ -42,7 +43,7 @@
 // * Note: if we were doing this for real, we might want to test encoding formats
 // * other than UTF-8 (StandardCharsets.UTF_8).
 // */
-//public class TestSoupAPIHandlers {
+// public class TestSoupAPIHandlers {
 //
 //    @BeforeAll
 //    public static void setup_before_everything() {
@@ -67,7 +68,8 @@
 //    }
 //
 //    /**
-//     * Shared state for all tests. We need to be able to mutate it (adding recipes etc.) but never need to replace
+//     * Shared state for all tests. We need to be able to mutate it (adding recipes etc.) but never
+// need to replace
 //     * the reference itself. We clear this state out after every test runs.
 //     */
 //
@@ -114,7 +116,8 @@
 //
 //
 //    @Test
-//    // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type checker
+//    // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the
+// type checker
 //    public void testAPINoRecipes() throws IOException {
 //        HttpURLConnection clientConnection = tryRequest("order");
 //        // Get an OK response (the *connection* worked, the *API* provides an error response)
@@ -125,15 +128,18 @@
 //        Moshi moshi = new Moshi.Builder().build();
 //        // We'll use okio's Buffer class here
 //        OrderHandler.SoupNoRecipesFailureResponse response =
-//                moshi.adapter(OrderHandler.SoupNoRecipesFailureResponse.class).fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+//                moshi.adapter(OrderHandler.SoupNoRecipesFailureResponse.class).fromJson(new
+// Buffer().readFrom(clientConnection.getInputStream()));
 //
-//        // ^ If that succeeds, we got the expected response. Notice that this is *NOT* an exception, but a real Json reply.
+//        // ^ If that succeeds, we got the expected response. Notice that this is *NOT* an
+// exception, but a real Json reply.
 //
 //        clientConnection.disconnect();
 //    }
 //
 //    @Test
-//    // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type checker
+//    // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the
+// type checker
 //    public void testAPIOneRecipe() throws IOException {
 //
 //        menu.add(Soup.buildNoExceptions(true, Set.of(
@@ -158,9 +164,11 @@
 //
 //        // We'll use okio's Buffer class here
 //        OrderHandler.SoupSuccessResponse response =
-//                moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+//                moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new
+// Buffer().readFrom(clientConnection.getInputStream()));
 //
-//        // ^ If that succeeds, we got the expected response. But we should also check the ingredients
+//        // ^ If that succeeds, we got the expected response. But we should also check the
+// ingredients
 //        assertEquals(Set.of(
 //                new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0),
 //                new HotPeppers(1, 2.0)),
@@ -168,4 +176,4 @@
 //
 //        clientConnection.disconnect();
 //    }
-//}
+// }
