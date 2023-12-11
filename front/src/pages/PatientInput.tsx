@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { buildTrie, findSuggestions, collectSuggestions } from "../components/trie";
+import {
+  buildTrie,
+  findSuggestions,
+  collectSuggestions,
+} from "../components/trie";
 
 const PatientInput: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +24,8 @@ const PatientInput: React.FC = () => {
   const [additionalFieldsSuggestions, setAdditionalFieldsSuggestions] =
     useState<string[]>([]);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const dummySuggestions = [
     "Ingredient1",
     "Ingredient2",
@@ -29,8 +35,8 @@ const PatientInput: React.FC = () => {
     "aloha",
     "balls",
     "banana",
-    "cat", 
-    "cute"
+    "cat",
+    "cute",
   ];
 
   const trie = buildTrie(dummySuggestions);
@@ -74,6 +80,23 @@ const PatientInput: React.FC = () => {
     setAdditionalFields("");
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+      // Click is outside of the input field, hide suggestions
+      setActiveIngredientsSuggestions([]);
+    }
+  };
+
+  useEffect(() => {
+    // Attach click event listener to the document body
+    document.body.addEventListener("click", handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+  }, []); // Empty dependency array ensures that the effect runs once on mount
+
   return (
     <div className="form-body">
       <div className="form-side"></div>
@@ -95,6 +118,7 @@ const PatientInput: React.FC = () => {
                 setActiveIngredientsSuggestions
               )
             }
+            ref={inputRef}
           />
           {activeIngredientsSuggestions.length > 0 && (
             <ul>
