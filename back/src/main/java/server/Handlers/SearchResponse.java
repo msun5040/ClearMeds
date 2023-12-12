@@ -29,11 +29,10 @@ public record SearchResponse(
       @Json(name = "rxcui") List<String> rxcui,
       @Json(name = "spl_id") List<String> spl_id,
       @Json(name = "package_ndc") List<String> package_ndc,
-      @Json(name = "unii") List<String> unii
+      @Json(name = "unii") List<String> unii,
+      @Json(name = "products") List<Product> products) {} //merge conflict here idk if we need this so im leaving it here
 
-//      @Json(name = "product_ndc") List<String> product_ndc
-  ) {}
-//      @Json(name = "products") List<Product> products) {} merge conflict here idk if we need this so im leaving it here
+
 
   public record Product(
       @Json(name = "product_number") String product_number,

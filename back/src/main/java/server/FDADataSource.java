@@ -70,7 +70,7 @@ public class FDADataSource {
 
             // what should we do here if the openFDA does not exist?
             List<String> product_ndcs = result.openFDA().product_ndc();
-
+            System.out.println(product_ndcs);
             for (String ndc : product_ndcs) {
 
                 List<String> ingredients = new ArrayList<String>();
@@ -81,27 +81,35 @@ public class FDADataSource {
                     URL requestURL =
                             new URL("https",
                                     "api.fda.gov",
-                                    "/drug/label.json?search=openfda.product_ndc:" + ndc + "&limit=1");
+                                    "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1");
 
                     HttpURLConnection clientConnection = connect(requestURL);
 
                     Moshi moshi = new Moshi.Builder().build();
                     JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
-
-                    LabelResponse response =
+                    LabelResponse response2 =
                             adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-                    // breaks at this line ^^. i think the issue is that it doesn't always have an inactive ingredient so we need to check our record class
-                    if (response.results() != null) {
-                        System.out.println(response.results().active_ingredient().toString());
-                        System.out.println(response.results().inactive_ingredient().toString());
-                        ingredients.add(response.results().active_ingredient().toString());
-                        ingredients.add(response.results().inactive_ingredient().toString());
+                    System.out.println(response2);
+                    System.out.println(response2.results() != null);
+                    if (response2.results() != null) {
+                        for (LabelResponse.Result res: response2.results()) {
+                            if (res.inactive_ingredient() != null) {
+                                ingredients.add(res.active_ingredient().toString());
+                            }
+                            if (res.inactive_ingredient() != null) {
+                                ingredients.add(res.inactive_ingredient().toString());
+                            }
+                            System.out.println(ndc);
+                            System.out.println(ingredients);
+                            this.ndc_to_ingredients.put(ndc, ingredients);
+                        }
+
                     }
 
                 } catch (Exception e) {
                     throw new DatasourceException(e.getMessage(), e.getCause());
                 }
-                this.ndc_to_ingredients.put(ndc, ingredients);
+
                 this.ndc_to_result.put(ndc, result);
 
                 for (ActiveIngredient active_ingredient_obj : result.products().get(0).active_ingredients()) {
@@ -137,8 +145,6 @@ public class FDADataSource {
           adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
       clientConnection.disconnect();
-        System.out.println("datasource");
-        this.searchResponse = response;
         this.parse();
       return response;
     } catch (Exception e) {

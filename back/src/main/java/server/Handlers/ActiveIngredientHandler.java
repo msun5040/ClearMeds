@@ -36,7 +36,6 @@ public class ActiveIngredientHandler implements Route {
     String hello = request.queryParams("hello");
 
     System.out.println(Arrays.asList(active_ingredient.split(",")));
-    System.out.println("hello");
 //    String allergy = request.queryParams("allergy");
 //    String age = request.queryParams("age");
 //    String currentDrugs = request.queryParams("currentdrugs");
