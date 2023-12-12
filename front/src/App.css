@@ -51,19 +51,27 @@ body {
   transform: translateY(-50%);
 }
 
-.form {
+.form-container{
   background: #f8e06a;
   border: none;
   border-radius: 15px;
-  width: 40%;
-  height: 30%;
+  width: 40vw;
+  height: 35vh;
   position: absolute;
   top: 50%;
   right: 50px;
   transform: translateY(-50%);
+  overflow: auto;
 }
 
-.form .form-control {
+.form {
+  padding: 5px;
+  justify-content: center;
+  align-content: center;
+
+}
+
+.form .form-control{
   margin-bottom: 10px;
   margin-left: 10px;
   margin-top: 15px;
@@ -99,10 +107,11 @@ body {
   border: none;
   border-radius: 15px;
   width: 45%;
-  height: 70%;
+  height: 60vh;
   position: absolute;
   top: 15%;
   left: 50px;
+
 }
 
 .form-text {
@@ -263,7 +272,7 @@ body {
   border: none;
   border-radius: 15px;
   width: 60vw;
-  height: 60%;
+  height: 57%;
   text-align: left;
   position: absolute;
   top: 50%;
@@ -274,11 +283,11 @@ body {
 }
 
 .text-box {
-  margin-top: 5%;
+  margin-top: 3%;
   margin-left: 3.5%;
   margin-bottom: 0;
   width: 90%; /* Set width relative to parent */
-  height: 80%; /* Set height relative to parent */
+  height: 70%; /* Set height relative to parent */
   overflow: hidden;
 }
 
@@ -293,24 +302,23 @@ body {
   font-size: calc(3vw + 3vh); /* Adjusted font size using vw and vh units */
   color: black;
   font-weight: bold;
-  margin-bottom: 20px;
 }
 
 .user-selector-container {
   display: flex;
   justify-content: center;
-  margin-top: 0px;
+  margin-top: 20px;
 }
 
 .user-selector-button {
   padding: 10px 20px; /* Adjusted padding for better proportions */
-  margin: 0 10px; /* Adjusted margin for better spacing */
-  font-size: 1rem; /* Using rem units for font size */
+  margin: 10px 10px; /* Adjusted margin for better spacing */
+  font-size: 1.5rem; /* Using rem units for font size */
   cursor: pointer;
-  height: 14%;
+  height: 20%;
   width: 47%;
   border: 2px solid #96cfdb; /* Changed border color */
-  border-radius: 6px; /* Increased border-radius for a softer look */
+  border-radius: 10px; /* Increased border-radius for a softer look */
   background-color: #96cfdb; /* Changed background color */
   color: #000; /* Set text color to white for better contrast */
   transition: all 0.3s ease;
@@ -318,6 +326,10 @@ body {
 
 .user-selector-button:hover {
   background-color: #e0e0e0;
+}
+
+.input-message{
+  margin-top: 2vh;
 }
 
 @keyframes App-logo-spin {

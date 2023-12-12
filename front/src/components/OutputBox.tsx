@@ -45,13 +45,16 @@ export default function OutputBox() {
         <div className="text-line">Clear Answers,</div>
         <div className="text-line"> Informed Decisions,</div>
         <div className="text-line-bold"> Healthy Lives.</div>
-        <button className="user-selector-button" onClick={handleClickPatient}>
-          Patients Start Here
-        </button>
-        <button className="user-selector-button" onClick={handleClickProvider}>
-          Providers Start Here
-        </button>
       </div>
+      <div className="user-selector-container">
+      <button className="user-selector-button" onClick={handleClickPatient}>
+        Patients Start Here
+      </button>
+      <button className="user-selector-button" onClick={handleClickProvider}>
+        Providers Start Here
+      </button>
+      </div>
+      
     </div>
   );
 }
