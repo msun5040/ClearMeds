@@ -54,6 +54,38 @@ const PatientOutput: React.FC = () => {
       manufacturers: "Free Drugs",
       marketingStatus: "In Stock",
     },
+    {
+      drugBrand: "Drug 4",
+      genericName: "Asetoman",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Drugs R Us",
+      marketingStatus: "In Stock",
+    },
+    {
+      drugBrand: "Drug 5",
+      genericName: "Acetoman2",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Free Drugs",
+      marketingStatus: "In Stock",
+    },
+    {
+      drugBrand: "Drug 4",
+      genericName: "Asetoman",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Drugs R Us",
+      marketingStatus: "In Stock",
+    },
+    {
+      drugBrand: "Drug 5",
+      genericName: "Acetoman2",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Free Drugs",
+      marketingStatus: "In Stock",
+    },
   ];
 
   // const renderResults = () => {

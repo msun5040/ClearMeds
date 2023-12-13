@@ -208,9 +208,6 @@ const PatientInput: React.FC = () => {
           <button className="form-button" onClick={handleSubmit}>
             Submit
           </button>
-          <div className="input-message">
-                  Yo
-          </div>
         </div>
       </div>
     </div>
