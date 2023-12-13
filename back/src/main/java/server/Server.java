@@ -23,7 +23,7 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    Spark.get("/searchdrug", new DrugHandler());
+//    Spark.get("/searchdrug", new DrugHandler());
     Spark.get("/search_active_ingredient", new ActiveIngredientHandler());
     Spark.init();
     Spark.awaitInitialization();

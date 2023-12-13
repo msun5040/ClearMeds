@@ -110,32 +110,33 @@ public class FDADataSource {
     }
   }
 
-  public SearchResponse searchActiveIngredient(String activeIngredient) throws DatasourceException {
-    try {
-      // 1000 is the maximum limit
-      //
-      // https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:IBUPROFEN&limit=1000
-      URL requestURL =
-          new URL(
-              "https",
-              "api.fda.gov",
-              "/drug/drugsfda.json?search=products.active_ingredients.name:"
-                  + activeIngredient
-                  + "&limit=1000");
-      HttpURLConnection clientConnection = connect(requestURL);
-      Moshi moshi = new Moshi.Builder().build();
-      JsonAdapter<SearchResponse> adapter = moshi.adapter(SearchResponse.class);
-      SearchResponse response =
-          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-
-      clientConnection.disconnect();
-      this.parse();
-      return response;
-    } catch (Exception e) {
-      // this is if there is an exception probably if a parameter doesn't exist or a search value
-      // doesn't exist
-      throw new DatasourceException(e.getMessage(), e.getCause());
-    }
+  public SearchResponse searchActiveIngredient(List<String> activeIngredient) throws DatasourceException {
+//    try {
+//      // 1000 is the maximum limit
+//      //
+//      // https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:IBUPROFEN&limit=1000
+//      URL requestURL =
+//          new URL(
+//              "https",
+//              "api.fda.gov",
+//              "/drug/drugsfda.json?search=products.active_ingredients.name:"
+//                  + activeIngredient
+//                  + "&limit=1000");
+//      HttpURLConnection clientConnection = connect(requestURL);
+//      Moshi moshi = new Moshi.Builder().build();
+//      JsonAdapter<SearchResponse> adapter = moshi.adapter(SearchResponse.class);
+//      SearchResponse response =
+//          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+//
+//      clientConnection.disconnect();
+//      this.parse();
+//      return response;
+//    } catch (Exception e) {
+//      // this is if there is an exception probably if a parameter doesn't exist or a search value
+//      // doesn't exist
+//      throw new DatasourceException(e.getMessage(), e.getCause());
+//    }
+      return null;
   }
 
   /**

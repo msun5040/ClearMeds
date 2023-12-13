@@ -7,6 +7,7 @@ import com.squareup.moshi.Types;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import server.Exceptions.DatasourceException;
 import server.FDADataSource;
@@ -32,10 +33,10 @@ public class ActiveIngredientHandler implements Route {
   public Object handle(Request request, Response response) throws Exception {
 
     // format: /search_active_ingredient?active_ingredient=_
-    String active_ingredient = request.queryParams("active_ingredient");
-    String hello = request.queryParams("hello");
+    String active_ingredient_string = request.queryParams("active_ingredient");
+    List<String> active_ingredient_list = Arrays.asList(active_ingredient_string.split(","));
 
-    System.out.println(Arrays.asList(active_ingredient.split(",")));
+//    System.out.println(Arrays.asList(active_ingredient.split(",")));
     //    String allergy = request.queryParams("allergy");
     //    String age = request.queryParams("age");
     //    String currentDrugs = request.queryParams("currentdrugs");
@@ -50,7 +51,7 @@ public class ActiveIngredientHandler implements Route {
     Map<String, Object> responseMap = new HashMap<>();
 
     // if the drug/ingredient name is null, return error_bad_request
-    if (active_ingredient == null) {
+    if (active_ingredient_list.size() == 0) {
       responseMap.put("type", "error");
       responseMap.put("error_type", "error_bad_request");
       responseMap.put("details", "active_ingredient is null!");
@@ -59,13 +60,13 @@ public class ActiveIngredientHandler implements Route {
 
     try {
 
-      responseMap.put("result", this.fdaDataSource.searchActiveIngredient(active_ingredient));
+      responseMap.put("result", this.fdaDataSource.searchActiveIngredient(active_ingredient_list));
 
     } catch (DatasourceException e) {
       responseMap.put("type", "error");
       responseMap.put("error_type", "error_datasource");
       responseMap.put("details", e.getMessage());
-      responseMap.put("active_ingredient", active_ingredient);
+      responseMap.put("active_ingredient", active_ingredient_list);
     }
 
     return adapter.toJson(responseMap);

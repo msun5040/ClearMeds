@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="" />
+    <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs32/examples/moshiExample/TestSoupAPIHandlers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs32/examples/moshiExample/TestSoupAPIUtilities.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/LabelResponse$Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/LabelResponse$Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredients.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$ActiveIngredients.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$OpenFDA.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$OpenFDA.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/SearchResponse$Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../s0.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,31 +44,33 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Server.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/DrugResults.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/SearchResponse.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/DrugHandler.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
   <component name="ProjectId" id="2YuW5B0kGMChSuO14baVfr5oocJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "backend-handlers-thomas",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/data" />
@@ -61,8 +78,11 @@
   </component>
   <component name="RunManager">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="server.Server" />
       <module name="s0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/main/java" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
@@ -93,6 +113,8 @@
       <workItem from="1701809399498" duration="355000" />
       <workItem from="1701897360382" duration="6353000" />
       <workItem from="1702332486076" duration="8007000" />
+      <workItem from="1702492770539" duration="642000" />
+      <workItem from="1702493425412" duration="217000" />
     </task>
     <servers />
   </component>
@@ -115,7 +137,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>123</line>
+          <line>107</line>
           <properties class="server.FDADataSource">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -125,7 +147,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
           <line>31</line>
-          <properties class="server.Handlers.ActiveIngredientHandler">
+          <properties class="server.Handlers.ActiveIngredientHandler" method="handle">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
