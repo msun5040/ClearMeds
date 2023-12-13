@@ -69,6 +69,21 @@ body {
   overflow-y: scroll;
 }
 
+.form::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.form::-webkit-scrollbar-track {
+  background: #f8e06a;
+  border-top-right-radius: 10px; 
+  border-bottom-right-radius: 10px;
+}
+
+.form::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf; 
+  border-radius: 10px;
+}
+
 .form .form-control {
   margin-bottom: 10px;
   margin-left: 10px;
@@ -168,6 +183,11 @@ body {
   font-size: calc(3vw + 3vh);
   color: black;
   top: 0px;
+  font-weight: bold;
+}
+.patient-output-panel {
+  display: flex;
+  flex-direction: column;
 }
 
 .result-body {
@@ -184,6 +204,18 @@ body {
 .result-container {
   background: #61dafb;
   border: none;
+  width: 100%;
+  height: auto; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2vh;
+  overflow-y: auto;
+  justify-content: center;
+}
+
+.result-panel-container {
+  
   border-radius: 15px;
   width: 100%;
   height: auto; 
@@ -191,7 +223,8 @@ body {
   flex-wrap: wrap; 
   justify-content: space-around;
   align-items: center;
-  margin-top: 5vh;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
   overflow: auto;
   padding: 10px;
   min-height: 50vh;
@@ -202,7 +235,7 @@ body {
   border: none;
   border-radius: 15px;
   width: 20%;
-  height: 90%;
+  height: 100%;
   margin-left: 20px;
   margin-right: 20px;
   align-content: center;
@@ -270,6 +303,17 @@ patient-output-learnmore-container{
   width: 10vw;
   transition: background-color 0.25s ease-in;
   justify-content: center;
+}
+.more-results-buttons {
+  background-color: #61dafb;
+  border: 2px solid black;
+  color: black;
+  cursor: pointer;
+  border-radius: 500px;
+  width: 10vw;
+  transition: background-color 0.25s ease-in;
+  margin-bottom: 2vh;
+  margin-top: 1vh;
 }
 
 .App-header {

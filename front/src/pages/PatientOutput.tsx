@@ -56,27 +56,56 @@ const PatientOutput: React.FC = () => {
     },
   ];
 
+  // const renderResults = () => {
+  //   if (results.length <= 4) {
+  //     return (
+  //       <div className="result-panel-container">
+  //         {results.map((result, index) => (
+  //           <ResultBox key={index} {...result} />
+  //         ))}
+  //       </div>
+  //     );
+  //   } else {
+  //     return (
+  //       <>
+  //         <div className="result-panel-container">
+  //           {results.slice(0, 4).map((result, index) => (
+  //             <ResultBox key={index} {...result} />
+  //           ))}
+  //         </div>
+  //         <button className="more-results-buttons">See more results</button>
+  //       </>
+  //     );
+  //   }
+  // };
+
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage = 4;
+
+  const handleShowMoreResults = () => {
+    setStartIndex((prevStartIndex) => prevStartIndex + itemsPerPage);
+  };
+
   const renderResults = () => {
-    if (results.length <= 4) {
-      return results.map((result, index) => (
-        <ResultBox
-          key={index}
-          {...result}
-        />
-      ));
-    } else {
-      return (
-        <>
-          {results.slice(0, 4).map((result, index) => (
-            <ResultBox
-              key={index}
-              {...result}
-            />
-          ))}
-          <div>There are more results than displayed.</div>
-        </>
-      );
-    }
+    return (
+      <>
+        <div className="result-panel-container">
+          {results
+            .slice(startIndex, startIndex + itemsPerPage)
+            .map((result, index) => (
+              <ResultBox key={index} {...result} />
+            ))}
+        </div>
+        {startIndex + itemsPerPage < results.length && (
+          <button
+            className="more-results-buttons"
+            onClick={handleShowMoreResults}
+          >
+            See more results
+          </button>
+        )}
+      </>
+    );
   };
 
   return (
@@ -94,5 +123,4 @@ const PatientOutput: React.FC = () => {
     </div>
   );
 };
-
 export default PatientOutput;
