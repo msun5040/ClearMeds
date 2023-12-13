@@ -14,8 +14,7 @@ public record SearchResponse(
       @Json(name = "products") List<Product> products,
       @Json(name = "inactive_ingredient") List<String> inactive_ingredient,
       @Json(name = "active_ingredient") List<String> active_ingredient,
-      @Json(name = "openfda") OpenFDA openFDA
-  ) {}
+      @Json(name = "openfda") OpenFDA openFDA) {}
 
   public record OpenFDA(
       @Json(name = "application_number") List<String> application_number,
@@ -30,9 +29,9 @@ public record SearchResponse(
       @Json(name = "spl_id") List<String> spl_id,
       @Json(name = "package_ndc") List<String> package_ndc,
       @Json(name = "unii") List<String> unii,
-      @Json(name = "products") List<Product> products) {} //merge conflict here idk if we need this so im leaving it here
-
-
+      @Json(name = "products")
+          List<Product>
+              products) {} // merge conflict here idk if we need this so im leaving it here
 
   public record Product(
       @Json(name = "product_number") String product_number,
@@ -45,9 +44,7 @@ public record SearchResponse(
       @Json(name = "marketing_status") String marketing_status) {}
 
   public record ActiveIngredient(
-      @Json(name = "name") String name,
-      @Json(name = "strength") String strength
-  ){}
+      @Json(name = "name") String name, @Json(name = "strength") String strength) {}
 
   public record ActiveIngredients(
       @Json(name = "name") String name, @Json(name = "strength") String strength) {}
