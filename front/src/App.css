@@ -66,7 +66,7 @@ body {
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .form .form-control {
@@ -163,15 +163,22 @@ body {
   background-color: #f2f2f2;
 }
 
+.output-title {
+  font-family: 'HKGrotesk', HKGrotesk Regular;
+  font-size: calc(3vw + 3vh);
+  color: black;
+  top: 0px;
+}
+
 .result-body {
   background: #78b6c1;
   border: none;
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 50%;
-  right: 0px;
-  transform: translateY(-50%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
 }
 
 .result-container {
@@ -179,12 +186,15 @@ body {
   border: none;
   border-radius: 15px;
   width: 100%;
-  height: 30%;
-  position: absolute;
-  top: 50%;
-  margin-left: 20px;
-  margin-right: 20px;
-  transform: translateY(-50%);
+  height: auto; 
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 5vh;
+  overflow: auto;
+  padding: 10px;
+  min-height: 50vh;
 }
 
 .result-box{
@@ -192,12 +202,74 @@ body {
   border: none;
   border-radius: 15px;
   width: 20%;
-  height: 30%;
-  position: absolute;
-  top: 50%;
+  height: 90%;
   margin-left: 20px;
   margin-right: 20px;
-  transform: translateY(-50%);
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.result-box::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.result-box::-webkit-scrollbar-track {
+  background: #f8e06a;
+  border-top-right-radius: 10px; 
+  border-bottom-right-radius: 10px;
+}
+
+.result-box::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf; 
+  border-radius: 10px;
+}
+
+.result-entry-title{
+  font-family: "HKGrotesk", HKGrotesk Regular;
+  font-size: calc(1.5vw + 1.5vh);
+  font-weight: bold;
+}
+
+.result-entry-subtitle{
+  font-family: "HKGrotesk", HKGrotesk Regular;
+  font-size: calc(1vw + 1vh);
+  font-weight: bold;
+}
+
+.result-entry-text-header,
+.result-entry-text-body {
+  font-family: 'HKGrotesk', 'HKGrotesk Regular', HKGrotesk Regular;
+  text-align: left;
+  font-size: calc(0.75vw + 0.75vh);
+  margin-left: 1vw;
+}
+
+.result-entry-text-header {
+  text-decoration: underline;
+}
+
+.result-entry-text-body {
+  overflow-wrap: break-word;
+  margin-bottom: 0.5vh;
+}
+patient-output-learnmore-container{
+  justify-content: center;
+}
+.patient-output-learnmore {
+  background-color: #f8e06a;
+  border: 2px solid black;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  margin-bottom: 2vh;
+  margin-top: 1vh;
+  cursor: pointer;
+  border-radius: 500px;
+  width: 10vw;
+  transition: background-color 0.25s ease-in;
+  justify-content: center;
 }
 
 .App-header {
