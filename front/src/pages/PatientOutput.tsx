@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ResultBox from "../components/ResultBox";
+import { ResultBox } from "../components/ResultBox";
 
 const PatientOutput: React.FC = () => {
   const navigate = useNavigate();
@@ -13,8 +13,70 @@ const PatientOutput: React.FC = () => {
     navigate("/patientinput");
   };
 
-  const handleSubmit = () => {
-    // ** handle submission here**
+  const results = [
+    {
+      drugBrand: "Drug 1",
+      genericName: "Aceto",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Johnson & Johnson",
+      marketingStatus: "Discontinued",
+    },
+    {
+      drugBrand: "Drug 2",
+      genericName: "Acetoman",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "CVS",
+      marketingStatus: "In Stock",
+    },
+    {
+      drugBrand: "Drug 3",
+      genericName: "Acetoman2",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "CVSII",
+      marketingStatus: "In Stock",
+    },
+    {
+      drugBrand: "Drug 4",
+      genericName: "Asetoman",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Drugs R Us",
+      marketingStatus: "In Stock",
+    },
+    {
+      drugBrand: "Drug 5",
+      genericName: "Acetoman2",
+      activeIngredients: "Acetomenaphin",
+      uses: "cures the plague",
+      manufacturers: "Free Drugs",
+      marketingStatus: "In Stock",
+    },
+  ];
+
+  const renderResults = () => {
+    if (results.length <= 4) {
+      return results.map((result, index) => (
+        <ResultBox
+          key={index}
+          {...result}
+        />
+      ));
+    } else {
+      return (
+        <>
+          {results.slice(0, 4).map((result, index) => (
+            <ResultBox
+              key={index}
+              {...result}
+            />
+          ))}
+          <div>There are more results than displayed.</div>
+        </>
+      );
+    }
   };
 
   return (
@@ -28,35 +90,7 @@ const PatientOutput: React.FC = () => {
         Additional Fields: {additionalFields}
       </div>
 
-      <div className="result-container">
-        {/* Result 1 */}
-        <ResultBox
-          drugBrand = {"Drug 1"}
-          genericName = {"Aceto"}
-          activeIngredients = {"Acetomenaphin"}
-          uses = {"cures the plague"}
-          manufacturers = {"Johnson & Johnson"}
-          marketingStatus = {"Discontinued"}
-        />
-        {/* Result 2 */}
-        <div className="result-box">
-          <div className="result-entry-title">Drug Brand 1</div>
-          <div className="result-entry-subtitle">Generic name</div>
-          <div className="result-entry-text-header">Active Ingredients:</div>
-          <div className="result-entry-text-body">Ibuprofen</div>
-          <div className="result-entry-text-header">Uses:</div>
-          <div className="result-entry-text-body">anit-sick</div>
-          <div className="result-entry-text-header">Manufacturers:</div>
-          <div className="result-entry-text-body">Johnson & Johnson</div>
-          <div className="result-entry-text-header">Marketing Status:</div>
-          <div className="result-entry-text-body">
-            Discontinued aklsdjalkdjadklajdakldjalkdsjakldjaiodjaldakldjalkdsa
-          </div>
-          <div className="patient-output-learnmore-container">
-            <button className="patient-output-learnmore"> yes</button>
-          </div>
-        </div>
-      </div>
+      <div className="result-container">{renderResults()}</div>
     </div>
   );
 };

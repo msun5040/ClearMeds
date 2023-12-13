@@ -7,8 +7,7 @@ interface PatientOutputProps {
   marketingStatus: string;
 }
 
-export default function ResultBox(props: PatientOutputProps) {
-
+export function ResultBox(props: PatientOutputProps) {
   return (
     <div className="result-box">
       <div className="result-entry-title">{props.drugBrand}</div>
@@ -27,3 +26,4 @@ export default function ResultBox(props: PatientOutputProps) {
     </div>
   );
 }
+
