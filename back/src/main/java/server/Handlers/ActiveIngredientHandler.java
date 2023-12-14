@@ -36,7 +36,7 @@ public class ActiveIngredientHandler implements Route {
     String active_ingredient_string = request.queryParams("active_ingredient");
     List<String> active_ingredient_list = Arrays.asList(active_ingredient_string.split(","));
 
-//    System.out.println(Arrays.asList(active_ingredient.split(",")));
+    //    System.out.println(Arrays.asList(active_ingredient.split(",")));
     //    String allergy = request.queryParams("allergy");
     //    String age = request.queryParams("age");
     //    String currentDrugs = request.queryParams("currentdrugs");
@@ -60,7 +60,8 @@ public class ActiveIngredientHandler implements Route {
 
     try {
 
-      responseMap.put("result", this.fdaDataSource.searchActiveIngredient(active_ingredient_list));
+      responseMap.put(
+          "result", this.fdaDataSource.searchActiveIngredient(active_ingredient_string));
 
     } catch (DatasourceException e) {
       responseMap.put("type", "error");

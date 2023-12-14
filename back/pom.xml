@@ -69,6 +69,18 @@
       <version>32.1.2-jre</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>9.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>me.tongfei</groupId>
+      <artifactId>progressbar</artifactId>
+      <version>0.5.5</version>
+    </dependency>
+
     <!--
                JUnit is a unit testing library for Java.
         -->

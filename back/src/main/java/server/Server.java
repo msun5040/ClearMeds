@@ -3,7 +3,6 @@ package server;
 import static spark.Spark.after;
 
 import server.Handlers.ActiveIngredientHandler;
-import server.Handlers.DrugHandler;
 import spark.Spark;
 
 /**
@@ -23,7 +22,7 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-//    Spark.get("/searchdrug", new DrugHandler());
+    //    Spark.get("/searchdrug", new DrugHandler());
     Spark.get("/search_active_ingredient", new ActiveIngredientHandler());
     Spark.init();
     Spark.awaitInitialization();

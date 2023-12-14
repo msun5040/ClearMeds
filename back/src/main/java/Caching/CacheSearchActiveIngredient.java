@@ -67,7 +67,7 @@ public class CacheSearchActiveIngredient {
    * this is the search method for the cache, which effectively calls load if the value doesn't
    * exist which then calls getBroadbandPercentage on the acsDataSource
    *
-   * @return Map result -> SearchResponse; retrievalTime -> retrievalTime
+   * @return Map result -> DrugResponse; retrievalTime -> retrievalTime
    * @throws DatasourceException
    */
   public Map<String, Object> search(String activeIngredient) throws DatasourceException {
