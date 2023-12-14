@@ -1,8 +1,25 @@
 package server;
 
+// import com.google.api.core.ApiFuture;
+// import com.google.api.core.ApiFutureCallback;
+// import com.google.api.core.ApiFutures;
+// import com.google.auth.oauth2.GoogleCredentials;
+// import com.google.cloud.firestore.DocumentReference;
+// import com.google.cloud.firestore.Firestore;
+// import com.google.cloud.firestore.WriteResult;
+// import com.google.common.util.concurrent.MoreExecutors;
+// import com.google.firebase.FirebaseApp;
+// import com.google.firebase.FirebaseOptions;
+// import com.google.firebase.cloud.FirestoreClient;
+
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutureCallback;
+import com.google.api.core.ApiFutures;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
@@ -17,8 +34,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import me.tongfei.progressbar.ProgressBar;
 import okio.Buffer;
 import server.Exceptions.DatasourceException;
@@ -30,15 +54,15 @@ import server.Handlers.LabelResponse;
 public class Database {
 
   private Firestore db;
-  private Map<String, List<String>> ndc_to_ingredients;
-  private Map<String, List<String>> active_ingredient_to_ndc;
+  private Map<String, Set<String>> ndc_to_ingredients;
+  private Map<String, Set<String>> active_ingredient_to_ndc;
   private Map<String, Result> ndc_to_result;
   private DrugResponse drugResponse;
   private JsonAdapter<DrugResponse> drugsFeatureAdapter;
 
   public Database() throws IOException, DatasourceException {
 
-    FileInputStream serviceAccount = new FileInputStream("data/APIKey/clearmeds_private_key.json");
+    FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
 
     FirebaseOptions options =
         new FirebaseOptions.Builder()
@@ -57,19 +81,42 @@ public class Database {
     String jsonData = new String(Files.readAllBytes(jsonFilePath));
     this.drugResponse = this.drugsFeatureAdapter.fromJson(jsonData);
 
-    this.ndc_to_ingredients = new HashMap<String, List<String>>();
-    this.active_ingredient_to_ndc = new HashMap<String, List<String>>();
+    this.ndc_to_ingredients = new HashMap<String, Set<String>>();
+    this.active_ingredient_to_ndc = new HashMap<String, Set<String>>();
     this.ndc_to_result = new HashMap<String, Result>();
 
     this.parse();
+    System.out.println("ndc-to-ingredients");
+    System.out.println(this.ndc_to_ingredients.size());
+    //    System.out.println(this.ndc_to_ingredients.values());
+    System.out.println("active-ingredient-to-ndc");
+    System.out.println(this.active_ingredient_to_ndc.size());
+    //    System.out.println(this.active_ingredient_to_ndc.values());
+    System.out.println("ndc-to-result");
+    System.out.println(this.ndc_to_result.size());
+    //    System.out.println(this.ndc_to_result.values());
     this.addToDatabase();
   }
 
   private void parse() throws DatasourceException {
-    ProgressBar pb = new ProgressBar("Test", this.drugResponse.results().size());
+
+    int processors = Runtime.getRuntime().availableProcessors();
+    int poolSize =
+        Math.min(
+            processors * 2,
+            this.drugResponse.results().size()); // Choose a multiple or other suitable value
+
+    ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
+
+    //    ProgressBar pb = new ProgressBar("Test", this.drugResponse.results().size());
+    ProgressBar pb = new ProgressBar("small dataset size", 100);
+
     pb.start();
 
-    for (Result result : this.drugResponse.results()) {
+    for (int i = 100; i < 600; i++) {
+      // un commet this out when done to do the whole
+      //    for (Result result : this.drugResponse.results()) {
+      Result result = this.drugResponse.results().get(i);
 
       pb.step();
 
@@ -78,68 +125,149 @@ public class Database {
         continue;
       }
 
-      List<String> product_ndcs = result.openFDA().product_ndc(); // this line works
+      List<String> product_ndcs = result.openFDA().product_ndc();
+
+      // get the active_ingredients for the result (the active ingredients should be shared among
+      // the all the ndcs for this result object
+      //      Set<String> active_ingredients = new HashSet<String>();
+      //      for (ActiveIngredient active_ingredient :
+      // result.products().get(0).active_ingredients()) {
+      //        active_ingredients.add(active_ingredient.name());
+      //      }
+
+      Set<String> active_ingredients =
+          result.products().get(0).active_ingredients().stream()
+              .map(ActiveIngredient::name)
+              .collect(Collectors.toSet());
 
       // for every ndc in product_ndcs, get the list of all ingredients (active and inactive)
       for (String ndc : product_ndcs) {
+        // create a list of all the ingredients, initalized with the active ingredietns
+        Set<String> ingredients = new HashSet<String>(active_ingredients);
 
-        List<String> ingredients = new ArrayList<String>();
+        executorService.submit(
+            () -> this.process_ndc(ndc, active_ingredients, ingredients, result));
 
         // this part fills in the ingredients list with the active ingredient.
         // all the ndcs in this product list share the same active ingredient, can look at the first
         // one, and add that
-        List<ActiveIngredient> active_ingredients = result.products().get(0).active_ingredients();
-        for (ActiveIngredient active_ingredient : active_ingredients) {
-          ingredients.add(active_ingredient.name());
-        }
 
-        //                fill out ingredients list
-        //                make api call to the other side to get the active ingredients
-        try { // this call fails
-          URL requestURL =
-              new URL(
-                  "https",
-                  "api.fda.gov",
-                  "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1");
-          // there's only one label for each product ndc, so can limit=1
+        //        try {
+        //          URL requestURL =
+        //              new URL(
+        //                  "https",
+        //                  "api.fda.gov",
+        //                  "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1");
+        //          // there's only one label for each product ndc, so can limit=1
+        //
+        //          HttpURLConnection clientConnection = connect(requestURL);
+        //          Moshi moshi = new Moshi.Builder().build();
+        //          JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
+        //          LabelResponse labelResponse =
+        //              adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+        //
+        //          if (labelResponse.results() != null) {
+        //            for (LabelResponse.Result res : labelResponse.results()) {
+        //              if (res.active_ingredient() != null) {
+        //                ingredients.add(res.active_ingredient().toString());
+        //              }
+        //              if (res.inactive_ingredient() != null) {
+        //                ingredients.add(res.inactive_ingredient().toString());
+        //              }
+        //            }
+        //          }
+        //
+        //
+        //        } catch (IOException e) {
+        //          System.out.println();
+        //          System.out.println("product_ndc does not exist in label");
+        //          System.out.println(e.getMessage());
+        //        }
+        //        catch (Exception e) {
+        //          System.err.println();
+        //          System.err.println(e);
+        //          e.printStackTrace();
+        //        }
+        //
+        //        //this should be one to one / immutable (or will not be edited after doing it
+        // once)
+        //        this.ndc_to_result.put(ndc, result);
+        //        this.ndc_to_ingredients.put(ndc, ingredients);
+        //
+        //        //this adds the current ndc to the set of active_ingredients to ndc (need to check
+        // if it exists and add to it first, before writing)
+        //        for (String a_i: active_ingredients) {
+        //          if (!this.active_ingredient_to_ndc.containsKey(a_i)) {
+        //            this.active_ingredient_to_ndc.put(a_i, new HashSet<String>());
+        //          }
+        //          this.active_ingredient_to_ndc.get(a_i).add(ndc);
+        //        }
+        //      }
+      }
+    }
+    executorService.shutdown();
+    try {
+      executorService.awaitTermination(20, TimeUnit.MINUTES);
+    } catch (InterruptedException e) {
+      // Handle interruption
+      System.out.println();
+      e.printStackTrace();
+    }
 
-          HttpURLConnection clientConnection = connect(requestURL);
-          Moshi moshi = new Moshi.Builder().build();
-          JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
-          LabelResponse labelResponse =
-              adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-          // System.out.println(response2);
-          // System.out.println(response2.results() != null);
-          if (labelResponse.results() != null) {
-            for (LabelResponse.Result res : labelResponse.results()) {
-              if (res.inactive_ingredient() != null) {
-                ingredients.add(res.active_ingredient().toString());
-              }
-              if (res.inactive_ingredient() != null) {
-                ingredients.add(res.inactive_ingredient().toString());
-              }
-              //              System.out.println(ndc);
-              //              System.out.println(ingredients);
-              this.ndc_to_ingredients.put(ndc, ingredients);
-            }
+    pb.stop();
+  }
+
+  private void process_ndc(
+      String ndc, Set<String> active_ingredients, Set<String> ingredients, Result result) {
+
+    try {
+
+      StringBuilder urlBuilder =
+          new StringBuilder()
+              .append("https://api.fda.gov/drug/label.json?search=openfda.product_ndc:\"")
+              .append(ndc)
+              .append("\"&limit=1");
+
+      URL requestURL = new URL("https", "api.fda.gov", urlBuilder.toString());
+
+      HttpURLConnection clientConnection = connect(requestURL);
+      Moshi moshi = new Moshi.Builder().build();
+      JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
+      LabelResponse labelResponse =
+          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+
+      if (labelResponse.results() != null) {
+        for (LabelResponse.Result res : labelResponse.results()) {
+          if (res.active_ingredient() != null) {
+            ingredients.add(res.active_ingredient().toString());
           }
-
-        } catch (Exception e) {
-
-          throw new DatasourceException(e.getMessage(), e.getCause());
-        }
-
-        this.ndc_to_result.put(ndc, result);
-
-        for (ActiveIngredient active_ingredient_obj :
-            result.products().get(0).active_ingredients()) {
-          String active_ingredient = active_ingredient_obj.name();
-          if (!this.active_ingredient_to_ndc.containsKey(active_ingredient)) {
-            this.active_ingredient_to_ndc.put(active_ingredient, new ArrayList<String>());
+          if (res.inactive_ingredient() != null) {
+            ingredients.add(res.inactive_ingredient().toString());
           }
-          this.active_ingredient_to_ndc.get(active_ingredient).add(ndc);
         }
       }
+
+    } catch (IOException e) {
+      System.out.println();
+      System.out.println("product_ndc does not exist in label");
+      System.out.println(e.getMessage());
+    } catch (Exception e) {
+      System.err.println();
+      System.err.println(e);
+      e.printStackTrace();
+    }
+
+    // this should be one to one / immutable (or will not be edited after doing it once)
+    this.ndc_to_result.put(ndc, result);
+    this.ndc_to_ingredients.put(ndc, ingredients);
+
+    // this adds the current ndc to the set of active_ingredients to ndc (need to check if it exists
+    // and add to it first, before writing)
+    for (String a_i : active_ingredients) {
+      if (!this.active_ingredient_to_ndc.containsKey(a_i)) {
+        this.active_ingredient_to_ndc.put(a_i, new HashSet<String>());
+      }
+      this.active_ingredient_to_ndc.get(a_i).add(ndc);
     }
   }
 
@@ -157,9 +285,14 @@ public class Database {
       throw new IOException("Unexpected: result of connection wasn't HTTP");
     HttpURLConnection clientConnection = (HttpURLConnection) urlConnection;
     clientConnection.connect(); // GET
-    if (clientConnection.getResponseCode() != 200)
+    if (clientConnection.getResponseCode() != 200) {
       throw new IOException(
-          "Unexpected: API connection not success status " + clientConnection.getResponseMessage());
+          "Unexpected: API connection not success status: "
+              + clientConnection.getResponseMessage()
+              + ". Request api call: "
+              + requestURL);
+    }
+
     return clientConnection;
   }
 
@@ -181,59 +314,99 @@ public class Database {
     storeResultMapInFirestore("ndc_to_result", ndc_to_result);
   }
 
-  private void storeMapInFirestore(String collectionName, Map<String, List<String>> map) {
-    for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+  private void storeMapInFirestore(String collectionName, Map<String, Set<String>> map) {
+    for (Map.Entry<String, Set<String>> entry : map.entrySet()) {
       String key = entry.getKey();
-      List<String> values = entry.getValue();
+      Set<String> values = entry.getValue();
 
       DocumentReference docRef = db.collection(collectionName).document(key);
 
       // adding data to the document
-      docRef.set(Map.of("values", values));
+      docRef.set(Map.of("values", new ArrayList<>(values)));
 
       System.out.println("Document added with ID: " + key);
     }
   }
 
   private void storeResultMapInFirestore(String collectionName, Map<String, Result> resultMap) {
+    CountDownLatch latch = new CountDownLatch(resultMap.size());
+
     for (Map.Entry<String, Result> entry : resultMap.entrySet()) {
       String key = entry.getKey();
       Result result = entry.getValue();
 
-      // Map<String, Object> resultData = convertResultToMap(result);
+      Map<String, Object> resultData = convertResultToMap(result);
 
       DocumentReference docRef = db.collection(collectionName).document(key);
 
-      docRef.set(Map.of("values", result));
+      ApiFuture<WriteResult> future = docRef.set(resultData);
 
-      System.out.println("Document added with ID: " + key);
+      ApiFutures.addCallback(
+          future,
+          new ApiFutureCallback<>() {
+            @Override
+            public void onSuccess(WriteResult writeResult) {
+              System.out.println("Document added with ID: " + key);
+              latch.countDown();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+              System.err.println("Error adding document: " + throwable);
+              latch.countDown();
+            }
+          },
+          MoreExecutors.directExecutor());
+    }
+
+    try {
+      // Wait for all operations to complete
+      latch.await();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      System.err.println("Thread interrupted while waiting for Firestore operations to complete.");
     }
   }
 
-  //
-  //  private Map<String, Object> convertResultToMap(Result result) {
-  //    // Convert your Result object to a Map (customize this based on your Result class structure)
-  //    // Example: Map<String, Object> resultData = Map.of("field1", result.getField1(), "field2",
-  // result.getField2(), ...);
-  //    // ...
-  //
-  //    return null;
-  //
-  //
-  //  }
+  private Map<String, Object> convertResultToMap(DrugResponse.Result result) {
+    Map<String, Object> resultData = new HashMap<>();
 
+    resultData.put("application_number", result.application_number());
+    resultData.put("sponsor_name", result.sponsor_name());
+
+    // Convert nested objects to Maps
+    List<Map<String, Object>> productDataList = new ArrayList<>();
+    for (DrugResponse.Product product : result.products()) {
+      Map<String, Object> productData = new HashMap<>();
+      // Add relevant fields from the Product class
+      productData.put("product_number", product.product_number());
+      productData.put("reference_drug", product.reference_drug());
+      productData.put("brand_name", product.brand_name());
+
+      // Convert active ingredients to a list of maps
+      List<Map<String, Object>> activeIngredientsDataList = new ArrayList<>();
+      for (DrugResponse.ActiveIngredient activeIngredient : product.active_ingredients()) {
+        Map<String, Object> activeIngredientData = new HashMap<>();
+        activeIngredientData.put("name", activeIngredient.name());
+        activeIngredientData.put("strength", activeIngredient.strength());
+        activeIngredientsDataList.add(activeIngredientData);
+      }
+      productData.put("active_ingredients", activeIngredientsDataList);
+
+      // Add other fields as needed
+      productDataList.add(productData);
+    }
+    resultData.put("products", productDataList);
+
+    // Similarly, convert the 'openFDA' field to a Map
+    Map<String, Object> openFDAData = new HashMap<>();
+    // Add relevant fields from the OpenFDA class
+    openFDAData.put("application_number", result.openFDA().application_number());
+    openFDAData.put("brand_name", result.openFDA().brand_name());
+    openFDAData.put("generic_name", result.openFDA().generic_name());
+    // Add other fields as needed
+    resultData.put("openfda", openFDAData);
+
+    return resultData;
+  }
 }
-
-/**
- * import com.google.auth.oauth2.GoogleCredentials; import com.google.cloud.firestore.Firestore;
- *
- * <p>import com.google.firebase.FirebaseApp; import com.google.firebase.FirebaseOptions;
- *
- * <p>// Use a service account InputStream serviceAccount = new
- * FileInputStream("path/to/serviceAccount.json"); GoogleCredentials credentials =
- * GoogleCredentials.fromStream(serviceAccount); FirebaseOptions options = new
- * FirebaseOptions.Builder() .setCredentials(credentials) .build();
- * FirebaseApp.initializeApp(options);
- *
- * <p>Firestore db = FirestoreClient.getFirestore();
- */
