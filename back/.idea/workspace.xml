@@ -72,13 +72,13 @@
       <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FDADataSource">
+  <component name="RunManager" selected="Application.DatabasePopulator">
     <configuration name="DatabasePopulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Database.DatabasePopulator" />
       <module name="s0" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.Database.*" />
+          <option name="PATTERN" value="server.Handlers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -107,7 +107,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/main/java" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.Database.*" />
+          <option name="PATTERN" value="server.Handlers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -117,8 +117,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.FDADataSource" />
         <item itemvalue="Application.DatabasePopulator" />
+        <item itemvalue="Application.FDADataSource" />
         <item itemvalue="Application.Server" />
       </list>
     </recent_temporary>

@@ -111,72 +111,59 @@ public class DatabasePopulator {
             "parsing", (long) Math.ceil(this.drugResponse.results().size() / batchSize));
     pb.start();
 
-    for (int b = 0; b < Math.ceil(this.drugResponse.results().size() / batchSize); b++) {
+//    for (int b = 0; b < Math.ceil(this.drugResponse.results().size() / batchSize); b++) {
 
+
+//      for (int i = b; i < b + batchSize; i++) {
+
+    for (int i = 1000; i < 2000; i++) {
       pb.step();
+      // un commet this out when done to do the whole
+      //    for (Result result : this.drugResponse.results()) {
+      Result result = this.drugResponse.results().get(i);
 
-      for (int i = b; i < b + batchSize; i++) {
-        if (i >= this.drugResponse.results().size()) {
-          break;
-        }
-
-        //      }
-        //    }
-
-        //    for (int i = 1000; i < 2000; i++) {
-        // un commet this out when done to do the whole
-        //    for (Result result : this.drugResponse.results()) {
-        Result result = this.drugResponse.results().get(i);
-
-        // null checking to ensure if openfda and product_ndc exists. if it doesn't, skip it.
-        if (result.openFDA() == null || result.openFDA().product_ndc() == null) {
-          continue;
-        }
-
-        List<String> product_ndcs = result.openFDA().product_ndc();
-
-        // get the active_ingredients for the result (the active ingredients should be shared among
-        // the all the ndcs for this result object
-        //      Set<String> active_ingredients = new HashSet<String>();
-        //      for (ActiveIngredient active_ingredient :
-        // result.products().get(0).active_ingredients()) {
-        //        active_ingredients.add(active_ingredient.name());
-        //      }
-        //      Set<String> active_ingredients =
-        // result.products().get(0).active_ingredients().stream()
-        //            .map(ActiveIngredient::name)
-        //            .collect(Collectors.toSet());
-
-        Set<String> active_ingredients;
-
-        if (result.products() != null && !result.products().isEmpty()) {
-          active_ingredients =
-              result.products().get(0).active_ingredients().stream()
-                  .map(ActiveIngredient::name)
-                  .collect(Collectors.toSet());
-        } else {
-          active_ingredients = Collections.emptySet();
-        }
-
-        // for every ndc in product_ndcs, get the list of all ingredients (active and inactive)
-        for (String ndc : product_ndcs) {
-          // create a list of all the ingredients, initalized with the active ingredietns
-          Set<String> ingredients = new HashSet<String>(active_ingredients);
-
-          executorService.schedule(
-              () -> this.process_ndc(ndc, active_ingredients, ingredients, result),
-              5,
-              TimeUnit.SECONDS);
-        }
+      // null checking to ensure if openfda and product_ndc exists. if it doesn't, skip it.
+      if (result.openFDA() == null || result.openFDA().product_ndc() == null) {
+        continue;
       }
 
-      System.out.println("finished batch: " + b);
-      try {
-        Thread.sleep(150000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+      List<String> product_ndcs = result.openFDA().product_ndc();
+
+      // get the active_ingredients for the result (the active ingredients should be shared among
+      // the all the ndcs for this result object
+      //      Set<String> active_ingredients = new HashSet<String>();
+      //      for (ActiveIngredient active_ingredient :
+      // result.products().get(0).active_ingredients()) {
+      //        active_ingredients.add(active_ingredient.name());
+      //      }
+      //      Set<String> active_ingredients =
+      // result.products().get(0).active_ingredients().stream()
+      //            .map(ActiveIngredient::name)
+      //            .collect(Collectors.toSet());
+
+      Set<String> active_ingredients;
+
+      if (result.products() != null && !result.products().isEmpty()) {
+        active_ingredients =
+            result.products().get(0).active_ingredients().stream()
+                .map(ActiveIngredient::name)
+                .collect(Collectors.toSet());
+      } else {
+        active_ingredients = Collections.emptySet();
+      }
+
+      // for every ndc in product_ndcs, get the list of all ingredients (active and inactive)
+      for (String ndc : product_ndcs) {
+        // create a list of all the ingredients, initalized with the active ingredietns
+        Set<String> ingredients = new HashSet<String>(active_ingredients);
+
+        executorService.schedule(
+            () -> this.process_ndc(ndc, active_ingredients, ingredients, result),
+            5,
+            TimeUnit.SECONDS);
       }
     }
+
     executorService.shutdown();
     try {
       executorService.awaitTermination(20, TimeUnit.MINUTES);
@@ -188,6 +175,7 @@ public class DatabasePopulator {
 
     pb.stop();
   }
+
 
   private void process_ndc(
       String ndc, Set<String> active_ingredients, Set<String> ingredients, Result result) {
