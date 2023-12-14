@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import me.tongfei.progressbar.ProgressBar;
@@ -51,7 +51,7 @@ import server.Handlers.DrugResponse.ActiveIngredient;
 import server.Handlers.DrugResponse.Result;
 import server.Handlers.LabelResponse;
 
-public class Database {
+public class DatabasePopulator {
 
   private Firestore db;
   private Map<String, Set<String>> ndc_to_ingredients;
@@ -60,7 +60,7 @@ public class Database {
   private DrugResponse drugResponse;
   private JsonAdapter<DrugResponse> drugsFeatureAdapter;
 
-  public Database() throws IOException, DatasourceException {
+  public DatabasePopulator() throws IOException, DatasourceException {
 
     FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
 
@@ -105,15 +105,15 @@ public class Database {
         Math.min(
             processors * 2,
             this.drugResponse.results().size()); // Choose a multiple or other suitable value
-
-    ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
+    poolSize = 4;
+    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(poolSize);
 
     //    ProgressBar pb = new ProgressBar("Test", this.drugResponse.results().size());
-    ProgressBar pb = new ProgressBar("small dataset size", 100);
+    ProgressBar pb = new ProgressBar("small dataset size", 1000);
 
     pb.start();
 
-    for (int i = 100; i < 600; i++) {
+    for (int i = 0; i < 1000; i++) {
       // un commet this out when done to do the whole
       //    for (Result result : this.drugResponse.results()) {
       Result result = this.drugResponse.results().get(i);
@@ -145,64 +145,8 @@ public class Database {
         // create a list of all the ingredients, initalized with the active ingredietns
         Set<String> ingredients = new HashSet<String>(active_ingredients);
 
-        executorService.submit(
-            () -> this.process_ndc(ndc, active_ingredients, ingredients, result));
-
-        // this part fills in the ingredients list with the active ingredient.
-        // all the ndcs in this product list share the same active ingredient, can look at the first
-        // one, and add that
-
-        //        try {
-        //          URL requestURL =
-        //              new URL(
-        //                  "https",
-        //                  "api.fda.gov",
-        //                  "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1");
-        //          // there's only one label for each product ndc, so can limit=1
-        //
-        //          HttpURLConnection clientConnection = connect(requestURL);
-        //          Moshi moshi = new Moshi.Builder().build();
-        //          JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
-        //          LabelResponse labelResponse =
-        //              adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-        //
-        //          if (labelResponse.results() != null) {
-        //            for (LabelResponse.Result res : labelResponse.results()) {
-        //              if (res.active_ingredient() != null) {
-        //                ingredients.add(res.active_ingredient().toString());
-        //              }
-        //              if (res.inactive_ingredient() != null) {
-        //                ingredients.add(res.inactive_ingredient().toString());
-        //              }
-        //            }
-        //          }
-        //
-        //
-        //        } catch (IOException e) {
-        //          System.out.println();
-        //          System.out.println("product_ndc does not exist in label");
-        //          System.out.println(e.getMessage());
-        //        }
-        //        catch (Exception e) {
-        //          System.err.println();
-        //          System.err.println(e);
-        //          e.printStackTrace();
-        //        }
-        //
-        //        //this should be one to one / immutable (or will not be edited after doing it
-        // once)
-        //        this.ndc_to_result.put(ndc, result);
-        //        this.ndc_to_ingredients.put(ndc, ingredients);
-        //
-        //        //this adds the current ndc to the set of active_ingredients to ndc (need to check
-        // if it exists and add to it first, before writing)
-        //        for (String a_i: active_ingredients) {
-        //          if (!this.active_ingredient_to_ndc.containsKey(a_i)) {
-        //            this.active_ingredient_to_ndc.put(a_i, new HashSet<String>());
-        //          }
-        //          this.active_ingredient_to_ndc.get(a_i).add(ndc);
-        //        }
-        //      }
+        executorService.schedule(
+            () -> this.process_ndc(ndc, active_ingredients, ingredients, result), 1, TimeUnit.SECONDS);
       }
     }
     executorService.shutdown();
@@ -217,8 +161,7 @@ public class Database {
     pb.stop();
   }
 
-  private void process_ndc(
-      String ndc, Set<String> active_ingredients, Set<String> ingredients, Result result) {
+  private void process_ndc(String ndc, Set<String> active_ingredients, Set<String> ingredients, Result result) {
 
     try {
 
@@ -299,7 +242,7 @@ public class Database {
   public static void main(String args[]) {
 
     try {
-      Database database = new Database();
+      DatabasePopulator database = new DatabasePopulator();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (DatasourceException e) {
@@ -409,4 +352,18 @@ public class Database {
 
     return resultData;
   }
+
+  public Map<String, Set<String>> getNdc_to_ingredients() {
+    return this.ndc_to_ingredients;
+  }
+
+  public Map<String, Set<String>> getActive_ingredient_to_ndc() {
+    return this.active_ingredient_to_ndc;
+  }
+
+  public Map<String, Result> getNdc_to_result() {
+    return this.ndc_to_result;
+  }
+
+
 }
