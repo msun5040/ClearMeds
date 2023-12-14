@@ -1,126 +1,73 @@
 package server;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import okio.Buffer;
+import server.Database.FirebaseInitializer;
 import server.Exceptions.DatasourceException;
 import server.Handlers.DrugResponse;
-import server.Handlers.DrugResponse.ActiveIngredient;
 import server.Handlers.DrugResponse.Result;
 import server.Handlers.LabelResponse;
 
 public class FDADataSource {
-
-  /** This is the FDADataSource class that handles all the API calls to the FDA. */
+  private FirebaseInitializer firebaseInitializer;
   private JsonAdapter<DrugResponse> drugsFeatureAdapter;
-
   private JsonAdapter<LabelResponse> labelFeatureAdapter;
   private LabelResponse labelResponse;
-
   private DrugResponse drugResponse;
   private Moshi moshi;
-
   private Map<String, List<String>> ndc_to_ingredients;
   private Map<String, List<String>> active_ingredient_to_ndc;
   private Map<String, Result> ndc_to_result;
+  private Firestore db;
 
   public FDADataSource() {
-
-    try {
-
-      this.moshi = new Moshi.Builder().build();
-      this.drugsFeatureAdapter = this.moshi.adapter(DrugResponse.class);
-      //        this.featureAdapter = this.moshi.adapter(LabelResponse.class);
-
-      // this is the smaller geojson
-      //      Path jsonFilePath = Path.of("data/geo.json");
-
-      Path jsonFilePath = Path.of("../../../data/drug-drugsfda-0001-of-0001.json");
-      String jsonData = new String(Files.readAllBytes(jsonFilePath));
-      this.drugResponse = this.drugsFeatureAdapter.fromJson(jsonData);
-
-      this.ndc_to_ingredients = new HashMap<String, List<String>>();
-      this.active_ingredient_to_ndc = new HashMap<String, List<String>>();
-      this.ndc_to_result = new HashMap<String, Result>();
-
-      //            this.viewGeoCache = new ViewGeoCache(10, 10, this.featureCollection)x;
-
-    } catch (IOException e) {
-      System.err.println(e);
-      System.err.println(e.getMessage());
-    }
+    this.db = FirestoreClient.getFirestore();
+    this.ndc_to_ingredients = new HashMap<String, List<String>>();
+    this.active_ingredient_to_ndc = new HashMap<String, List<String>>();
+    this.ndc_to_result = new HashMap<String, Result>();
   }
 
-  public void parse() throws DatasourceException {
-    for (Result result : this.drugResponse.results()) {
-      //      System.out.println(result);
-      // what should we do here if the openFDA does not exist?
-      if (result.openFDA() == null || result.openFDA().product_ndc() == null) {
-        continue;
+  public Map<String, List<String>> getNdctoIngredients() {
+
+    ApiFuture<DocumentSnapshot> future =
+        db.collection("ndc_to_ingredients").document("ACETAMINOPHEN").get();
+
+    try {
+      System.out.println("hello");
+      DocumentSnapshot document = future.get();
+      if (document.exists()) {
+        ArrayList<String> values = (ArrayList<String>) document.get("values");
+        System.out.println(values);
+
+      } else {
+        System.out.println("Document not found!");
       }
-      List<String> product_ndcs = result.openFDA().product_ndc(); // this line works
-      System.out.println(product_ndcs);
-      for (String ndc : product_ndcs) {
 
-        List<String> ingredients = new ArrayList<String>();
-        //                fill out ingredients list
-        //                make api call to the other side to get the active ingredients
-
-        try { // this call fails
-          URL requestURL =
-              new URL(
-                  "https",
-                  "api.fda.gov",
-                  "/drug/label.json?search=openfda.product_ndc:\"" + ndc + "\"&limit=1");
-
-          HttpURLConnection clientConnection = connect(requestURL);
-
-          Moshi moshi = new Moshi.Builder().build();
-          JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
-          LabelResponse response2 =
-              adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-          // System.out.println(response2);
-          // System.out.println(response2.results() != null);
-          if (response2.results() != null) {
-            for (LabelResponse.Result res : response2.results()) {
-              if (res.inactive_ingredient() != null) {
-                ingredients.add(res.active_ingredient().toString());
-              }
-              if (res.inactive_ingredient() != null) {
-                ingredients.add(res.inactive_ingredient().toString());
-              }
-              //              System.out.println(ndc);
-              //              System.out.println(ingredients);
-              this.ndc_to_ingredients.put(ndc, ingredients);
-            }
-          }
-
-        } catch (Exception e) {
-          throw new DatasourceException(e.getMessage(), e.getCause());
-        }
-
-        this.ndc_to_result.put(ndc, result);
-
-        for (ActiveIngredient active_ingredient_obj :
-            result.products().get(0).active_ingredients()) {
-          String active_ingredient = active_ingredient_obj.name();
-          if (!this.active_ingredient_to_ndc.containsKey(active_ingredient)) {
-            this.active_ingredient_to_ndc.put(active_ingredient, new ArrayList<String>());
-          }
-          this.active_ingredient_to_ndc.get(active_ingredient).add(ndc);
-        }
-      }
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+    return ndc_to_ingredients;
+  }
+
+  public static void main(String[] args) {
+    FDADataSource fdaDataSource = new FDADataSource();
+    Map<String, List<String>> ndcToIngredients = fdaDataSource.getNdctoIngredients();
   }
 
   public DrugResponse searchActiveIngredient(String activeIngredient) throws DatasourceException {
@@ -144,15 +91,11 @@ public class FDADataSource {
           adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
       clientConnection.disconnect();
-      this.parse();
       return response;
     } catch (Exception e) {
-      // this is if there is an exception probably if a parameter doesn't exist or a search
-      //     value
-      // doesn't exist
+
       throw new DatasourceException(e.getMessage(), e.getCause());
     }
-    //    return null;
   }
 
   /**

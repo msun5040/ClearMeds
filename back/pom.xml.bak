@@ -69,26 +69,24 @@
       <version>32.1.2-jre</version>
     </dependency>
 
-
     <dependency>
       <groupId>com.google.firebase</groupId>
       <artifactId>firebase-admin</artifactId>
       <version>9.2.0</version>
     </dependency>
 
-
     <!--    <dependency>-->
-<!--      <groupId>com.google.firebase</groupId>-->
-<!--      <artifactId>firebase-admin</artifactId>-->
-<!--      <version>LATEST</version>-->
-<!--    </dependency>-->
-
-    <!--    <dependency>-->
-    <!--      <groupId>com.google.cloud</groupId>-->
-    <!--      <artifactId>google-cloud-firestore</artifactId>-->
+    <!--      <groupId>com.google.firebase</groupId>-->
+    <!--      <artifactId>firebase-admin</artifactId>-->
     <!--      <version>LATEST</version>-->
-    <!--      &lt;!&ndash; Replace with the latest version &ndash;&gt;-->
     <!--    </dependency>-->
+
+        <dependency>
+          <groupId>com.google.cloud</groupId>
+          <artifactId>google-cloud-firestore</artifactId>
+          <version>LATEST</version>
+          <!-- Replace with the latest version -->
+        </dependency>
 
     <dependency>
       <groupId>me.tongfei</groupId>

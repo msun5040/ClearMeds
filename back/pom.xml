@@ -81,12 +81,12 @@
     <!--      <version>LATEST</version>-->
     <!--    </dependency>-->
 
-    <!--    <dependency>-->
-    <!--      <groupId>com.google.cloud</groupId>-->
-    <!--      <artifactId>google-cloud-firestore</artifactId>-->
-    <!--      <version>LATEST</version>-->
-    <!--      &lt;!&ndash; Replace with the latest version &ndash;&gt;-->
-    <!--    </dependency>-->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>LATEST</version>
+      <!-- Replace with the latest version -->
+    </dependency>
 
     <dependency>
       <groupId>me.tongfei</groupId>
