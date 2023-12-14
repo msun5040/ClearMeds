@@ -25,7 +25,9 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -61,7 +63,21 @@ public class DatabasePopulator {
   private DrugResponse drugResponse;
   private JsonAdapter<DrugResponse> drugsFeatureAdapter;
 
+  private String openFDA_key;
+
   public DatabasePopulator() throws IOException, DatasourceException {
+
+    BufferedReader reader;
+
+    try {
+      reader = new BufferedReader(new FileReader("data/private/openFDA_key.txt"));
+      this.openFDA_key = reader.readLine();
+
+      reader.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
 
     FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
 
@@ -94,21 +110,16 @@ public class DatabasePopulator {
 
   private void parse() {
 
-    int processors = Runtime.getRuntime().availableProcessors();
-    int poolSize =
-        Math.min(
-            processors * 2,
-            this.drugResponse.results().size()); // Choose a multiple or other suitable value
-    poolSize = 2;
+//    int processors = Runtime.getRuntime().availableProcessors();
+//    int poolSize = Math.min(processors * 2, this.drugResponse.results().size()); // Choose a multiple or other suitable value
+    int poolSize = 1;
     ScheduledExecutorService executorService = Executors.newScheduledThreadPool(poolSize);
 
-    //    ProgressBar pb = new ProgressBar("Test", this.drugResponse.results().size());
+    ProgressBar pb = new ProgressBar("Test", 1000);
 
     int batchSize = 1000;
 
-    ProgressBar pb =
-        new ProgressBar(
-            "parsing", (long) Math.ceil(this.drugResponse.results().size() / batchSize));
+//    ProgressBar pb = new ProgressBar("parsing", (long) Math.ceil(this.drugResponse.results().size() / batchSize));
     pb.start();
 
 //    for (int b = 0; b < Math.ceil(this.drugResponse.results().size() / batchSize); b++) {
@@ -129,21 +140,10 @@ public class DatabasePopulator {
 
       List<String> product_ndcs = result.openFDA().product_ndc();
 
-      // get the active_ingredients for the result (the active ingredients should be shared among
-      // the all the ndcs for this result object
-      //      Set<String> active_ingredients = new HashSet<String>();
-      //      for (ActiveIngredient active_ingredient :
-      // result.products().get(0).active_ingredients()) {
-      //        active_ingredients.add(active_ingredient.name());
-      //      }
-      //      Set<String> active_ingredients =
-      // result.products().get(0).active_ingredients().stream()
-      //            .map(ActiveIngredient::name)
-      //            .collect(Collectors.toSet());
 
       Set<String> active_ingredients;
 
-      if (result.products() != null && !result.products().isEmpty()) {
+      if (result.products() != null && !result.products().isEmpty() && result.products().get(0).active_ingredients() != null) {
         active_ingredients =
             result.products().get(0).active_ingredients().stream()
                 .map(ActiveIngredient::name)
@@ -184,7 +184,9 @@ public class DatabasePopulator {
 
       StringBuilder urlBuilder =
           new StringBuilder()
-              .append("https://api.fda.gov/drug/label.json?search=openfda.product_ndc:\"")
+              .append("https://api.fda.gov/drug/label.json?api_key=")
+              .append(this.openFDA_key)
+              .append("&search=openfda.product_ndc:\"")
               .append(ndc)
               .append("\"&limit=1");
 
@@ -195,6 +197,36 @@ public class DatabasePopulator {
       JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
       LabelResponse labelResponse =
           adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+
+
+//      input is a list of ndcs, string build that to one api call
+
+
+//      ndc_to_result:
+
+//      for every key in n the input, get the inactive ingredients, add it to the key of ingredients.
+
+      /**
+       * do this later
+       */
+//
+//      Map<String, LabelResponse.Result> label_ndc_to_result = new HashMap<>();
+//
+//      for (LabelResponse.Result r : labelResponse.results()) {
+//        Set<String> curr_ingredients = new HashSet<>();
+//        if (r.active_ingredient() != null) {
+//          label_ndc_to_result.put(ndc, r);
+//        }
+//        if (r.inactive_ingredient() != null) {
+//          label_ndc_to_result.put(ndc, r);
+//        }
+//      }
+//      for (String ndc: ndc_list) {
+//        if (label_ndc_to_result.containsKey(ndc)) {
+//
+//        }
+//      }
+
 
       if (labelResponse.results() != null) {
         for (LabelResponse.Result res : labelResponse.results()) {
