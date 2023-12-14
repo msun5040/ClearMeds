@@ -38,8 +38,7 @@ public class Database {
 
   public Database() throws IOException, DatasourceException {
 
-    FileInputStream serviceAccount =
-        new FileInputStream("data/APIKey/clearmeds-f60c8-firebase-adminsdk-1laql-827595cce1.json");
+    FileInputStream serviceAccount = new FileInputStream("data/APIKey/clearmeds_private_key.json");
 
     FirebaseOptions options =
         new FirebaseOptions.Builder()
@@ -69,7 +68,6 @@ public class Database {
   private void parse() throws DatasourceException {
     ProgressBar pb = new ProgressBar("Test", this.drugResponse.results().size());
     pb.start();
-
 
     for (Result result : this.drugResponse.results()) {
 
