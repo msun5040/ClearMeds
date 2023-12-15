@@ -5,6 +5,7 @@ import {
   findSuggestions,
   collectSuggestions,
 } from "../components/trie";
+import medicationTrie from "../components/medicationList";
 
 const PatientInput: React.FC = () => {
   const navigate = useNavigate();
@@ -26,21 +27,6 @@ const PatientInput: React.FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const dummySuggestions = [
-    "Ingredient1",
-    "Ingredient2",
-    "Ingredient3",
-    "Ingredient4",
-    "apple",
-    "aloha",
-    "balls",
-    "banana",
-    "cat",
-    "cute",
-  ];
-
-  const trie = buildTrie(dummySuggestions);
-
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     setFunction: React.Dispatch<React.SetStateAction<string>>,
@@ -49,7 +35,7 @@ const PatientInput: React.FC = () => {
     const userInput = event.target.value;
     setFunction(userInput);
 
-    const suggestions = findSuggestions(trie, userInput);
+    const suggestions = findSuggestions(medicationTrie, userInput);
     suggestionsFunction(suggestions);
   };
 
@@ -88,14 +74,11 @@ const PatientInput: React.FC = () => {
   };
 
   useEffect(() => {
-    // Attach click event listener to the document body
     document.body.addEventListener("click", handleClickOutside);
-
-    // Cleanup the event listener on component unmount
     return () => {
       document.body.removeEventListener("click", handleClickOutside);
     };
-  }, []); // Empty dependency array ensures that the effect runs once on mount
+  }, []);
 
   return (
     <div className="form-body">
