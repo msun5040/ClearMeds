@@ -14,15 +14,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import javax.swing.text.Document;
+import javax.tools.DocumentationTool;
 import okio.Buffer;
 import server.Database.DatabasePopulator;
 import server.Database.FirebaseInitializer;
@@ -64,41 +68,67 @@ public class FDADataSource {
     this.ndc_to_result = new HashMap<String, Result>();
   }
 
-  public Map<String, List<String>> getNdctoIngredients() {
-
-    ApiFuture<DocumentSnapshot> future =
-        db.collection("ndc_to_ingredients").document("ACETAMINOPHEN").get();
-
-    try {
-      System.out.println("hello");
-      DocumentSnapshot document = future.get();
-      if (document.exists()) {
-        ArrayList<String> values = (ArrayList<String>) document.get("values");
-        System.out.println(values);
-
-      } else {
-        System.out.println("Document not found!");
-      }
-
-    } catch (ExecutionException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    return ndc_to_ingredients;
-  }
+//  public Map<String, List<String>> getNdctoIngredients() {
+//
+//    ApiFuture<DocumentSnapshot> future =
+//        db.collection("ndc_to_ingredients").document("ACAMPROSATE CALCIUM").get();
+//
+//    try {
+//      System.out.println("hello");
+//      DocumentSnapshot document = future.get();
+//      if (document.exists()) {
+//        ArrayList<String> values = (ArrayList<String>) document.get("values");
+//        System.out.println(values);
+//
+//      } else {
+//        System.out.println("Document not found!");
+//      }
+//
+//    } catch (ExecutionException e) {
+//      e.printStackTrace();
+//    } catch (InterruptedException e) {
+//      e.printStackTrace();
+//    }
+//    return ndc_to_ingredients;
+//  }
 
 
   public DrugResponse searchActiveIngredient(String activeIngredient) throws DatasourceException {
       try {
+        // getting the ndc list from the active ingredient passed in
         DocumentReference docRef = db.collection("active_ingredient_to_ndc").document(activeIngredient);
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
-//        ArrayList<String>  = document.getData().values();
-        
+        ArrayList<String> output = new ArrayList<>();
 
         if (document.exists()) {
-          System.out.println(document.getData());
+          Map<String, String> dict = new HashMap<>();
+
+          for (Object ndcObject: document.getData().values()) {
+            // turn the string into an iterable list
+            String ndcString = ndcObject.toString();
+            List<String> elements = Arrays.stream(ndcString.substring(1, ndcString.length() - 1).split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+            for (String ndc: elements) {
+
+              // getting stuff from ingredient list
+              ArrayList<String> ingredientsList = new ArrayList<>();
+              DocumentReference docRef1 = db.collection("ndc_to_active_ingredient").document(ndc);
+              ApiFuture<DocumentSnapshot> future1 = docRef1.get();
+              DocumentSnapshot document1 = future1.get();
+              System.out.println("doc1 " + document1.getData().toString());
+
+              // getting other information from ndc_to_result
+              DocumentReference docRef2 = db.collection("ndc_to_result").document(ndc);
+              ApiFuture<DocumentSnapshot> future2 = docRef2.get();
+              DocumentSnapshot document2 = future2.get();
+              System.out.println("doc2 " + document2.getData().toString());
+              // action idem - link all of these things and make the response now
+
+            }
+          }
+
         } else {
           System.out.println("no such document exists!");
         }

@@ -36,14 +36,6 @@ public class ActiveIngredientHandler implements Route {
     String active_ingredient_string = request.queryParams("active_ingredient");
     List<String> active_ingredient_list = Arrays.asList(active_ingredient_string.split(","));
 
-    //    System.out.println(Arrays.asList(active_ingredient.split(",")));
-    //    String allergy = request.queryParams("allergy");
-    //    String age = request.queryParams("age");
-    //    String currentDrugs = request.queryParams("currentdrugs");
-    //    String allergy = request.queryParams("allergy");
-    //    String age = request.queryParams("age");
-    //    String currentDrugs = request.queryParams("currentdrugs");
-
     // prepare to send a reply
     Moshi moshi = new Moshi.Builder().build();
     Type mapStringObject = Types.newParameterizedType(Map.class, String.class, Object.class);
@@ -57,7 +49,6 @@ public class ActiveIngredientHandler implements Route {
       responseMap.put("details", "active_ingredient is null!");
       return adapter.toJson(responseMap);
     }
-
     try {
 
       responseMap.put(

@@ -36,7 +36,7 @@ public class Server {
 
   public static void main(String args[]) {
     //    Database database = new Database();
-    //    Map<String, Set<String>> ndcToIngredients = database.getNdc_to_ingredients();
+    //    Map<String, Set<String>> ndcToIngredients = database.getNdc_to_active_ingredient();
     //    System.out.println("Contents of ndc_to_ingredients:");
     Server server = new Server();
     System.out.println("Server started on http://localhost:" + port + "/");
