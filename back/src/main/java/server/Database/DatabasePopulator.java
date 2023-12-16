@@ -43,7 +43,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import me.tongfei.progressbar.ProgressBar;
 import okio.Buffer;
@@ -82,7 +84,9 @@ public class DatabasePopulator {
     }
 
 
-    FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
+//    FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
+//    FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds2_private_key.json");
+    FileInputStream serviceAccount = new FileInputStream("data/private/clearmedsthomas_private_key.json");
 
     FirebaseOptions options =
         new FirebaseOptions.Builder()
@@ -125,8 +129,8 @@ public class DatabasePopulator {
 
 //    int processors = Runtime.getRuntime().availableProcessors();
 //    int poolSize = Math.min(processors * 2, this.drugResponse.results().size()); // Choose a multiple or other suitable value
-    int poolSize = 2;
-    Executor executorService = Executors.newFixedThreadPool(poolSize);
+    int poolSize = 1;
+    ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
 
 
 
@@ -141,6 +145,7 @@ public class DatabasePopulator {
 
 
       for (int i = b; i < Math.min(b + batchSize, this.drugResponse.results().size()); i++) {
+
 
         Result result = this.drugResponse.results().get(i);
 
@@ -191,18 +196,20 @@ public class DatabasePopulator {
 
     }
 
-//    executorService.shutdown();
+    executorService.shutdown();
 
-//    try {
-//      executorService.awaitTermination(20, TimeUnit.MINUTES);
-//    } catch (InterruptedException e) {
-//      // Handle interruption
-//      System.out.println();
-//      e.printStackTrace();
-//    }
+    try {
+      executorService.awaitTermination(20, TimeUnit.MINUTES);
+    } catch (InterruptedException e) {
+      // Handle interruption
+      System.out.println();
+      e.printStackTrace();
+    }
 
   }
 
+
+  //try again at 27...
 
   private void process_batched_ndcs(HashSet<String> batched_ndcs, Map<String, Set<String>> active_ingredient_to_ndc, Map<String, Result> ndc_to_result, Map<String, Set<String>> ndc_to_active_ingredient, Map<String, String> ndc_to_inactive_ingredient) {
 
@@ -384,14 +391,15 @@ public class DatabasePopulator {
   private void addToDatabase(Map<String, Set<String>> active_ingredient_to_ndc, Map<String, Result> ndc_to_result, Map<String, Set<String>> ndc_to_active_ingredient, Map<String, String> ndc_to_inactive_ingredient) {
     // stores the hashmaps
     this.storeInactiveIngredientMap("ndc_to_inactive_ingredient", ndc_to_inactive_ingredient);
-//    this.storeMapInFirestore("ndc_to_active_ingredient", ndc_to_active_ingredient);
-//    this.storeMapInFirestore("active_ingredient_to_ndc", active_ingredient_to_ndc);
-//    this.storeResultMapInFirestore("ndc_to_result", ndc_to_result);
+    this.storeMapInFirestore("ndc_to_active_ingredient", ndc_to_active_ingredient);
+    this.storeMapInFirestore("active_ingredient_to_ndc", active_ingredient_to_ndc);
+    this.storeResultMapInFirestore("ndc_to_result", ndc_to_result);
     this.step ++;
     pb.step();
     System.out.println("Finished Storing!");
     if (this.step == Math.ceil(this.drugResponse.results().size() / batchSize)-1) {
       pb.stop();
+      System.out.println("should be done!");
     }
 //    storeMapInFirestore("ndc_to_inactive_ingredient", ndc_to_inactive_ingredient);
   }
@@ -415,7 +423,6 @@ public class DatabasePopulator {
       } catch (Exception e) {
         // array index out of bounds excpetion for some reason
         e.printStackTrace();
-        System.out.println(values);
       }
     }
   }
@@ -509,6 +516,9 @@ public class DatabasePopulator {
         activeIngredientsDataList.add(activeIngredientData);
       }
       productData.put("active_ingredients", activeIngredientsDataList);
+      productData.put("dosage_form", product.brand_name());
+      productData.put("route", product.route());
+      productData.put("marketing_status", product.marketing_status());
 
       // Add other fields as needed
       productDataList.add(productData);
@@ -521,6 +531,17 @@ public class DatabasePopulator {
     openFDAData.put("application_number", result.openFDA().application_number());
     openFDAData.put("brand_name", result.openFDA().brand_name());
     openFDAData.put("generic_name", result.openFDA().generic_name());
+    openFDAData.put("manufacturer_name", result.openFDA().manufacturer_name());
+    //skipping product_ndc list, redundant
+    openFDAData.put("product_type", result.openFDA().product_type());
+    openFDAData.put("route", result.openFDA().route());
+    //skipping substance name, redundant
+    //skipping rxcui, unneeded
+    //skipping spl_id, unneeded
+    //skipping package_ndc, unneded
+    //skipping unii, unneeded
+
+
     // Add other fields as needed
     resultData.put("openfda", openFDAData);
 
