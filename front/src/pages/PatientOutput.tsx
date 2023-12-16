@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ResultBox } from "../components/ResultBox";
+import { PatientResultBox } from "../components/PatientResultBox";
 
 const PatientOutput: React.FC = () => {
   const navigate = useNavigate();
@@ -10,14 +10,18 @@ const PatientOutput: React.FC = () => {
     location.state || {};
 
   const handleClickBack = () => {
-    navigate("/patientinput");
+    if (startIndex >= itemsPerPage) {
+      setStartIndex((prevStartIndex) => prevStartIndex - itemsPerPage);
+    } else {
+      navigate("/patientinput");
+    }
   };
 
   const results = [
     {
       drugBrand: "Drug 1",
       genericName: "Aceto",
-      activeIngredients: "Acetomenaphin",
+      activeIngredients: "baclofen",
       uses: "cures the plague",
       manufacturers: "Johnson & Johnson",
       marketingStatus: "Discontinued",
@@ -125,17 +129,17 @@ const PatientOutput: React.FC = () => {
           {results
             .slice(startIndex, startIndex + itemsPerPage)
             .map((result, index) => (
-              <ResultBox key={index} {...result} />
+              <PatientResultBox key={index} {...result} />
             ))}
         </div>
         {startIndex + itemsPerPage < results.length && (
-          <button
-            className="more-results-buttons"
-            onClick={handleShowMoreResults}
-          >
+          <button className="form-button" onClick={handleShowMoreResults}>
             See more results
           </button>
         )}
+        <button className="form-button" onClick={handleClickBack}>
+          Back
+        </button>
       </>
     );
   };

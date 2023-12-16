@@ -7,7 +7,11 @@ interface PatientOutputProps {
   marketingStatus: string;
 }
 
-export function ResultBox(props: PatientOutputProps) {
+export function PatientResultBox(props: PatientOutputProps) {
+  const handleLearnMore = () => {
+    const activeIng = props.activeIngredients.replace(/\s+/g, "-");
+    window.open("https://www.drugs.com/" + activeIng + ".html", "_blank");
+  };
   return (
     <div className="result-box">
       <div className="result-entry-title">{props.drugBrand}</div>
@@ -21,9 +25,10 @@ export function ResultBox(props: PatientOutputProps) {
       <div className="result-entry-text-header">Marketing Status:</div>
       <div className="result-entry-text-body">{props.marketingStatus}</div>
       <div className="patient-output-learnmore-container">
-        <button className="patient-output-learnmore">Learn More</button>
+        <button className="patient-output-learnmore" onClick={handleLearnMore}>
+          Learn More
+        </button>
       </div>
     </div>
   );
 }
-

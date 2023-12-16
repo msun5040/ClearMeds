@@ -68,7 +68,7 @@ const ProviderInput: React.FC = () => {
     console.log("Allergies:", allergies);
     console.log("Marketing Fields:", marketingFields);
 
-    navigate("/patientoutput", {
+    navigate("/provideroutput", {
       state: {
         activeIngredients,
         allergies,
