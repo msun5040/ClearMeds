@@ -21,7 +21,7 @@ const PatientOutput: React.FC = () => {
     {
       drugBrand: "Drug 1",
       genericName: "Aceto",
-      activeIngredients: "Acetomenaphin",
+      activeIngredients: "baclofen",
       uses: "cures the plague",
       manufacturers: "Johnson & Johnson",
       marketingStatus: "Discontinued",

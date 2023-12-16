@@ -10,25 +10,31 @@ const PatientOutput: React.FC = () => {
     location.state || {};
 
   const handleClickBack = () => {
-    navigate("/providerinput");
+    if (startIndex >= itemsPerPage) {
+      setStartIndex((prevStartIndex) => prevStartIndex - itemsPerPage);
+    } else {
+      navigate("/patientinput");
+    }
   };
 
   const results = [
     {
       drugBrand: "Drug 1",
       genericName: "Aceto",
-      activeIngredients: "Acetomenaphin",
+      activeIngredients: "baclofen",
       uses: "cures the plague",
       manufacturers: "Johnson & Johnson",
       marketingStatus: "Discontinued",
+      strength: "0.75MG/0.5ML",
     },
     {
       drugBrand: "Drug 2",
       genericName: "Acetoman",
-      activeIngredients: "Acetomenaphin",
+      activeIngredients: "klor-con",
       uses: "cures the plague",
       manufacturers: "CVS",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
       drugBrand: "Drug 3",
@@ -37,6 +43,7 @@ const PatientOutput: React.FC = () => {
       uses: "cures the plague",
       manufacturers: "CVSII",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
       drugBrand: "Drug 4",
@@ -45,6 +52,7 @@ const PatientOutput: React.FC = () => {
       uses: "cures the plague",
       manufacturers: "Drugs R Us",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
       drugBrand: "Drug 5",
@@ -53,38 +61,43 @@ const PatientOutput: React.FC = () => {
       uses: "cures the plague",
       manufacturers: "Free Drugs",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
-      drugBrand: "Drug 4",
+      drugBrand: "Drug 6",
       genericName: "Asetoman",
       activeIngredients: "Acetomenaphin",
       uses: "cures the plague",
       manufacturers: "Drugs R Us",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
-      drugBrand: "Drug 5",
+      drugBrand: "Drug 7",
       genericName: "Acetoman2",
       activeIngredients: "Acetomenaphin",
       uses: "cures the plague",
       manufacturers: "Free Drugs",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
-      drugBrand: "Drug 4",
+      drugBrand: "Drug 8",
       genericName: "Asetoman",
       activeIngredients: "Acetomenaphin",
       uses: "cures the plague",
       manufacturers: "Drugs R Us",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
     {
-      drugBrand: "Drug 5",
+      drugBrand: "Drug ",
       genericName: "Acetoman2",
       activeIngredients: "Acetomenaphin",
       uses: "cures the plague",
       manufacturers: "Free Drugs",
       marketingStatus: "In Stock",
+      strength: "0.75MG/0.5ML",
     },
   ];
 
