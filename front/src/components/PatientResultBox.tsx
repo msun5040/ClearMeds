@@ -7,7 +7,7 @@ interface PatientOutputProps {
   marketingStatus: string;
 }
 
-export function ResultBox(props: PatientOutputProps) {
+export function PatientResultBox(props: PatientOutputProps) {
   return (
     <div className="result-box">
       <div className="result-entry-title">{props.drugBrand}</div>
