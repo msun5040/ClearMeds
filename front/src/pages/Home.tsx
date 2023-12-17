@@ -1,11 +1,18 @@
 import { useState } from "react";
 import Logo from "../components/logo";
 import OutputBox from "../components/OutputBox";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   const [showAlert, setShowAlert] = useState(true);
+  const navigate = useNavigate();
 
   const handleAccept = () => {
+    navigate("/", {
+      state: {
+        showAlert
+      },
+    });
     setShowAlert(false);
   };
 
