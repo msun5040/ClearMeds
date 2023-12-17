@@ -45,7 +45,7 @@ const PatientInput: React.FC = () => {
     setSuggestionsFunction: React.Dispatch<React.SetStateAction<string[]>>
   ) => {
     setFunction(suggestion);
-    setSuggestionsFunction([]); // Clear suggestions when a suggestion is clicked
+    setSuggestionsFunction([]);
   };
 
   const handleSubmit = () => {
@@ -70,6 +70,8 @@ const PatientInput: React.FC = () => {
     if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
       // Click is outside of the input field, hide suggestions
       setActiveIngredientsSuggestions([]);
+      setAllergiesSuggestions([]);
+      setAdditionalFieldsSuggestions([]);
     }
   };
 
