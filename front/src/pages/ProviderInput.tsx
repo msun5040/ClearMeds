@@ -83,8 +83,9 @@ const ProviderInput: React.FC = () => {
 
   const handleClickOutside = (event: MouseEvent) => {
     if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-      // Click is outside of the input field, hide suggestions
+      setAllergiesSuggestions([]);
       setActiveIngredientsSuggestions([]);
+      setMarketingFieldsSuggestions([]);
     }
   };
 
