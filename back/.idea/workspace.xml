@@ -6,15 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadJSONException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Exceptions/NotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Exceptions/BadJSONException.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
-    <list id="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" name="Changes by isaacyi" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" afterDir="false" />
-    </list>
+    <list id="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" name="Changes by isaacyi" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,23 +59,6 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredient.java" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/server/FDADataSource.java">
-      <ranges>
-        <range start1="12" end1="12" start2="12" end2="13" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="13" end1="14" start2="14" end2="14" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="16" end1="17" start2="16" end2="16" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="25" end1="26" start2="24" end2="24" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="27" end1="31" start2="25" end2="25" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="54" end1="55" start2="48" end2="50" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="113" end1="114" start2="108" end2="109" changelist="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" />
-        <range start1="127" end1="128" start2="122" end2="122" changelist="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" />
-        <range start1="130" end1="131" start2="124" end2="124" changelist="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" />
-        <range start1="140" end1="140" start2="133" end2="239" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-        <range start1="194" end1="195" start2="293" end2="296" changelist="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" />
-      </ranges>
-    </file>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -93,7 +88,7 @@
       <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FDADataSource">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="DatabasePopulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Database.DatabasePopulator" />
       <module name="s0" />
@@ -138,9 +133,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Server" />
         <item itemvalue="Application.FDADataSource" />
         <item itemvalue="Application.DatabasePopulator" />
-        <item itemvalue="Application.Server" />
       </list>
     </recent_temporary>
   </component>
@@ -162,7 +157,7 @@
       <workItem from="1702493425412" duration="8947000" />
       <workItem from="1702506969868" duration="11661000" />
       <workItem from="1702529675932" duration="1145000" />
-      <workItem from="1702530836949" duration="41210000" />
+      <workItem from="1702530836949" duration="56211000" />
     </task>
     <servers />
   </component>
@@ -185,7 +180,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
-          <line>32</line>
+          <line>34</line>
           <properties class="server.Handlers.ActiveIngredientHandler" method="handle">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -203,8 +198,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>90</line>
-          <properties class="server.FDADataSource" method="searchActiveIngredient">
+          <line>85</line>
+          <properties class="server.FDADataSource">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
@@ -212,7 +207,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java</url>
-          <line>494</line>
+          <line>500</line>
           <properties class="server.Database.DatabasePopulator" method="convertResultToMap">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -226,38 +221,53 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>293</line>
+          <line>301</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>294</line>
+          <line>302</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java</url>
-          <line>567</line>
+          <line>572</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>117</line>
+          <line>112</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java</url>
-          <line>395</line>
+          <line>401</line>
           <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>295</line>
+          <line>314</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>165</line>
-          <option name="timeStamp" value="48" />
+          <line>308</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
+          <line>266</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="61" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

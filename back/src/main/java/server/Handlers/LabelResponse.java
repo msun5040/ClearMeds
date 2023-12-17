@@ -10,7 +10,5 @@ public record LabelResponse(
   public record Result(
       @Json(name = "active_ingredient") List<String> active_ingredient,
       @Json(name = "inactive_ingredient") List<String> inactive_ingredient,
-      @Json(name = "openfda") OpenFDA openFDA
-  ) {}
-
+      @Json(name = "openfda") OpenFDA openFDA) {}
 }

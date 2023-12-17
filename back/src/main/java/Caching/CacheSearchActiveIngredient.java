@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import server.Exceptions.DatasourceException;
+import server.Exceptions.NotFoundException;
 import server.FDADataSource;
 
 /**
@@ -20,11 +21,11 @@ import server.FDADataSource;
  */
 public class CacheSearchActiveIngredient {
   private final LoadingCache<String, Map<String, Object>> cache;
-  private final FDADataSource fdaDataSource;
+  //  private final FDADataSource fdaDataSource;
 
   public CacheSearchActiveIngredient(
       int maximumSize, int minutesExpire, FDADataSource fdaDataSource) {
-    this.fdaDataSource = fdaDataSource;
+    //    this.fdaDataSource = fdaDataSource;
 
     // Look at the docs -- there are lots of builder parameters you can use
     //   including ones that affect garbage-collection (not needed for Server).
@@ -49,16 +50,16 @@ public class CacheSearchActiveIngredient {
                    */
                   @Override
                   public Map<String, Object> load(String activeIngredient)
-                      throws DatasourceException {
+                      throws NotFoundException, DatasourceException {
                     // the key is formatted as (state, county)
-                    Map<String, Object> result = new HashMap<String, Object>();
-                    result.put("result", fdaDataSource.searchActiveIngredient(activeIngredient));
+                    HashMap<String, Object> response = new HashMap<String, Object>();
+                    //                    response.put("results",
+                    // fdaDataSource.searchActiveIngredient(activeIngredient));
 
                     LocalDateTime retrievalTime = LocalDateTime.now();
-                    result.put("retrievalTime", retrievalTime.toString());
+                    response.put("retrievalTime", retrievalTime.toString());
 
-                    return result;
-                    // the result is formated as , the (broadband percentage, the retrieval time)
+                    return response;
                   }
                 });
   }
@@ -70,25 +71,27 @@ public class CacheSearchActiveIngredient {
    * @return Map result -> DrugResponse; retrievalTime -> retrievalTime
    * @throws DatasourceException
    */
-  public Map<String, Object> search(String activeIngredient) throws DatasourceException {
+  public Map<String, Object> search(String active_ingredient) {
     // "get" is designed for concurrent situations; for today, use getUnchecked:
-
-    try {
-      return this.cache.getUnchecked(activeIngredient);
-    } catch (Exception e) {
-      //      used instance of to check what kind of exception was thrown, and then more formally
-      // throw the
-      //      datasource or badjson exception, to be handled in BroadbandHandler to put the
-      // necessary responses in
-      //      the response map.
-      if (e.getCause() instanceof DatasourceException) {
-        throw new DatasourceException(e.getMessage(), e.getCause());
-      }
-      //            if (e.getCause() instanceof BadJSONException) {
-      //                throw new BadJSONException(e.getMessage(), e.getCause());
-      //            }
-    }
-    // this should never be thrown as Datasource and BadJSON are caught above.
-    throw new DatasourceException("error while searching");
+    //      for (String active_ingredient: active_ingredient_list) {
+    //
+    //      }
+    return this.cache.getUnchecked(active_ingredient.toUpperCase());
+    //    } catch (Exception e) {
+    //      //      used instance of to check what kind of exception was thrown, and then more
+    // formally
+    //      // throw the
+    //      //      datasource or badjson exception, to be handled in BroadbandHandler to put the
+    //      // necessary responses in
+    //      //      the response map.
+    //      if (e.getCause() instanceof DatasourceException) {
+    //        throw new DatasourceException(e.getMessage(), e.getCause());
+    //      } else if (e.getCause() instanceof of )
+    //      //            if (e.getCause() instanceof BadJSONException) {
+    //      //                throw new BadJSONException(e.getMessage(), e.getCause());
+    //      //            }
+    //    }
+    //    // this should never be thrown as Datasource and BadJSON are caught above.
+    //    throw new DatasourceException("error while searching");
   }
 }

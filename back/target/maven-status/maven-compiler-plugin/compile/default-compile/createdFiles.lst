@@ -1,4 +1,4 @@
-server/Exceptions/BadJSONException.class
+server/Database/DatabasePopulator$1.class
 server/Server.class
 Caching/CacheSearchActiveIngredient$1.class
 server/Exceptions/BadRequestException.class
@@ -9,4 +9,5 @@ server/Exceptions/DatasourceException.class
 server/Handlers/ActiveIngredientHandler.class
 server/Handlers/ActiveIngredient.class
 server/Handlers/LabelResponse$Result.class
+server/Database/DatabasePopulator.class
 server/Handlers/DrugHandler.class

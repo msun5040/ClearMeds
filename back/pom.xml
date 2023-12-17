@@ -43,6 +43,11 @@
       <version>1.13.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.14.0</version>
+    </dependency>
     <!--
                Spark is a lightweight framework for creating web applications.
                Spark is most commonly used to create APIs and websites.
