@@ -1,15 +1,27 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function OutputBox() {
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const { showAlert } =
+    location.state || {};
+
   const handleClickPatient = () => {
-    navigate("/patientinput");
+    if (showAlert) {
+      navigate("/patientinput");
+    } else {
+      console.log("Please accept the disclaimer before proceeding.");
+    }
   };
 
   const handleClickProvider = () => {
-    navigate("/providerinput");
+    if (showAlert) {
+      navigate("/providerinput");
+    } else {
+      console.log("Please accept the disclaimer before proceeding.");
+    }
   };
 
   useEffect(() => {
