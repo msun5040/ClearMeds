@@ -2,15 +2,13 @@ interface PatientOutputProps {
   drugBrand: string;
   genericName: string;
   activeIngredients: string;
-  uses: string;
   manufacturers: string;
   marketingStatus: string;
 }
 
 export function PatientResultBox(props: PatientOutputProps) {
   const handleLearnMore = () => {
-    const activeIng = props.activeIngredients.replace(/\s+/g, "-");
-    window.open("https://www.drugs.com/" + activeIng + ".html", "_blank");
+    window.open("https://www.drugs.com/" + props.activeIngredients + ".html", "_blank");
   };
   return (
     <div className="result-box">
@@ -18,8 +16,6 @@ export function PatientResultBox(props: PatientOutputProps) {
       <div className="result-entry-subtitle">{props.genericName}</div>
       <div className="result-entry-text-header">Active Ingredients:</div>
       <div className="result-entry-text-body">{props.activeIngredients}</div>
-      <div className="result-entry-text-header">Uses:</div>
-      <div className="result-entry-text-body">{props.uses}</div>
       <div className="result-entry-text-header">Manufacturers:</div>
       <div className="result-entry-text-body">{props.manufacturers}</div>
       <div className="result-entry-text-header">Marketing Status:</div>

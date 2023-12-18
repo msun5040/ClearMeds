@@ -1,6 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ProviderResultBox} from "../components/ProviderResultBox"
+
+interface DrugInfo {
+  drugBrand: string;
+  genericName: string;
+  product_ndc: string;
+  activeIngredients: string;
+  route: string;
+  manufacturers: string;
+  marketingStatus: string;
+}
 
 const PatientOutput: React.FC = () => {
   const navigate = useNavigate();
@@ -16,113 +26,54 @@ const PatientOutput: React.FC = () => {
       navigate("/patientinput");
     }
   };
+  const [parsedResults, setParsedResults] = useState<DrugInfo[]>([]);
 
-  const results = [
-    {
-      drugBrand: "Drug 1",
-      genericName: "Aceto",
-      activeIngredients: "baclofen",
-      uses: "cures the plague",
-      manufacturers: "Johnson & Johnson",
-      marketingStatus: "Discontinued",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 2",
-      genericName: "Acetoman",
-      activeIngredients: "klor-con",
-      uses: "cures the plague",
-      manufacturers: "CVS",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 3",
-      genericName: "Acetoman2",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "CVSII",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 4",
-      genericName: "Asetoman",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "Drugs R Us",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 5",
-      genericName: "Acetoman2",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "Free Drugs",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 6",
-      genericName: "Asetoman",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "Drugs R Us",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 7",
-      genericName: "Acetoman2",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "Free Drugs",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug 8",
-      genericName: "Asetoman",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "Drugs R Us",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-    {
-      drugBrand: "Drug ",
-      genericName: "Acetoman2",
-      activeIngredients: "Acetomenaphin",
-      uses: "cures the plague",
-      manufacturers: "Free Drugs",
-      marketingStatus: "In Stock",
-      strength: "0.75MG/0.5ML",
-    },
-  ];
+  async function getResult(
+    activeIngredients: string,
+    allergies: string
+  ): Promise<DrugInfo[]> {
+    const fetch1 = await fetch(
+      "http://localhost:3232/search_active_ingredient?active_ingredient=" +
+        activeIngredients +
+        "&allergy_ingredient=" +
+        allergies
+    );
 
-  // const renderResults = () => {
-  //   if (results.length <= 4) {
-  //     return (
-  //       <div className="result-panel-container">
-  //         {results.map((result, index) => (
-  //           <ResultBox key={index} {...result} />
-  //         ))}
-  //       </div>
-  //     );
-  //   } else {
-  //     return (
-  //       <>
-  //         <div className="result-panel-container">
-  //           {results.slice(0, 4).map((result, index) => (
-  //             <ResultBox key={index} {...result} />
-  //           ))}
-  //         </div>
-  //         <button className="more-results-buttons">See more results</button>
-  //       </>
-  //     );
-  //   }
-  // };
+    const json1 = await fetch1.json();
+    const api_call_result = await json1["results"];
+
+    console.log("api result", api_call_result);
+
+    if (api_call_result) {
+      return api_call_result.map((result: any) => {
+        return {
+          drugBrand: result.brand_name[0],
+          genericName: result.generic_name[0],
+          product_ndc: result.product_ndc,
+          activeIngredients: result.active_ingredients,
+          route: result.route,
+          manufacturers: result.manufacturer_name,
+          marketingStatus: result.marketing_status,
+        };
+      });
+    } else {
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getResult(activeIngredients, allergies);
+        setParsedResults(result);
+        console.log(parsedResults);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [activeIngredients, allergies]);
 
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 4;
@@ -135,13 +86,13 @@ const PatientOutput: React.FC = () => {
     return (
       <>
         <div className="result-panel-container">
-          {results
+          {parsedResults
             .slice(startIndex, startIndex + itemsPerPage)
-            .map((result, index) => (
-              <ProviderResultBox key={index} {...result} />
+            .map((parsedResults, index) => (
+              <ProviderResultBox key={index} {...parsedResults} />
             ))}
         </div>
-        {startIndex + itemsPerPage < results.length && (
+        {startIndex + itemsPerPage < parsedResults.length && (
           <button className="form-button" onClick={handleShowMoreResults}>
             See more results
           </button>

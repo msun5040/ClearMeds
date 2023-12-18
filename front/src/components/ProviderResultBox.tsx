@@ -1,17 +1,16 @@
-interface ProviderOutputProps {
+interface DrugInfo {
   drugBrand: string;
   genericName: string;
+  product_ndc: string;
   activeIngredients: string;
-  uses: string;
+  route: string;
   manufacturers: string;
   marketingStatus: string;
-  strength: string;
 }
 
-export function ProviderResultBox(props: ProviderOutputProps) {
+export function ProviderResultBox(props: DrugInfo) {
   const handleLearnMore = () => {
-    const activeIng = props.activeIngredients.replace(/\s+/g, "-");
-    window.open("https://www.drugs.com/"+ activeIng + ".html", "_blank");
+    window.open("https://www.drugs.com/"+ props.activeIngredients + ".html", "_blank");
   };
   return (
     <div className="provider-result-box">
@@ -22,14 +21,20 @@ export function ProviderResultBox(props: ProviderOutputProps) {
         </div>
         <div className="provider-column">
           <div className="result-entry-pair">
+            <div className="result-entry-text-header">Product NDC:</div>
+            <div className="result-entry-text-body">{props.product_ndc}</div>
+          </div>
+          <div className="result-entry-pair">
             <div className="result-entry-text-header">Active Ingredients:</div>
             <div className="result-entry-text-body">
               {props.activeIngredients}
             </div>
           </div>
           <div className="result-entry-pair">
-            <div className="result-entry-text-header">Uses:</div>
-            <div className="result-entry-text-body">{props.uses}</div>
+            <div className="result-entry-text-header">Route:</div>
+            <div className="result-entry-text-body">
+              {props.route}
+            </div>
           </div>
           <div className="result-entry-pair">
             <div className="result-entry-text-header">Manufacturers:</div>
@@ -40,10 +45,6 @@ export function ProviderResultBox(props: ProviderOutputProps) {
             <div className="result-entry-text-body">
               {props.marketingStatus}
             </div>
-          </div>
-          <div className="result-entry-pair">
-            <div className="result-entry-text-header">Strength:</div>
-            <div className="result-entry-text-body">{props.strength}</div>
           </div>
         </div>
         <div className="provider-column">
