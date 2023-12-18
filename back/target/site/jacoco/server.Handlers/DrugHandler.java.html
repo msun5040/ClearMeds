@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DrugHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s0</a> &gt; <a href="index.source.html" class="el_package">server.Handlers</a> &gt; <span class="el_source">DrugHandler.java</span></div><h1>DrugHandler.java</h1><pre class="source lang-java linenums">package server.Handlers;
+
+// import Caching.CacheAPI;
+
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import server.Exceptions.BadRequestException;
+import server.FDADataSource;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+
+public class DrugHandler implements Route {
+  private FDADataSource fdaDataSource;
+
+<span class="nc" id="L20">  public DrugHandler() {</span>
+<span class="nc" id="L21">    this.fdaDataSource = new FDADataSource();</span>
+<span class="nc" id="L22">  }</span>
+
+  /**
+   * @param request The request object providing information about the HTTP request
+   * @param response The response object providing functionality for modifying the response
+   * @return
+   */
+  @Override
+  public Object handle(Request request, Response response) throws Exception {
+
+    // format: /searchdrug?drugname=_&amp;allergy=_&amp;age=_&amp;currentdrugs=_
+<span class="nc" id="L33">    String drugName = request.queryParams(&quot;drugname&quot;);</span>
+<span class="nc" id="L34">    String allergy = request.queryParams(&quot;allergy&quot;);</span>
+<span class="nc" id="L35">    String age = request.queryParams(&quot;age&quot;);</span>
+<span class="nc" id="L36">    String currentDrugs = request.queryParams(&quot;currentdrugs&quot;);</span>
+
+    // prepare to send a reply
+<span class="nc" id="L39">    Moshi moshi = new Moshi.Builder().build();</span>
+<span class="nc" id="L40">    Type mapStringObject = Types.newParameterizedType(Map.class, String.class, Object.class);</span>
+<span class="nc" id="L41">    JsonAdapter&lt;Map&lt;String, Object&gt;&gt; adapter = moshi.adapter(mapStringObject);</span>
+<span class="nc" id="L42">    Map&lt;String, Object&gt; responseMap = new HashMap&lt;&gt;();</span>
+
+    try {
+      // if the drug/ingredient name is null, return error_bad_request
+<span class="nc bnc" id="L46" title="All 2 branches missed.">      if (drugName == null) {</span>
+<span class="nc" id="L47">        throw new BadRequestException(&quot;'drug name' parameter missing&quot;);</span>
+      }
+
+<span class="nc" id="L50">    } catch (BadRequestException e) {</span>
+<span class="nc" id="L51">      responseMap.put(&quot;type&quot;, &quot;error&quot;);</span>
+<span class="nc" id="L52">      responseMap.put(&quot;error_type&quot;, &quot;error_bad_request&quot;);</span>
+<span class="nc" id="L53">      responseMap.put(&quot;details&quot;, e.getMessage());</span>
+<span class="nc" id="L54">    }</span>
+
+<span class="nc" id="L56">    return adapter.toJson(responseMap);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

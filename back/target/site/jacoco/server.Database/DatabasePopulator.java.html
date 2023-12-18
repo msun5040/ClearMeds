@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabasePopulator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s0</a> &gt; <a href="index.source.html" class="el_package">server.Database</a> &gt; <span class="el_source">DatabasePopulator.java</span></div><h1>DatabasePopulator.java</h1><pre class="source lang-java linenums">package server.Database;
+
+// import com.google.api.core.ApiFuture;
+// import com.google.api.core.ApiFutureCallback;
+// import com.google.api.core.ApiFutures;
+// import com.google.auth.oauth2.GoogleCredentials;
+// import com.google.cloud.firestore.DocumentReference;
+// import com.google.cloud.firestore.Firestore;
+// import com.google.cloud.firestore.WriteResult;
+// import com.google.common.util.concurrent.MoreExecutors;
+// import com.google.firebase.FirebaseApp;
+// import com.google.firebase.FirebaseOptions;
+// import com.google.firebase.cloud.FirestoreClient;
+
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutureCallback;
+import com.google.api.core.ApiFutures;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import me.tongfei.progressbar.ProgressBar;
+import okio.Buffer;
+import server.Exceptions.DatasourceException;
+import server.Handlers.DrugResponse;
+import server.Handlers.DrugResponse.ActiveIngredient;
+import server.Handlers.DrugResponse.Result;
+import server.Handlers.LabelResponse;
+
+public class DatabasePopulator {
+
+  private static Firestore db;
+  //  private Map&lt;String, Set&lt;String&gt;&gt; ndc_to_active_ingredient;
+  //  private Map&lt;String, Set&lt;String&gt;&gt; active_ingredient_to_ndc;
+  //  private Map&lt;String, Result&gt; ndc_to_result;
+  //  private Map&lt;String, String&gt; ndc_to_inactive_ingredient;
+  private DrugResponse drugResponse;
+  private JsonAdapter&lt;DrugResponse&gt; drugsFeatureAdapter;
+
+  private String openFDA_key;
+  private int batchSize;
+  private ProgressBar pb;
+  private int step;
+
+<span class="nc" id="L72">  public DatabasePopulator() throws IOException, DatasourceException {</span>
+
+    BufferedReader reader;
+
+    try {
+<span class="nc" id="L77">      reader = new BufferedReader(new FileReader(&quot;data/private/openFDA_key.txt&quot;));</span>
+<span class="nc" id="L78">      this.openFDA_key = reader.readLine();</span>
+
+<span class="nc" id="L80">      reader.close();</span>
+<span class="nc" id="L81">    } catch (IOException e) {</span>
+<span class="nc" id="L82">      e.printStackTrace();</span>
+<span class="nc" id="L83">    }</span>
+
+    //    FileInputStream serviceAccount = new
+    // FileInputStream(&quot;data/private/clearmeds_private_key.json&quot;);
+<span class="nc" id="L87">    FileInputStream serviceAccount = new FileInputStream(&quot;data/private/clearmeds_private_key.json&quot;);</span>
+    //    FileInputStream serviceAccount = new
+    // FileInputStream(&quot;data/private/clearmeds2_private_key.json&quot;);
+    //    FileInputStream serviceAccount = new
+    // FileInputStream(&quot;data/private/clearmedsthomas_private_key.json&quot;);
+
+<span class="nc" id="L93">    FirebaseOptions options =</span>
+        new FirebaseOptions.Builder()
+<span class="nc" id="L95">            .setCredentials(GoogleCredentials.fromStream(serviceAccount))</span>
+<span class="nc" id="L96">            .build();</span>
+
+<span class="nc" id="L98">    FirebaseApp.initializeApp(options);</span>
+
+<span class="nc" id="L100">    this.db = FirestoreClient.getFirestore();</span>
+
+<span class="nc" id="L102">    Moshi moshi = new Moshi.Builder().build();</span>
+
+<span class="nc" id="L104">    this.drugsFeatureAdapter = moshi.adapter(DrugResponse.class);</span>
+
+<span class="nc" id="L106">    Path jsonFilePath = Path.of(&quot;data/drug-drugsfda-0001-of-0001.json&quot;);</span>
+<span class="nc" id="L107">    String jsonData = new String(Files.readAllBytes(jsonFilePath));</span>
+<span class="nc" id="L108">    this.drugResponse = this.drugsFeatureAdapter.fromJson(jsonData);</span>
+
+    //
+    //        this.ndc_to_active_ingredient = new HashMap&lt;String, Set&lt;String&gt;&gt;();
+    //        this.active_ingredient_to_ndc = new HashMap&lt;String, Set&lt;String&gt;&gt;();
+    //        this.ndc_to_result = new HashMap&lt;String, Result&gt;();
+    //        this.ndc_to_inactive_ingredient = new HashMap&lt;String, String&gt;();
+
+<span class="nc" id="L116">    this.batchSize = 500;</span>
+<span class="nc" id="L117">    this.step = 0;</span>
+
+<span class="nc" id="L119">    this.pb =</span>
+        new ProgressBar(
+<span class="nc" id="L121">            &quot;parsing&quot;, (long) Math.ceil(this.drugResponse.results().size() / batchSize));</span>
+<span class="nc" id="L122">    pb.start();</span>
+<span class="nc" id="L123">    this.parse();</span>
+    //    pb.stop();
+
+    //    System.out.println(this.ndc_to_result.values());
+    //    this.addToDatabase();
+<span class="nc" id="L128">  }</span>
+
+  private void parse() {
+
+    //    int processors = Runtime.getRuntime().availableProcessors();
+    //    int poolSize = Math.min(processors * 2, this.drugResponse.results().size()); // Choose a
+    // multiple or other suitable value
+<span class="nc" id="L135">    int poolSize = 1;</span>
+<span class="nc" id="L136">    ExecutorService executorService = Executors.newFixedThreadPool(poolSize);</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">    for (int b = 0; b &lt; Math.ceil(this.drugResponse.results().size() / batchSize); b++) {</span>
+
+<span class="nc" id="L140">      HashSet&lt;String&gt; batched_ndcs = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L141">      Map&lt;String, Set&lt;String&gt;&gt; ndc_to_active_ingredient = new HashMap&lt;String, Set&lt;String&gt;&gt;();</span>
+<span class="nc" id="L142">      Map&lt;String, Set&lt;String&gt;&gt; active_ingredient_to_ndc = new HashMap&lt;String, Set&lt;String&gt;&gt;();</span>
+<span class="nc" id="L143">      Map&lt;String, Result&gt; ndc_to_result = new HashMap&lt;String, Result&gt;();</span>
+<span class="nc" id="L144">      Map&lt;String, String&gt; ndc_to_inactive_ingredient = new HashMap&lt;String, String&gt;();</span>
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">      for (int i = b; i &lt; Math.min(b + batchSize, this.drugResponse.results().size()); i++) {</span>
+
+<span class="nc" id="L148">        Result result = this.drugResponse.results().get(i);</span>
+
+        // null checking to ensure if openfda and product_ndc exists. if it doesn't, skip it.
+<span class="nc bnc" id="L151" title="All 4 branches missed.">        if (result.openFDA() == null || result.openFDA().product_ndc() == null) {</span>
+<span class="nc" id="L152">          continue;</span>
+        }
+
+<span class="nc" id="L155">        List&lt;String&gt; product_ndcs = result.openFDA().product_ndc();</span>
+
+        Set&lt;String&gt; active_ingredients;
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (result.products() != null</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            &amp;&amp; !result.products().isEmpty()</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            &amp;&amp; result.products().get(0).active_ingredients() != null) {</span>
+<span class="nc" id="L162">          active_ingredients =</span>
+<span class="nc" id="L163">              result.products().get(0).active_ingredients().stream()</span>
+<span class="nc" id="L164">                  .map(ActiveIngredient::name)</span>
+<span class="nc" id="L165">                  .collect(Collectors.toSet());</span>
+        } else {
+<span class="nc" id="L167">          active_ingredients = Collections.emptySet();</span>
+        }
+
+        // for every ndc in product_ndcs, get the list of all ingredients (active and inactive)
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        for (String ndc : product_ndcs) {</span>
+          // create a list of all the ingredients, initalized with the active ingredietns
+          //        Set&lt;String&gt; ingredients = new HashSet&lt;String&gt;(active_ingredients);
+<span class="nc" id="L174">          batched_ndcs.add(ndc);</span>
+<span class="nc" id="L175">          ndc_to_active_ingredient.put(ndc, active_ingredients);</span>
+<span class="nc" id="L176">          ndc_to_result.put(ndc, result);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">          for (String a_i : active_ingredients) {</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">            if (!active_ingredient_to_ndc.containsKey(a_i)) {</span>
+<span class="nc" id="L179">              active_ingredient_to_ndc.put(a_i, new HashSet&lt;String&gt;());</span>
+            }
+<span class="nc" id="L181">            active_ingredient_to_ndc.get(a_i).add(ndc);</span>
+<span class="nc" id="L182">          }</span>
+<span class="nc" id="L183">        }</span>
+      }
+
+<span class="nc" id="L186">      executorService.execute(</span>
+          () -&gt;
+<span class="nc" id="L188">              this.process_batched_ndcs(</span>
+                  batched_ndcs,
+                  active_ingredient_to_ndc,
+                  ndc_to_result,
+                  ndc_to_active_ingredient,
+                  ndc_to_inactive_ingredient));
+      //      executorService.schedule(
+      //          () -&gt; {
+      //            this.process_batched_ndcs(batched_ndcs);
+      //          },
+      //          5,
+      //          TimeUnit.SECONDS);
+
+    }
+
+<span class="nc" id="L203">    executorService.shutdown();</span>
+
+    try {
+<span class="nc" id="L206">      executorService.awaitTermination(20, TimeUnit.MINUTES);</span>
+<span class="nc" id="L207">    } catch (InterruptedException e) {</span>
+      // Handle interruption
+<span class="nc" id="L209">      System.out.println();</span>
+<span class="nc" id="L210">      e.printStackTrace();</span>
+<span class="nc" id="L211">    }</span>
+<span class="nc" id="L212">  }</span>
+
+  // try again at 27...
+
+  private void process_batched_ndcs(
+      HashSet&lt;String&gt; batched_ndcs,
+      Map&lt;String, Set&lt;String&gt;&gt; active_ingredient_to_ndc,
+      Map&lt;String, Result&gt; ndc_to_result,
+      Map&lt;String, Set&lt;String&gt;&gt; ndc_to_active_ingredient,
+      Map&lt;String, String&gt; ndc_to_inactive_ingredient) {
+
+    try {
+
+<span class="nc" id="L225">      StringBuilder urlBuilder =</span>
+          new StringBuilder()
+<span class="nc" id="L227">              .append(&quot;https://api.fda.gov/drug/label.json?api_key=&quot;)</span>
+<span class="nc" id="L228">              .append(this.openFDA_key)</span>
+<span class="nc" id="L229">              .append(&quot;&amp;search=openfda.product_ndc:(\&quot;&quot;);</span>
+
+<span class="nc" id="L231">      int i = 0;</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">      for (String ndc : batched_ndcs) {</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        if (i == 0) {</span>
+<span class="nc" id="L234">          urlBuilder.append(ndc).append(&quot;\&quot;&quot;);</span>
+        } else {
+<span class="nc" id="L236">          urlBuilder.append(&quot;+\&quot;&quot;).append(ndc).append(&quot;\&quot;&quot;);</span>
+        }
+
+<span class="nc" id="L239">        i++;</span>
+<span class="nc" id="L240">      }</span>
+<span class="nc" id="L241">      urlBuilder.append(&quot;)&amp;limit=&quot;).append(batched_ndcs.size());</span>
+
+<span class="nc" id="L243">      URL requestURL = new URL(&quot;https&quot;, &quot;api.fda.gov&quot;, urlBuilder.toString());</span>
+
+<span class="nc" id="L245">      HttpURLConnection clientConnection = connect(requestURL);</span>
+<span class="nc" id="L246">      Moshi moshi = new Moshi.Builder().build();</span>
+<span class="nc" id="L247">      JsonAdapter&lt;LabelResponse&gt; adapter = moshi.adapter(LabelResponse.class);</span>
+<span class="nc" id="L248">      LabelResponse labelResponse =</span>
+<span class="nc" id="L249">          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));</span>
+
+<span class="nc bnc" id="L251" title="All 2 branches missed.">      for (LabelResponse.Result r : labelResponse.results()) {</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">        if (r.inactive_ingredient() != null</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">            &amp;&amp; r.openFDA() != null</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">            &amp;&amp; r.openFDA().product_ndc() != null) {</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">          for (String ndc : r.openFDA().product_ndc()) {</span>
+<span class="nc" id="L256">            ndc_to_inactive_ingredient.put(ndc, r.inactive_ingredient().get(0));</span>
+<span class="nc" id="L257">          }</span>
+          //          batched_ndc.get(r.ndc()).add(r.inactive_ingredient().get(0));
+        }
+<span class="nc" id="L260">      }</span>
+
+<span class="nc" id="L262">      this.addToDatabase(</span>
+          active_ingredient_to_ndc,
+          ndc_to_result,
+          ndc_to_active_ingredient,
+          ndc_to_inactive_ingredient);
+
+<span class="nc" id="L268">    } catch (IOException e) {</span>
+<span class="nc" id="L269">      System.out.println();</span>
+<span class="nc" id="L270">      System.out.println(e.getMessage());</span>
+<span class="nc" id="L271">      e.printStackTrace();</span>
+<span class="nc" id="L272">    } catch (Exception e) {</span>
+<span class="nc" id="L273">      System.err.println();</span>
+      //      System.err.println(e);
+<span class="nc" id="L275">      e.printStackTrace();</span>
+<span class="nc" id="L276">    }</span>
+<span class="nc" id="L277">  }</span>
+
+  private void process_ndc(
+      String ndc, Set&lt;String&gt; active_ingredients, Set&lt;String&gt; ingredients, Result result) {
+    //
+    //    try {
+    //
+    //      StringBuilder urlBuilder =
+    //          new StringBuilder()
+    //              .append(&quot;https://api.fda.gov/drug/label.json?api_key=&quot;)
+    //              .append(this.openFDA_key)
+    //              .append(&quot;&amp;search=openfda.product_ndc:\&quot;&quot;)
+    //              .append(ndc)
+    //              .append(&quot;\&quot;&amp;limit=1&quot;);
+    //
+    //      URL requestURL = new URL(&quot;https&quot;, &quot;api.fda.gov&quot;, urlBuilder.toString());
+    //
+    //      HttpURLConnection clientConnection = connect(requestURL);
+    //      Moshi moshi = new Moshi.Builder().build();
+    //      JsonAdapter&lt;LabelResponse&gt; adapter = moshi.adapter(LabelResponse.class);
+    //      LabelResponse labelResponse =
+    //          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+    //
+    //
+    ////      input is a list of ndcs, string build that to one api call
+    //
+    //
+    ////      ndc_to_result:
+    //
+    ////      for every key in n the input, get the inactive ingredients, add it to the key of
+    // ingredients.
+    //
+    //      /**
+    //       * do this later
+    //       */
+    ////
+    ////      Map&lt;String, LabelResponse.Result&gt; label_ndc_to_result = new HashMap&lt;&gt;();
+    ////
+    ////      for (LabelResponse.Result r : labelResponse.results()) {
+    ////        Set&lt;String&gt; curr_ingredients = new HashSet&lt;&gt;();
+    ////        if (r.active_ingredient() != null) {
+    ////          label_ndc_to_result.put(ndc, r);
+    ////        }
+    ////        if (r.inactive_ingredient() != null) {
+    ////          label_ndc_to_result.put(ndc, r);
+    ////        }
+    ////      }
+    ////      for (String ndc: ndc_list) {
+    ////        if (label_ndc_to_result.containsKey(ndc)) {
+    ////
+    ////        }
+    ////      }
+    //
+    //
+    //      if (labelResponse.results() != null) {
+    //        for (LabelResponse.Result res : labelResponse.results()) {
+    //          if (res.active_ingredient() != null) {
+    //            ingredients.add(res.active_ingredient().toString());
+    //          }
+    //          if (res.inactive_ingredient() != null) {
+    //            ingredients.add(res.inactive_ingredient().toString());
+    //          }
+    //        }
+    //      }
+    //
+    //    } catch (IOException e) {
+    //      System.out.println();
+    //      System.out.println(e.getMessage());
+    //      e.printStackTrace();
+    //    } catch (Exception e) {
+    //      System.err.println();
+    //      System.err.println(e);
+    //      e.printStackTrace();
+    //    }
+    //
+    //    // this should be one to one / immutable (or will not be edited after doing it once)
+    //    this.ndc_to_result.put(ndc, result);
+    //    this.ndc_to_active_ingredient.put(ndc, ingredients);
+    //
+    //    // this adds the current ndc to the set of active_ingredients to ndc (need to check if it
+    // exists
+    //    // and add to it first, before writing)
+    //    for (String a_i : active_ingredients) {
+    //      if (!this.active_ingredient_to_ndc.containsKey(a_i)) {
+    //        this.active_ingredient_to_ndc.put(a_i, new HashSet&lt;String&gt;());
+    //      }
+    //      this.active_ingredient_to_ndc.get(a_i).add(ndc);
+    //    }
+<span class="nc" id="L365">  }</span>
+
+  /**
+   * Private helper method; throws IOException so different callers can handle differently if
+   * needed.
+   *
+   * @param requestURL
+   * @return
+   * @throws IOException
+   */
+  private static HttpURLConnection connect(URL requestURL) throws IOException {
+<span class="nc" id="L376">    URLConnection urlConnection = requestURL.openConnection();</span>
+<span class="nc bnc" id="L377" title="All 2 branches missed.">    if (!(urlConnection instanceof HttpURLConnection))</span>
+<span class="nc" id="L378">      throw new IOException(&quot;Unexpected: result of connection wasn't HTTP&quot;);</span>
+<span class="nc" id="L379">    HttpURLConnection clientConnection = (HttpURLConnection) urlConnection;</span>
+<span class="nc" id="L380">    clientConnection.connect(); // GET</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">    if (clientConnection.getResponseCode() != 200) {</span>
+<span class="nc" id="L382">      throw new IOException(</span>
+          &quot;Unexpected: API connection not success status: &quot;
+<span class="nc" id="L384">              + clientConnection.getResponseMessage()</span>
+              + &quot;. Request api call: &quot;
+              + requestURL);
+    }
+
+<span class="nc" id="L389">    return clientConnection;</span>
+  }
+
+  private void addToDatabase(
+      Map&lt;String, Set&lt;String&gt;&gt; active_ingredient_to_ndc,
+      Map&lt;String, Result&gt; ndc_to_result,
+      Map&lt;String, Set&lt;String&gt;&gt; ndc_to_active_ingredient,
+      Map&lt;String, String&gt; ndc_to_inactive_ingredient) {
+    // stores the hashmaps
+<span class="nc" id="L398">    this.storeInactiveIngredientMap(&quot;ndc_to_inactive_ingredient&quot;, ndc_to_inactive_ingredient);</span>
+<span class="nc" id="L399">    this.storeMapInFirestore(&quot;ndc_to_active_ingredient&quot;, ndc_to_active_ingredient);</span>
+<span class="nc" id="L400">    this.storeMapInFirestore(&quot;active_ingredient_to_ndc&quot;, active_ingredient_to_ndc);</span>
+<span class="nc" id="L401">    this.storeResultMapInFirestore(&quot;ndc_to_result&quot;, ndc_to_result);</span>
+<span class="nc" id="L402">    this.step++;</span>
+<span class="nc" id="L403">    pb.step();</span>
+<span class="nc" id="L404">    System.out.println(&quot;Finished Storing!&quot;);</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">    if (this.step == Math.ceil(this.drugResponse.results().size() / batchSize) - 1) {</span>
+<span class="nc" id="L406">      pb.stop();</span>
+<span class="nc" id="L407">      System.out.println(&quot;should be done!&quot;);</span>
+    }
+    //    storeMapInFirestore(&quot;ndc_to_inactive_ingredient&quot;, ndc_to_inactive_ingredient);
+<span class="nc" id="L410">  }</span>
+
+  private void storeMapInFirestore(String collectionName, Map&lt;String, Set&lt;String&gt;&gt; map) {
+<span class="nc bnc" id="L413" title="All 2 branches missed.">    for (Map.Entry&lt;String, Set&lt;String&gt;&gt; entry : map.entrySet()) {</span>
+
+      // adding data to the document
+<span class="nc" id="L416">      String key = entry.getKey();</span>
+<span class="nc" id="L417">      Set&lt;String&gt; values = entry.getValue();</span>
+      try {
+
+<span class="nc" id="L420">        DocumentReference docRef = db.collection(collectionName).document(key);</span>
+<span class="nc" id="L421">        ArrayList&lt;String&gt; valueList = new ArrayList&lt;&gt;();</span>
+        //        ArrayList&lt;String&gt; valueList = new ArrayList&lt;&gt;(values);
+<span class="nc" id="L423">        valueList.addAll(values);</span>
+<span class="nc" id="L424">        docRef.set(Map.of(&quot;values&quot;, valueList));</span>
+
+<span class="nc" id="L426">        System.out.println(&quot;Document added with ID: &quot; + key);</span>
+
+<span class="nc" id="L428">      } catch (Exception e) {</span>
+        // array index out of bounds excpetion for some reason
+<span class="nc" id="L430">        e.printStackTrace();</span>
+<span class="nc" id="L431">      }</span>
+<span class="nc" id="L432">    }</span>
+<span class="nc" id="L433">  }</span>
+
+  private void storeInactiveIngredientMap(String collectionName, Map&lt;String, String&gt; map) {
+<span class="nc bnc" id="L436" title="All 2 branches missed.">    for (Map.Entry&lt;String, String&gt; entry : map.entrySet()) {</span>
+
+      // adding data to the document
+<span class="nc" id="L439">      String key = entry.getKey();</span>
+<span class="nc" id="L440">      String values = entry.getValue();</span>
+      try {
+
+<span class="nc" id="L443">        DocumentReference docRef = db.collection(collectionName).document(key);</span>
+        //        ArrayList&lt;String&gt; valueList = new ArrayList&lt;&gt;();
+        //        ArrayList&lt;String&gt; valueList = new ArrayList&lt;&gt;(values);
+        //        valueList.add(values);
+<span class="nc" id="L447">        docRef.set(Map.of(&quot;values&quot;, values));</span>
+
+<span class="nc" id="L449">        System.out.println(&quot;Document added with ID: &quot; + key);</span>
+
+<span class="nc" id="L451">      } catch (Exception e) {</span>
+        // array index out of bounds excpetion for some reason
+<span class="nc" id="L453">        e.printStackTrace();</span>
+<span class="nc" id="L454">      }</span>
+<span class="nc" id="L455">    }</span>
+<span class="nc" id="L456">  }</span>
+
+  private void storeResultMapInFirestore(String collectionName, Map&lt;String, Result&gt; resultMap) {
+<span class="nc" id="L459">    CountDownLatch latch = new CountDownLatch(resultMap.size());</span>
+
+<span class="nc bnc" id="L461" title="All 2 branches missed.">    for (Map.Entry&lt;String, Result&gt; entry : resultMap.entrySet()) {</span>
+<span class="nc" id="L462">      String key = entry.getKey();</span>
+<span class="nc" id="L463">      Result result = entry.getValue();</span>
+
+<span class="nc" id="L465">      Map&lt;String, Object&gt; resultData = convertResultToMap(result);</span>
+
+<span class="nc" id="L467">      DocumentReference docRef = db.collection(collectionName).document(key);</span>
+
+<span class="nc" id="L469">      ApiFuture&lt;WriteResult&gt; future = docRef.set(resultData);</span>
+
+<span class="nc" id="L471">      ApiFutures.addCallback(</span>
+          future,
+<span class="nc" id="L473">          new ApiFutureCallback&lt;&gt;() {</span>
+            @Override
+            public void onSuccess(WriteResult writeResult) {
+<span class="nc" id="L476">              System.out.println(&quot;Document added with ID: &quot; + key);</span>
+<span class="nc" id="L477">              latch.countDown();</span>
+<span class="nc" id="L478">            }</span>
+
+            @Override
+            public void onFailure(Throwable throwable) {
+<span class="nc" id="L482">              System.err.println(&quot;Error adding document: &quot; + throwable);</span>
+<span class="nc" id="L483">              latch.countDown();</span>
+<span class="nc" id="L484">            }</span>
+          },
+<span class="nc" id="L486">          MoreExecutors.directExecutor());</span>
+<span class="nc" id="L487">    }</span>
+
+    try {
+      // Wait for all operations to complete
+<span class="nc" id="L491">      latch.await();</span>
+<span class="nc" id="L492">    } catch (InterruptedException e) {</span>
+<span class="nc" id="L493">      Thread.currentThread().interrupt();</span>
+<span class="nc" id="L494">      System.err.println(&quot;Thread interrupted while waiting for Firestore operations to complete.&quot;);</span>
+<span class="nc" id="L495">    }</span>
+<span class="nc" id="L496">  }</span>
+
+  // private Map&lt;String, String&gt; convertResultToString(DrugResponse.Result )
+
+  private Map&lt;String, Object&gt; convertResultToMap(DrugResponse.Result result) {
+<span class="nc" id="L501">    Map&lt;String, Object&gt; resultData = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L503">    resultData.put(&quot;application_number&quot;, result.application_number());</span>
+<span class="nc" id="L504">    resultData.put(&quot;sponsor_name&quot;, result.sponsor_name());</span>
+
+    // Convert nested objects to Maps
+<span class="nc" id="L507">    List&lt;Map&lt;String, Object&gt;&gt; productDataList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">    for (DrugResponse.Product product : result.products()) {</span>
+<span class="nc" id="L509">      Map&lt;String, Object&gt; productData = new HashMap&lt;&gt;();</span>
+      // Add relevant fields from the Product class
+<span class="nc" id="L511">      productData.put(&quot;product_number&quot;, product.product_number());</span>
+<span class="nc" id="L512">      productData.put(&quot;reference_drug&quot;, product.reference_drug());</span>
+<span class="nc" id="L513">      productData.put(&quot;brand_name&quot;, product.brand_name());</span>
+
+      // Convert active ingredients to a list of maps
+<span class="nc" id="L516">      List&lt;Map&lt;String, Object&gt;&gt; activeIngredientsDataList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L517" title="All 2 branches missed.">      for (DrugResponse.ActiveIngredient activeIngredient : product.active_ingredients()) {</span>
+<span class="nc" id="L518">        Map&lt;String, Object&gt; activeIngredientData = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L519">        activeIngredientData.put(&quot;name&quot;, activeIngredient.name());</span>
+<span class="nc" id="L520">        activeIngredientData.put(&quot;strength&quot;, activeIngredient.strength());</span>
+<span class="nc" id="L521">        activeIngredientsDataList.add(activeIngredientData);</span>
+<span class="nc" id="L522">      }</span>
+<span class="nc" id="L523">      productData.put(&quot;active_ingredients&quot;, activeIngredientsDataList);</span>
+<span class="nc" id="L524">      productData.put(&quot;dosage_form&quot;, product.brand_name());</span>
+<span class="nc" id="L525">      productData.put(&quot;route&quot;, product.route());</span>
+<span class="nc" id="L526">      productData.put(&quot;marketing_status&quot;, product.marketing_status());</span>
+
+      // Add other fields as needed
+<span class="nc" id="L529">      productDataList.add(productData);</span>
+<span class="nc" id="L530">    }</span>
+<span class="nc" id="L531">    resultData.put(&quot;products&quot;, productDataList);</span>
+
+    // Similarly, convert the 'openFDA' field to a Map
+<span class="nc" id="L534">    Map&lt;String, Object&gt; openFDAData = new HashMap&lt;&gt;();</span>
+    // Add relevant fields from the OpenFDA class
+<span class="nc" id="L536">    openFDAData.put(&quot;application_number&quot;, result.openFDA().application_number());</span>
+<span class="nc" id="L537">    openFDAData.put(&quot;brand_name&quot;, result.openFDA().brand_name());</span>
+<span class="nc" id="L538">    openFDAData.put(&quot;generic_name&quot;, result.openFDA().generic_name());</span>
+<span class="nc" id="L539">    openFDAData.put(&quot;manufacturer_name&quot;, result.openFDA().manufacturer_name());</span>
+    // skipping product_ndc list, redundant
+<span class="nc" id="L541">    openFDAData.put(&quot;product_type&quot;, result.openFDA().product_type());</span>
+<span class="nc" id="L542">    openFDAData.put(&quot;route&quot;, result.openFDA().route());</span>
+    // skipping substance name, redundant
+    // skipping rxcui, unneeded
+    // skipping spl_id, unneeded
+    // skipping package_ndc, unneded
+    // skipping unii, unneeded
+
+    // Add other fields as needed
+<span class="nc" id="L550">    resultData.put(&quot;openfda&quot;, openFDAData);</span>
+
+<span class="nc" id="L552">    return resultData;</span>
+  }
+
+  //  public Map&lt;String, Set&lt;String&gt;&gt; getNdc_to_active_ingredient() {
+  //    return this.ndc_to_active_ingredient;
+  //  }
+  //
+  //  public Map&lt;String, Set&lt;String&gt;&gt; getActive_ingredient_to_ndc() {
+  //    return this.active_ingredient_to_ndc;
+  //  }
+  //
+  //  public Map&lt;String, Result&gt; getNdc_to_result() {
+  //    return this.ndc_to_result;
+  //  }
+
+  public static void main(String args[]) {
+    //    CollectionReference collection = db.collection(&quot;ndc_to_active_ingredient&quot;);
+    //    System.out.println(collection);
+    try {
+
+<span class="nc" id="L572">      DatabasePopulator database = new DatabasePopulator();</span>
+<span class="nc" id="L573">    } catch (IOException e) {</span>
+<span class="nc" id="L574">      e.printStackTrace();</span>
+<span class="nc" id="L575">    } catch (DatasourceException e) {</span>
+<span class="nc" id="L576">      e.printStackTrace();</span>
+<span class="nc" id="L577">    }</span>
+<span class="nc" id="L578">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

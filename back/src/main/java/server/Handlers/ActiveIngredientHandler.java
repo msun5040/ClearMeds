@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import server.Exceptions.NotFoundException;
 import server.FDADataSource;
 import spark.Request;
 import spark.Response;
@@ -40,7 +39,6 @@ public class ActiveIngredientHandler implements Route {
     JsonAdapter<Map<String, Object>> adapter = moshi.adapter(mapStringObject);
     Map<String, Object> responseMap = new HashMap<>();
 
-
     // format: /search_active_ingredient?active_ingredient=_
     String active_ingredient_string = request.queryParams("active_ingredient");
     String allergic_ingredient_string = request.queryParams("allergy_ingredient");
@@ -59,7 +57,6 @@ public class ActiveIngredientHandler implements Route {
     active_ingredient_list =
         active_ingredient_list.stream().map(String::toUpperCase).collect(Collectors.toList());
 
-
     List<String> allergic_ingredient_list;
     if (allergic_ingredient_string == null) {
       allergic_ingredient_list = new ArrayList<String>();
@@ -76,19 +73,20 @@ public class ActiveIngredientHandler implements Route {
 
       //      responseMap.put("results",
       // this.fdaDataSource.searchActiveIngredient(active_ingredient_string));
-      ArrayList<HashMap<String, Object>> results = this.fdaDataSource.searchActiveIngredient(active_ingredient_list, allergic_ingredient_list);
+      ArrayList<HashMap<String, Object>> results =
+          this.fdaDataSource.searchActiveIngredient(
+              active_ingredient_list, allergic_ingredient_list);
 
       responseMap.put("results", results);
       responseMap.put("type", "success");
       responseMap.put("active_ingredient", active_ingredient_string);
       responseMap.put("allergic_ingredient", allergic_ingredient_string);
 
-
     } catch (Exception e) {
       responseMap.put("type", "error");
       responseMap.put("error_type", e.getClass().toString());
       responseMap.put("error_message", e.getMessage());
-//      responseMap.put("error_cause", e.getCause());
+      //      responseMap.put("error_cause", e.getCause());
       responseMap.put("active_ingredient", active_ingredient_string);
       responseMap.put("allergic_ingredient", allergic_ingredient_string);
     }

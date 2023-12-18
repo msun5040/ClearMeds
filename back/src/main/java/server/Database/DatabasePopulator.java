@@ -84,8 +84,7 @@ public class DatabasePopulator {
 
     //    FileInputStream serviceAccount = new
     // FileInputStream("data/private/clearmeds_private_key.json");
-    FileInputStream serviceAccount =
-        new FileInputStream("data/private/clearmeds4_private_key.json");
+    FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
     //    FileInputStream serviceAccount = new
     // FileInputStream("data/private/clearmeds2_private_key.json");
     //    FileInputStream serviceAccount = new

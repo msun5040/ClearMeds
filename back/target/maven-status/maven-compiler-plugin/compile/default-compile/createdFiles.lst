@@ -1,5 +1,7 @@
 server/Database/DatabasePopulator$1.class
+server/Handlers/DrugResponse$ActiveIngredient.class
 server/Server.class
+server/Exceptions/NotFoundException.class
 Caching/CacheSearchActiveIngredient$1.class
 server/Exceptions/BadRequestException.class
 server/FDADataSource.class
@@ -9,5 +11,10 @@ server/Exceptions/DatasourceException.class
 server/Handlers/ActiveIngredientHandler.class
 server/Handlers/ActiveIngredient.class
 server/Handlers/LabelResponse$Result.class
+server/Database/FirebaseInitializer.class
+server/Handlers/DrugResponse$Result.class
+server/Handlers/DrugResponse.class
+server/Handlers/DrugResponse$Product.class
 server/Database/DatabasePopulator.class
+server/Handlers/DrugResponse$OpenFDA.class
 server/Handlers/DrugHandler.class

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DrugResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s0</a> &gt; <a href="index.source.html" class="el_package">server.Handlers</a> &gt; <span class="el_source">DrugResponse.java</span></div><h1>DrugResponse.java</h1><pre class="source lang-java linenums">package server.Handlers;
+
+import com.squareup.moshi.Json;
+import java.util.List;
+import java.util.Map;
+
+<span class="nc" id="L7">public record DrugResponse(</span>
+    // either looks like this, or just error hashmap with code, and message
+    @Json(name = &quot;meta&quot;) Map&lt;String, Object&gt; meta, @Json(name = &quot;results&quot;) List&lt;Result&gt; results) {
+
+<span class="nc" id="L11">  public record Result(</span>
+      @Json(name = &quot;application_number&quot;) String application_number,
+      @Json(name = &quot;sponsor_name&quot;) String sponsor_name,
+      @Json(name = &quot;products&quot;) List&lt;Product&gt; products,
+      //      @Json(name = &quot;inactive_ingredient&quot;) List&lt;String&gt; inactive_ingredient,
+      //      @Json(name = &quot;active_ingredient&quot;) List&lt;String&gt; active_ingredient,
+      @Json(name = &quot;openfda&quot;) OpenFDA openFDA) {}
+
+<span class="nc" id="L19">  public record OpenFDA(</span>
+      @Json(name = &quot;application_number&quot;) List&lt;String&gt; application_number,
+      @Json(name = &quot;brand_name&quot;) List&lt;String&gt; brand_name,
+      @Json(name = &quot;generic_name&quot;) List&lt;String&gt; generic_name,
+      @Json(name = &quot;manufacturer_name&quot;) List&lt;String&gt; manufacturer_name,
+      @Json(name = &quot;product_ndc&quot;) List&lt;String&gt; product_ndc,
+      @Json(name = &quot;product_type&quot;) List&lt;String&gt; product_type,
+      @Json(name = &quot;route&quot;) List&lt;String&gt; route,
+      @Json(name = &quot;substance_name&quot;) List&lt;String&gt; substance_name,
+      @Json(name = &quot;rxcui&quot;) List&lt;String&gt; rxcui,
+      @Json(name = &quot;spl_id&quot;) List&lt;String&gt; spl_id,
+      @Json(name = &quot;package_ndc&quot;) List&lt;String&gt; package_ndc,
+      @Json(name = &quot;unii&quot;)
+          List&lt;String&gt; unii) {} // merge conflict here idk if we need this so im leaving it here
+
+<span class="nc" id="L34">  public record Product(</span>
+      @Json(name = &quot;product_number&quot;) String product_number,
+      @Json(name = &quot;reference_drug&quot;) String reference_drug,
+      @Json(name = &quot;brand_name&quot;) String brand_name,
+      @Json(name = &quot;active_ingredients&quot;) List&lt;ActiveIngredient&gt; active_ingredients,
+      @Json(name = &quot;reference_standard&quot;) String reference_standard,
+      @Json(name = &quot;dosage_form&quot;) String dosage_form,
+      @Json(name = &quot;route&quot;) String route,
+      @Json(name = &quot;marketing_status&quot;) String marketing_status) {}
+
+<span class="nc" id="L44">  public record ActiveIngredient(</span>
+      @Json(name = &quot;name&quot;) String name, @Json(name = &quot;strength&quot;) String strength) {}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

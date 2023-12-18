@@ -5,25 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/back.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/student/creatorTest/TestActiveIngredients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml.bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadJSONException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Exceptions/NotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Exceptions/BadJSONException.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Server.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <list id="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" name="Changes by isaacyi" comment="" />
@@ -62,24 +61,34 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2YuW5B0kGMChSuO14baVfr5oocJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="TODO_SCOPE" value="All Places" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/data/private" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/data/private" />
@@ -88,54 +97,107 @@
       <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
-    <configuration name="DatabasePopulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.Database.DatabasePopulator" />
+  <component name="RunManager" selected="JUnit.TestActiveIngredients.testMultipleWrongActivesSearch">
+    <configuration name="TestActiveIngredients.testMultipleActivesAllergySearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="s0" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.Handlers.*" />
+          <option name="PATTERN" value="edu.brown.cs.student.creatorTest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.student.creatorTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.student.creatorTest.TestActiveIngredients" />
+      <option name="METHOD_NAME" value="testMultipleActivesAllergySearch" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FDADataSource" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.FDADataSource" />
+    <configuration name="TestActiveIngredients.testMultipleActivesSearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="s0" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="edu.brown.cs.student.creatorTest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.student.creatorTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.student.creatorTest.TestActiveIngredients" />
+      <option name="METHOD_NAME" value="testMultipleActivesSearch" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="server.Server" />
+    <configuration name="TestActiveIngredients.testMultipleWrongActivesSearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="s0" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/main/java" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.Handlers.*" />
+          <option name="PATTERN" value="edu.brown.cs.student.creatorTest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.student.creatorTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.student.creatorTest.TestActiveIngredients" />
+      <option name="METHOD_NAME" value="testMultipleWrongActivesSearch" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestActiveIngredients.testNonDrugInactiveSearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="s0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.brown.cs.student.creatorTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.student.creatorTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.student.creatorTest.TestActiveIngredients" />
+      <option name="METHOD_NAME" value="testNonDrugInactiveSearch" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestActiveIngredients.testNonDrugSearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="s0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.brown.cs.student.creatorTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.student.creatorTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.student.creatorTest.TestActiveIngredients" />
+      <option name="METHOD_NAME" value="testNonDrugSearch" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="s0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="s0" />
+      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Server" />
-        <item itemvalue="Application.FDADataSource" />
-        <item itemvalue="Application.DatabasePopulator" />
+        <item itemvalue="JUnit.TestActiveIngredients.testMultipleWrongActivesSearch" />
+        <item itemvalue="JUnit.TestActiveIngredients.testMultipleActivesAllergySearch" />
+        <item itemvalue="JUnit.TestActiveIngredients.testMultipleActivesSearch" />
+        <item itemvalue="JUnit.TestActiveIngredients.testNonDrugInactiveSearch" />
+        <item itemvalue="JUnit.TestActiveIngredients.testNonDrugSearch" />
       </list>
     </recent_temporary>
   </component>
@@ -158,6 +220,10 @@
       <workItem from="1702506969868" duration="11661000" />
       <workItem from="1702529675932" duration="1145000" />
       <workItem from="1702530836949" duration="56211000" />
+      <workItem from="1702917306421" duration="202000" />
+      <workItem from="1702917517378" duration="336000" />
+      <workItem from="1702917856309" duration="103000" />
+      <workItem from="1702917968699" duration="3323000" />
     </task>
     <servers />
   </component>
@@ -181,24 +247,15 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
           <line>34</line>
-          <properties class="server.Handlers.ActiveIngredientHandler" method="handle">
+          <properties class="server.Handlers.ActiveIngredientHandler">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/server/Server.java</url>
-          <line>14</line>
-          <properties class="server.Server" method="&lt;init&gt;">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>85</line>
+          <line>87</line>
           <properties class="server.FDADataSource">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -207,7 +264,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java</url>
-          <line>500</line>
+          <line>499</line>
           <properties class="server.Database.DatabasePopulator" method="convertResultToMap">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -221,53 +278,48 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>301</line>
+          <line>296</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>302</line>
+          <line>297</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java</url>
-          <line>572</line>
+          <line>571</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>112</line>
+          <line>114</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java</url>
-          <line>401</line>
+          <line>400</line>
           <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>314</line>
+          <line>309</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>308</line>
+          <line>303</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>266</line>
+          <line>261</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>211</line>
+          <line>208</line>
           <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="61" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

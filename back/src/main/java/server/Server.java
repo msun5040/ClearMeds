@@ -22,17 +22,17 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    //    Spark.get("/searchdrug", new DrugHandler());
     Spark.get("/search_active_ingredient", new ActiveIngredientHandler());
     Spark.init();
     Spark.awaitInitialization();
   }
 
   public void tearDown() {
-    //    Spark.unmap("/searchdrug");
     Spark.unmap("/search_active_ingredient");
     Spark.awaitStop(); // don't proceed until the server is stopped
   }
+
+
 
   public static void main(String args[]) {
     //    Database database = new Database();

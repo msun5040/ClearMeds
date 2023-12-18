@@ -1,0 +1,21 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+s0,server.Handlers,LabelResponse.Result,21,0,0,0,1,0,4,0,4,0
+s0,server.Handlers,LabelResponse,15,0,0,0,1,0,3,0,3,0
+s0,server.Handlers,DrugResponse.Product,51,0,0,0,1,0,9,0,9,0
+s0,server.Handlers,DrugResponse.ActiveIngredient,15,0,0,0,1,0,3,0,3,0
+s0,server.Handlers,ActiveIngredientHandler,175,0,4,0,39,0,4,0,2,0
+s0,server.Handlers,DrugHandler,79,0,2,0,19,0,3,0,2,0
+s0,server.Handlers,ActiveIngredient,9,0,0,0,1,0,2,0,2,0
+s0,server.Handlers,DrugResponse.OpenFDA,75,0,0,0,1,0,13,0,13,0
+s0,server.Handlers,DrugResponse.Result,27,0,0,0,1,0,5,0,5,0
+s0,server.Handlers,DrugResponse,15,0,0,0,1,0,3,0,3,0
+s0,server.Exceptions,DatasourceException,14,0,0,0,6,0,2,0,2,0
+s0,server.Exceptions,NotFoundException,14,0,0,0,6,0,2,0,2,0
+s0,server.Exceptions,BadRequestException,14,0,0,0,6,0,2,0,2,0
+s0,server,FDADataSource,389,0,22,0,100,0,16,0,5,0
+s0,server,Server,41,0,0,0,16,0,4,0,4,0
+s0,Caching,CacheSearchActiveIngredient,26,0,0,0,9,0,2,0,2,0
+s0,Caching,CacheSearchActiveIngredient.new CacheLoader() {...},20,0,0,0,5,0,2,0,2,0
+s0,server.Database,DatabasePopulator,855,0,50,0,201,0,37,0,12,0
+s0,server.Database,FirebaseInitializer,38,0,0,0,19,0,4,0,4,0
+s0,server.Database,DatabasePopulator.new ApiFutureCallback() {...},29,0,0,0,7,0,3,0,3,0

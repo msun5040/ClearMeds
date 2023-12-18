@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ActiveIngredientHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s0</a> &gt; <a href="index.source.html" class="el_package">server.Handlers</a> &gt; <span class="el_source">ActiveIngredientHandler.java</span></div><h1>ActiveIngredientHandler.java</h1><pre class="source lang-java linenums">package server.Handlers;
+
+import Caching.CacheSearchActiveIngredient;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import server.FDADataSource;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+
+public class ActiveIngredientHandler implements Route {
+  private FDADataSource fdaDataSource;
+  private CacheSearchActiveIngredient cache;
+
+<span class="nc" id="L23">  public ActiveIngredientHandler() {</span>
+<span class="nc" id="L24">    this.fdaDataSource = new FDADataSource();</span>
+<span class="nc" id="L25">    this.cache = new CacheSearchActiveIngredient(10, 10, this.fdaDataSource);</span>
+<span class="nc" id="L26">  }</span>
+
+  /**
+   * @param request The request object providing information about the HTTP request
+   * @param response The response object providing functionality for modifying the response
+   * @return
+   */
+  @Override
+  public Object handle(Request request, Response response) throws Exception {
+
+    // prepare to send a reply
+<span class="nc" id="L37">    Moshi moshi = new Moshi.Builder().build();</span>
+<span class="nc" id="L38">    Type mapStringObject = Types.newParameterizedType(Map.class, String.class, Object.class);</span>
+<span class="nc" id="L39">    JsonAdapter&lt;Map&lt;String, Object&gt;&gt; adapter = moshi.adapter(mapStringObject);</span>
+<span class="nc" id="L40">    Map&lt;String, Object&gt; responseMap = new HashMap&lt;&gt;();</span>
+
+    // format: /search_active_ingredient?active_ingredient=_
+<span class="nc" id="L43">    String active_ingredient_string = request.queryParams(&quot;active_ingredient&quot;);</span>
+<span class="nc" id="L44">    String allergic_ingredient_string = request.queryParams(&quot;allergy_ingredient&quot;);</span>
+
+    // if the drug/ingredient name is null, return error_bad_request
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    if (active_ingredient_string == null) {</span>
+<span class="nc" id="L48">      responseMap.put(&quot;response_code&quot;, &quot;error&quot;);</span>
+<span class="nc" id="L49">      responseMap.put(&quot;error_type&quot;, &quot;error_bad_request&quot;);</span>
+<span class="nc" id="L50">      responseMap.put(&quot;error_message&quot;, &quot;active_ingredient parameter is empty!&quot;);</span>
+<span class="nc" id="L51">      responseMap.put(&quot;active_ingredient&quot;, active_ingredient_string);</span>
+<span class="nc" id="L52">      responseMap.put(&quot;allergic_ingredient&quot;, allergic_ingredient_string);</span>
+<span class="nc" id="L53">      return adapter.toJson(responseMap);</span>
+    }
+
+<span class="nc" id="L56">    List&lt;String&gt; active_ingredient_list = Arrays.asList(active_ingredient_string.split(&quot;,&quot;));</span>
+<span class="nc" id="L57">    active_ingredient_list =</span>
+<span class="nc" id="L58">        active_ingredient_list.stream().map(String::toUpperCase).collect(Collectors.toList());</span>
+
+    List&lt;String&gt; allergic_ingredient_list;
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    if (allergic_ingredient_string == null) {</span>
+<span class="nc" id="L62">      allergic_ingredient_list = new ArrayList&lt;String&gt;();</span>
+    } else {
+<span class="nc" id="L64">      allergic_ingredient_list = Arrays.asList(allergic_ingredient_string.split(&quot;,&quot;));</span>
+<span class="nc" id="L65">      allergic_ingredient_list =</span>
+<span class="nc" id="L66">          allergic_ingredient_list.stream().map(String::toUpperCase).collect(Collectors.toList());</span>
+    }
+
+    try {
+      // for loop through each active ingredient; make a bunch of lists and compare them.
+      //      this.fdaDataSource.searchActiveIngredient();
+      //      Map&lt;String, Object&gt; cacheResponse = this.cache.search(active_ingredient_string);
+
+      //      responseMap.put(&quot;results&quot;,
+      // this.fdaDataSource.searchActiveIngredient(active_ingredient_string));
+<span class="nc" id="L76">      ArrayList&lt;HashMap&lt;String, Object&gt;&gt; results =</span>
+<span class="nc" id="L77">          this.fdaDataSource.searchActiveIngredient(</span>
+              active_ingredient_list, allergic_ingredient_list);
+
+<span class="nc" id="L80">      responseMap.put(&quot;results&quot;, results);</span>
+<span class="nc" id="L81">      responseMap.put(&quot;type&quot;, &quot;success&quot;);</span>
+<span class="nc" id="L82">      responseMap.put(&quot;active_ingredient&quot;, active_ingredient_string);</span>
+<span class="nc" id="L83">      responseMap.put(&quot;allergic_ingredient&quot;, allergic_ingredient_string);</span>
+
+<span class="nc" id="L85">    } catch (Exception e) {</span>
+<span class="nc" id="L86">      responseMap.put(&quot;type&quot;, &quot;error&quot;);</span>
+<span class="nc" id="L87">      responseMap.put(&quot;error_type&quot;, e.getClass().toString());</span>
+<span class="nc" id="L88">      responseMap.put(&quot;error_message&quot;, e.getMessage());</span>
+      //      responseMap.put(&quot;error_cause&quot;, e.getCause());
+<span class="nc" id="L90">      responseMap.put(&quot;active_ingredient&quot;, active_ingredient_string);</span>
+<span class="nc" id="L91">      responseMap.put(&quot;allergic_ingredient&quot;, allergic_ingredient_string);</span>
+<span class="nc" id="L92">    }</span>
+
+<span class="nc" id="L94">    return adapter.toJson(responseMap);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

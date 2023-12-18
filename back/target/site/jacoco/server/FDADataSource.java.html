@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FDADataSource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s0</a> &gt; <a href="index.source.html" class="el_package">server</a> &gt; <span class="el_source">FDADataSource.java</span></div><h1>FDADataSource.java</h1><pre class="source lang-java linenums">package server;
+
+import com.google.api.core.ApiFuture;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import server.Database.FirebaseInitializer;
+import server.Exceptions.DatasourceException;
+import server.Exceptions.NotFoundException;
+import server.Handlers.DrugResponse;
+import server.Handlers.DrugResponse.Result;
+import server.Handlers.LabelResponse;
+
+public class FDADataSource {
+  private FirebaseInitializer firebaseInitializer;
+  private JsonAdapter&lt;DrugResponse&gt; drugsFeatureAdapter;
+  private JsonAdapter&lt;LabelResponse&gt; labelFeatureAdapter;
+  private LabelResponse labelResponse;
+  private DrugResponse drugResponse;
+  private Moshi moshi;
+  private Map&lt;String, List&lt;String&gt;&gt; ndc_to_ingredients;
+  private Map&lt;String, List&lt;String&gt;&gt; active_ingredient_to_ndc;
+  private Map&lt;String, Result&gt; ndc_to_result;
+  private Firestore db;
+
+<span class="nc" id="L40">  public FDADataSource() {</span>
+
+    try {
+
+      //      InputStream serviceAccount = new
+      // FileInputStream(&quot;data/private/clearmeds_private_key.json&quot;);
+      //      InputStream serviceAccount = new
+      // FileInputStream(&quot;data/private/clearmedsthomas_private_key.json&quot;);
+<span class="nc" id="L48">      InputStream serviceAccount =</span>
+          new FileInputStream(&quot;../../../data/private/clearmeds4_private_key.json&quot;);
+<span class="nc" id="L50">      GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);</span>
+<span class="nc" id="L51">      FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();</span>
+<span class="nc" id="L52">      FirebaseApp.initializeApp(options);</span>
+<span class="nc" id="L53">      this.db = FirestoreClient.getFirestore();</span>
+<span class="nc" id="L54">    } catch (IOException e) {</span>
+<span class="nc" id="L55">      e.printStackTrace();</span>
+<span class="nc" id="L56">    }</span>
+<span class="nc" id="L57">    this.ndc_to_ingredients = new HashMap&lt;String, List&lt;String&gt;&gt;();</span>
+<span class="nc" id="L58">    this.active_ingredient_to_ndc = new HashMap&lt;String, List&lt;String&gt;&gt;();</span>
+<span class="nc" id="L59">    this.ndc_to_result = new HashMap&lt;String, Result&gt;();</span>
+<span class="nc" id="L60">  }</span>
+
+  //  public Map&lt;String, List&lt;String&gt;&gt; getNdctoIngredients() {
+  //
+  //    ApiFuture&lt;DocumentSnapshot&gt; future =
+  //        db.collection(&quot;ndc_to_ingredients&quot;).document(&quot;ACAMPROSATE CALCIUM&quot;).get();
+  //
+  //    try {
+  //      System.out.println(&quot;hello&quot;);
+  //      DocumentSnapshot document = future.get();
+  //      if (document.exists()) {
+  //        ArrayList&lt;String&gt; values = (ArrayList&lt;String&gt;) document.get(&quot;values&quot;);
+  //        System.out.println(values);
+  //
+  //      } else {
+  //        System.out.println(&quot;Document not found!&quot;);
+  //      }
+  //
+  //    } catch (ExecutionException e) {
+  //      e.printStackTrace();
+  //    } catch (InterruptedException e) {
+  //      e.printStackTrace();
+  //    }
+  //    return ndc_to_ingredients;
+  //  }
+
+  //  public DrugResponse searchActiveIngredient(String activeIngredient) throws DatasourceException
+  // {
+  //      try {
+  //        // getting the ndc list from the active ingredient passed in
+  //        DocumentReference docRef =
+  // db.collection(&quot;active_ingredient_to_ndc&quot;).document(activeIngredient);
+  //        ApiFuture&lt;DocumentSnapshot&gt; future = docRef.get();
+  //        DocumentSnapshot document = future.get();
+  //        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();
+  //
+  //        if (document.exists()) {
+  //          Map&lt;String, String&gt; dict = new HashMap&lt;&gt;();
+  //
+  //          for (Object ndcObject: document.getData().values()) {
+  //            // turn the string into an iterable list
+  //            String ndcString = ndcObject.toString();
+  //            List&lt;String&gt; elements = Arrays.stream(ndcString.substring(1, ndcString.length() -
+  // 1).split(&quot;,&quot;))
+  //                .map(String::trim)
+  //                .collect(Collectors.toList());
+  //            for (String ndc: elements) {
+  //              System.out.println(ndc);
+  //              // getting stuff from ingredient list
+  //              ArrayList&lt;String&gt; ingredientsList = new ArrayList&lt;&gt;();
+  //              DocumentReference docRef1 =
+  // db.collection(&quot;ndc_to_active_ingredient&quot;).document(ndc);
+  //              ApiFuture&lt;DocumentSnapshot&gt; future1 = docRef1.get();
+  //              DocumentSnapshot document1 = future1.get();
+  //              System.out.println(&quot;doc1 &quot; + document1.getData().toString());
+  //
+  //              // getting other information from ndc_to_result
+  //              DocumentReference docRef2 = db.collection(&quot;ndc_to_result&quot;).document(ndc);
+  //              ApiFuture&lt;DocumentSnapshot&gt; future2 = docRef2.get();
+  //              DocumentSnapshot document2 = future2.get();
+  //              System.out.println(&quot;doc2 &quot; + document2.getData().toString());
+  //              // action idem - link all of these things and make the response now
+  //            }
+  //          }
+  //        } else {
+  //          System.out.println(&quot;no such document exists!&quot;);
+  //        }
+  //      } catch (Exception e) {
+  //        e.printStackTrace();
+  //      }
+  //      return null;
+  //  }
+
+  public boolean active_ingredients_valid(
+      HashSet&lt;String&gt; curr_active_ingredients,
+      HashSet&lt;String&gt; active_ingredients_set,
+      HashSet&lt;String&gt; allergic_ingredients_set) {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    for (String a_i : active_ingredients_set) {</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">      if (!curr_active_ingredients.contains(a_i) || allergic_ingredients_set.contains(a_i)) {</span>
+<span class="nc" id="L139">        return false;</span>
+      }
+<span class="nc" id="L141">    }</span>
+<span class="nc" id="L142">    return true;</span>
+  }
+
+  public boolean inactive_ingredients_valid(
+      String inactive_ingredients, HashSet&lt;String&gt; allergic_ingredients_set) {
+<span class="nc bnc" id="L147" title="All 2 branches missed.">    for (String allergy : allergic_ingredients_set) {</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">      if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(</span>
+          &quot;inactive_ingredients&quot;, allergy)) {
+<span class="nc" id="L150">        return false;</span>
+      }
+<span class="nc" id="L152">    }</span>
+<span class="nc" id="L153">    return true;</span>
+  }
+
+  public ArrayList&lt;HashMap&lt;String, Object&gt;&gt; searchActiveIngredient(
+      List&lt;String&gt; activeIngredients, List&lt;String&gt; allergicIngredients)
+      throws NotFoundException, DatasourceException {
+
+    // uppercase all the inputs
+<span class="nc" id="L161">    HashSet&lt;String&gt; active_ingredients_set = new HashSet&lt;&gt;(activeIngredients);</span>
+<span class="nc" id="L162">    HashSet&lt;String&gt; allergic_ingredients_set = new HashSet&lt;&gt;(allergicIngredients);</span>
+
+    try {
+      // just get the ndcs for te first active ingredient
+<span class="nc" id="L166">      String firstActiveIngredient = activeIngredients.get(0);</span>
+<span class="nc" id="L167">      ArrayList&lt;HashMap&lt;String, Object&gt;&gt; results = new ArrayList&lt;&gt;();</span>
+
+      // getting the ndc list from the active ingredient passed in
+<span class="nc" id="L170">      DocumentReference ai_to_ndc_docRef =</span>
+<span class="nc" id="L171">          db.collection(&quot;active_ingredient_to_ndc&quot;).document(firstActiveIngredient);</span>
+<span class="nc" id="L172">      ApiFuture&lt;DocumentSnapshot&gt; ai_to_ndc_future = ai_to_ndc_docRef.get();</span>
+<span class="nc" id="L173">      DocumentSnapshot ai_to_ndc_doc = ai_to_ndc_future.get();</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">      if (ai_to_ndc_doc.exists()) {</span>
+
+<span class="nc" id="L176">        ArrayList&lt;String&gt; ndcs = (ArrayList&lt;String&gt;) ai_to_ndc_doc.get(&quot;values&quot;);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        for (String ndc : ndcs) {</span>
+
+<span class="nc" id="L179">          HashMap&lt;String, Object&gt; curr_ndc_map = new HashMap&lt;&gt;();</span>
+
+          // ndc_to_active_ingredient
+<span class="nc" id="L182">          DocumentReference ndc_to_ai_docRef =</span>
+<span class="nc" id="L183">              db.collection(&quot;ndc_to_active_ingredient&quot;).document(ndc);</span>
+<span class="nc" id="L184">          ApiFuture&lt;DocumentSnapshot&gt; ndc_to_ai_future = ndc_to_ai_docRef.get();</span>
+<span class="nc" id="L185">          DocumentSnapshot ndc_to_ai_doc = ndc_to_ai_future.get();</span>
+<span class="nc" id="L186">          ArrayList&lt;String&gt; active_ingredients = (ArrayList&lt;String&gt;) ndc_to_ai_doc.get(&quot;values&quot;);</span>
+<span class="nc" id="L187">          HashSet&lt;String&gt; curr_a_i_set = new HashSet&lt;&gt;(active_ingredients);</span>
+
+          //          this logic here ensures that all searches will return only results that
+          // contain all active ingredients and none with something in the allergy.
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">          if (!active_ingredients_valid(</span>
+              curr_a_i_set, active_ingredients_set, allergic_ingredients_set)) {
+<span class="nc" id="L194">            continue;</span>
+          }
+
+          // ndc_to_inactive_ingredient
+<span class="nc" id="L198">          DocumentReference ndc_to_iai_docRef =</span>
+<span class="nc" id="L199">              db.collection(&quot;ndc_to_inactive_ingredient&quot;).document(ndc);</span>
+<span class="nc" id="L200">          ApiFuture&lt;DocumentSnapshot&gt; ndc_to_iai_future = ndc_to_iai_docRef.get();</span>
+<span class="nc" id="L201">          DocumentSnapshot ndc_to_iai_doc = ndc_to_iai_future.get();</span>
+          String inactive_ingredients;
+<span class="nc bnc" id="L203" title="All 2 branches missed.">          if (ndc_to_iai_doc.get(&quot;values&quot;) != null) {</span>
+<span class="nc" id="L204">            inactive_ingredients = ndc_to_iai_doc.get(&quot;values&quot;).toString();</span>
+
+<span class="nc bnc" id="L206" title="All 2 branches missed.">            if (!inactive_ingredients_valid(inactive_ingredients, allergic_ingredients_set)) {</span>
+<span class="nc" id="L207">              continue;</span>
+            }
+
+          } else {
+<span class="nc" id="L211">            inactive_ingredients = &quot;N/A&quot;;</span>
+          }
+
+          // ndc_to_result
+<span class="nc" id="L215">          DocumentReference ndc_to_res_docRef = db.collection(&quot;ndc_to_result&quot;).document(ndc);</span>
+<span class="nc" id="L216">          ApiFuture&lt;DocumentSnapshot&gt; ndc_to_res_future = ndc_to_res_docRef.get();</span>
+<span class="nc" id="L217">          DocumentSnapshot ndc_to_res_doc = ndc_to_res_future.get();</span>
+
+          // the rest is getting the data to put into the response
+
+<span class="nc" id="L221">          Map&lt;String, ArrayList&lt;String&gt;&gt; openfda =</span>
+<span class="nc" id="L222">              (Map&lt;String, ArrayList&lt;String&gt;&gt;) ndc_to_res_doc.get(&quot;openfda&quot;);</span>
+<span class="nc" id="L223">          ArrayList&lt;String&gt; brand_name = openfda.get(&quot;brand_name&quot;);</span>
+<span class="nc" id="L224">          ArrayList&lt;String&gt; generic_name = openfda.get(&quot;generic_name&quot;);</span>
+<span class="nc" id="L225">          ArrayList&lt;String&gt; manufacturer_name = openfda.get(&quot;manufacturer_name&quot;);</span>
+<span class="nc" id="L226">          ArrayList&lt;String&gt; route = openfda.get(&quot;route&quot;);</span>
+<span class="nc" id="L227">          ArrayList&lt;String&gt; product_type = openfda.get(&quot;product_type&quot;);</span>
+
+<span class="nc" id="L229">          ArrayList&lt;Map&lt;String, Object&gt;&gt; product_list =</span>
+<span class="nc" id="L230">              (ArrayList&lt;Map&lt;String, Object&gt;&gt;) ndc_to_res_doc.get(&quot;products&quot;);</span>
+          // only getting the first one for ease of access / plus they should be all the same (just
+          // different strenghts)
+<span class="nc" id="L233">          String dosage_form = (String) product_list.get(0).get(&quot;dosage_form&quot;);</span>
+<span class="nc" id="L234">          String marketing_status = (String) product_list.get(0).get(&quot;marketing_status&quot;);</span>
+
+<span class="nc" id="L236">          curr_ndc_map.put(&quot;active_ingredients&quot;, active_ingredients);</span>
+<span class="nc" id="L237">          curr_ndc_map.put(&quot;inactive_ingredients&quot;, inactive_ingredients);</span>
+<span class="nc" id="L238">          curr_ndc_map.put(&quot;brand_name&quot;, brand_name);</span>
+<span class="nc" id="L239">          curr_ndc_map.put(&quot;generic_name&quot;, generic_name);</span>
+<span class="nc" id="L240">          curr_ndc_map.put(&quot;manufacturer_name&quot;, manufacturer_name);</span>
+<span class="nc" id="L241">          curr_ndc_map.put(&quot;route&quot;, route);</span>
+<span class="nc" id="L242">          curr_ndc_map.put(&quot;product_type&quot;, product_type);</span>
+<span class="nc" id="L243">          curr_ndc_map.put(&quot;dosage_form&quot;, dosage_form);</span>
+<span class="nc" id="L244">          curr_ndc_map.put(&quot;marketing_status&quot;, marketing_status);</span>
+<span class="nc" id="L245">          curr_ndc_map.put(&quot;product_ndc&quot;, ndc);</span>
+
+<span class="nc" id="L247">          results.add(curr_ndc_map);</span>
+
+          // open fda: brand_name, generic_name, manufacturer name, product_type, route
+          // product: brand_name (can get from openfda), dosage_form, route (can get from openfda),
+          // marketing_status
+          // final map: active_ingredients (map), inactive_Ingredients(map), brand_name(openfda),
+          // generic_name (openfda),
+          //          manufacturer_name (openfda), product_type(openfda), route(openfda),
+          // dosage_form(result), marketing_status(result)
+<span class="nc" id="L256">        }</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        if (results.size() == 0) {</span>
+<span class="nc" id="L258">          throw new NotFoundException(&quot;not found in database&quot;);</span>
+        }
+<span class="nc" id="L260">        return results;</span>
+      } else {
+<span class="nc" id="L262">        throw new NotFoundException(&quot;not found in database&quot;);</span>
+      }
+<span class="nc" id="L264">    } catch (NotFoundException e) {</span>
+<span class="nc" id="L265">      throw e;</span>
+<span class="nc" id="L266">    } catch (Exception e) {</span>
+<span class="nc" id="L267">      throw new DatasourceException(e.getMessage(), e.getCause());</span>
+    }
+
+    //    response.put(&quot;results&quot;,results);
+    //        response.put(&quot;response_code&quot;, &quot;success&quot;);
+    //        response.put(&quot;input_active_ingredient&quot;, firstActiveIngredient);
+    //      } else {
+    //        response.put(&quot;response_code&quot;, &quot;error&quot;);
+    //        response.put(&quot;error&quot;, &quot;error_not_found&quot;);
+    //        response.put(&quot;error_message&quot;, firstActiveIngredient + &quot; not found!&quot;);
+    //        response.put(&quot;input_active_ingredient&quot;, firstActiveIngredient);
+    //      }
+    //    }  catch (Exception e) {
+    //      e.printStackTrace();
+    //      response.put(&quot;response_code&quot;, &quot;error&quot;);
+    //      response.put(&quot;error&quot;, e);
+    //      response.put(&quot;error_message&quot;, e.getMessage());
+    //      response.put(&quot;error_cause&quot;, e.getCause());
+    //      response.put(&quot;input_active_ingredient&quot;, firstActiveIngredient);
+    //    }
+    //
+    //    return response;
+  }
+
+  public static void main(String args[]) {
+    //    CollectionReference collection = db.collection(&quot;ndc_to_ingredients&quot;);
+    //    System.out.println(collection);
+<span class="nc" id="L294">    FDADataSource fdaDataSource = new FDADataSource();</span>
+    //      fdaDataSource.searchActiveIngredient(&quot;ACETAMINOPHEN&quot;);
+<span class="nc" id="L296">    ArrayList&lt;HashMap&lt;String, Object&gt;&gt; res = null;</span>
+    try {
+<span class="nc" id="L298">      ArrayList&lt;String&gt; active = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L299">      ArrayList&lt;String&gt; allergic = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L300">      active.add(&quot;acetaminophen&quot;);</span>
+<span class="nc" id="L301">      allergic.add(&quot;codeine phosphate&quot;);</span>
+<span class="nc" id="L302">      res = fdaDataSource.searchActiveIngredient(active, allergic);</span>
+<span class="nc" id="L303">    } catch (NotFoundException e) {</span>
+<span class="nc" id="L304">      e.printStackTrace();</span>
+<span class="nc" id="L305">    } catch (DatasourceException e) {</span>
+<span class="nc" id="L306">      e.printStackTrace();</span>
+<span class="nc" id="L307">    }</span>
+<span class="nc" id="L308">    System.out.println(res.toString());</span>
+<span class="nc" id="L309">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

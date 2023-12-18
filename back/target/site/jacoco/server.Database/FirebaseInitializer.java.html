@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FirebaseInitializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s0</a> &gt; <a href="index.source.html" class="el_package">server.Database</a> &gt; <span class="el_source">FirebaseInitializer.java</span></div><h1>FirebaseInitializer.java</h1><pre class="source lang-java linenums">package server.Database;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class FirebaseInitializer {
+  private Firestore db;
+
+<span class="nc" id="L14">  public FirebaseInitializer() {</span>
+    try {
+<span class="nc" id="L16">      initializeFirebase();</span>
+<span class="nc" id="L17">      initializeDatabase();</span>
+<span class="nc" id="L18">    } catch (IOException e) {</span>
+<span class="nc" id="L19">      e.printStackTrace();</span>
+<span class="nc" id="L20">    }</span>
+<span class="nc" id="L21">  }</span>
+
+  public static void initializeFirebase() throws IOException {
+    try {
+<span class="nc" id="L25">      FileInputStream serviceAccount =</span>
+          new FileInputStream(&quot;data/private/clearmeds_private_key.json&quot;);
+
+<span class="nc" id="L28">      FirebaseOptions options =</span>
+          new FirebaseOptions.Builder()
+<span class="nc" id="L30">              .setCredentials(GoogleCredentials.fromStream(serviceAccount))</span>
+<span class="nc" id="L31">              .build();</span>
+<span class="nc" id="L32">      FirebaseApp.initializeApp(options);</span>
+
+<span class="nc" id="L34">    } catch (IOException e) {</span>
+<span class="nc" id="L35">      e.printStackTrace();</span>
+<span class="nc" id="L36">    }</span>
+<span class="nc" id="L37">  }</span>
+
+  private void initializeDatabase() {
+<span class="nc" id="L40">    this.db = FirestoreClient.getFirestore();</span>
+<span class="nc" id="L41">  }</span>
+
+  public Firestore getFirestore() {
+<span class="nc" id="L44">    return this.db;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -10,6 +10,8 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +20,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import org.testng.internal.protocols.Input;
 import server.Database.FirebaseInitializer;
 import server.Exceptions.DatasourceException;
 import server.Exceptions.NotFoundException;
@@ -41,12 +45,10 @@ public class FDADataSource {
 
     try {
 
-      //      InputStream serviceAccount = new
-      // FileInputStream("data/private/clearmeds_private_key.json");
-      //      InputStream serviceAccount = new
-      // FileInputStream("data/private/clearmedsthomas_private_key.json");
       InputStream serviceAccount =
-          new FileInputStream("../../../data/private/clearmeds4_private_key.json");
+          new FileInputStream("../../../data/private/clearmeds_private_key.json");
+//      InputStream serviceAccount =
+//              new FileInputStream("/Users/isaacyi/Desktop/CSCI0320/term-project-tbui12-iyi3-ewang111-msun59/back/data/private/clearmeds_private_key.json");
       GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
       FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
       FirebaseApp.initializeApp(options);
@@ -189,14 +191,10 @@ public class FDADataSource {
           //          this logic here ensures that all searches will return only results that
           // contain all active ingredients and none with something in the allergy.
 
-
-
           if (!active_ingredients_valid(
               curr_a_i_set, active_ingredients_set, allergic_ingredients_set)) {
             continue;
           }
-
-
 
           // ndc_to_inactive_ingredient
           DocumentReference ndc_to_iai_docRef =
@@ -207,12 +205,9 @@ public class FDADataSource {
           if (ndc_to_iai_doc.get("values") != null) {
             inactive_ingredients = ndc_to_iai_doc.get("values").toString();
 
-
             if (!inactive_ingredients_valid(inactive_ingredients, allergic_ingredients_set)) {
               continue;
             }
-
-
 
           } else {
             inactive_ingredients = "N/A";
