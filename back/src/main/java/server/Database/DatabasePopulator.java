@@ -74,7 +74,7 @@ public class DatabasePopulator {
     BufferedReader reader;
 
     try {
-      reader = new BufferedReader(new FileReader("data/private/openFDA_key.txt"));
+      reader = new BufferedReader(new FileReader("back/data/private/openFDA_key.txt"));
       this.openFDA_key = reader.readLine();
 
       reader.close();
@@ -84,7 +84,7 @@ public class DatabasePopulator {
 
     //    FileInputStream serviceAccount = new
     // FileInputStream("data/private/clearmeds_private_key.json");
-    FileInputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
+    FileInputStream serviceAccount = new FileInputStream("back/data/private/clearmeds_private_key.json");
     //    FileInputStream serviceAccount = new
     // FileInputStream("data/private/clearmeds2_private_key.json");
     //    FileInputStream serviceAccount = new
@@ -103,7 +103,7 @@ public class DatabasePopulator {
 
     this.drugsFeatureAdapter = moshi.adapter(DrugResponse.class);
 
-    Path jsonFilePath = Path.of("data/drug-drugsfda-0001-of-0001.json");
+    Path jsonFilePath = Path.of("back/data/drug-drugsfda-0001-of-0001.json");
     String jsonData = new String(Files.readAllBytes(jsonFilePath));
     this.drugResponse = this.drugsFeatureAdapter.fromJson(jsonData);
 
@@ -135,7 +135,7 @@ public class DatabasePopulator {
     int poolSize = 1;
     ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
 
-    for (int b = 0; b < Math.ceil(this.drugResponse.results().size() / batchSize); b++) {
+    for (int b = 24; b < Math.ceil(this.drugResponse.results().size() / batchSize); b++) {
 
       HashSet<String> batched_ndcs = new HashSet<>();
       Map<String, Set<String>> ndc_to_active_ingredient = new HashMap<String, Set<String>>();
@@ -274,94 +274,6 @@ public class DatabasePopulator {
       //      System.err.println(e);
       e.printStackTrace();
     }
-  }
-
-  private void process_ndc(
-      String ndc, Set<String> active_ingredients, Set<String> ingredients, Result result) {
-    //
-    //    try {
-    //
-    //      StringBuilder urlBuilder =
-    //          new StringBuilder()
-    //              .append("https://api.fda.gov/drug/label.json?api_key=")
-    //              .append(this.openFDA_key)
-    //              .append("&search=openfda.product_ndc:\"")
-    //              .append(ndc)
-    //              .append("\"&limit=1");
-    //
-    //      URL requestURL = new URL("https", "api.fda.gov", urlBuilder.toString());
-    //
-    //      HttpURLConnection clientConnection = connect(requestURL);
-    //      Moshi moshi = new Moshi.Builder().build();
-    //      JsonAdapter<LabelResponse> adapter = moshi.adapter(LabelResponse.class);
-    //      LabelResponse labelResponse =
-    //          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-    //
-    //
-    ////      input is a list of ndcs, string build that to one api call
-    //
-    //
-    ////      ndc_to_result:
-    //
-    ////      for every key in n the input, get the inactive ingredients, add it to the key of
-    // ingredients.
-    //
-    //      /**
-    //       * do this later
-    //       */
-    ////
-    ////      Map<String, LabelResponse.Result> label_ndc_to_result = new HashMap<>();
-    ////
-    ////      for (LabelResponse.Result r : labelResponse.results()) {
-    ////        Set<String> curr_ingredients = new HashSet<>();
-    ////        if (r.active_ingredient() != null) {
-    ////          label_ndc_to_result.put(ndc, r);
-    ////        }
-    ////        if (r.inactive_ingredient() != null) {
-    ////          label_ndc_to_result.put(ndc, r);
-    ////        }
-    ////      }
-    ////      for (String ndc: ndc_list) {
-    ////        if (label_ndc_to_result.containsKey(ndc)) {
-    ////
-    ////        }
-    ////      }
-    //
-    //
-    //      if (labelResponse.results() != null) {
-    //        for (LabelResponse.Result res : labelResponse.results()) {
-    //          if (res.active_ingredient() != null) {
-    //            ingredients.add(res.active_ingredient().toString());
-    //          }
-    //          if (res.inactive_ingredient() != null) {
-    //            ingredients.add(res.inactive_ingredient().toString());
-    //          }
-    //        }
-    //      }
-    //
-    //    } catch (IOException e) {
-    //      System.out.println();
-    //      System.out.println(e.getMessage());
-    //      e.printStackTrace();
-    //    } catch (Exception e) {
-    //      System.err.println();
-    //      System.err.println(e);
-    //      e.printStackTrace();
-    //    }
-    //
-    //    // this should be one to one / immutable (or will not be edited after doing it once)
-    //    this.ndc_to_result.put(ndc, result);
-    //    this.ndc_to_active_ingredient.put(ndc, ingredients);
-    //
-    //    // this adds the current ndc to the set of active_ingredients to ndc (need to check if it
-    // exists
-    //    // and add to it first, before writing)
-    //    for (String a_i : active_ingredients) {
-    //      if (!this.active_ingredient_to_ndc.containsKey(a_i)) {
-    //        this.active_ingredient_to_ndc.put(a_i, new HashSet<String>());
-    //      }
-    //      this.active_ingredient_to_ndc.get(a_i).add(ndc);
-    //    }
   }
 
   /**

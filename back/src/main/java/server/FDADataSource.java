@@ -1,5 +1,6 @@
 package server;
 
+import com.beust.ah.A;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
@@ -10,8 +11,6 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import org.testng.internal.protocols.Input;
+import java.util.Vector;
 import server.Database.FirebaseInitializer;
 import server.Exceptions.DatasourceException;
 import server.Exceptions.NotFoundException;
@@ -45,10 +43,11 @@ public class FDADataSource {
 
     try {
 
-      InputStream serviceAccount =
-          new FileInputStream("../../../data/private/clearmeds_private_key.json");
-//      InputStream serviceAccount =
-//              new FileInputStream("/Users/isaacyi/Desktop/CSCI0320/term-project-tbui12-iyi3-ewang111-msun59/back/data/private/clearmeds_private_key.json");
+//      InputStream serviceAccount = new FileInputStream("../../../data/private/clearmeds_private_key.json");
+      InputStream serviceAccount = new FileInputStream("back/data/private/clearmeds_private_key.json");
+      //      InputStream serviceAccount =
+      //              new
+      // FileInputStream("/Users/isaacyi/Desktop/CSCI0320/term-project-tbui12-iyi3-ewang111-msun59/back/data/private/clearmeds_private_key.json");
       GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
       FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
       FirebaseApp.initializeApp(options);
@@ -155,6 +154,8 @@ public class FDADataSource {
     return true;
   }
 
+
+
   public ArrayList<HashMap<String, Object>> searchActiveIngredient(
       List<String> activeIngredients, List<String> allergicIngredients)
       throws NotFoundException, DatasourceException {
@@ -163,132 +164,120 @@ public class FDADataSource {
     HashSet<String> active_ingredients_set = new HashSet<>(activeIngredients);
     HashSet<String> allergic_ingredients_set = new HashSet<>(allergicIngredients);
 
+
+
     try {
       // just get the ndcs for te first active ingredient
       String firstActiveIngredient = activeIngredients.get(0);
       ArrayList<HashMap<String, Object>> results = new ArrayList<>();
 
-      // getting the ndc list from the active ingredient passed in
-      DocumentReference ai_to_ndc_docRef =
-          db.collection("active_ingredient_to_ndc").document(firstActiveIngredient);
-      ApiFuture<DocumentSnapshot> ai_to_ndc_future = ai_to_ndc_docRef.get();
-      DocumentSnapshot ai_to_ndc_doc = ai_to_ndc_future.get();
-      if (ai_to_ndc_doc.exists()) {
+      Vector<String> ndcs = null;
+      for (String active_ingredient: active_ingredients_set) {
+        DocumentReference ai_to_ndc_docRef =
+            db.collection("active_ingredient_to_ndc").document(active_ingredient);
+        ApiFuture<DocumentSnapshot> ai_to_ndc_future = ai_to_ndc_docRef.get();
+        DocumentSnapshot ai_to_ndc_doc = ai_to_ndc_future.get();
+        if (!ai_to_ndc_doc.exists()) {
+          throw new NotFoundException(active_ingredient + "not found in database!");
+        }
+        if (ndcs == null) {
+          ndcs = new Vector<>((ArrayList<String>) ai_to_ndc_doc.get("values"));
+        } else {
+          Vector<String> temp =  new Vector<>((ArrayList<String>) ai_to_ndc_doc.get("values"));
+          ndcs.retainAll(temp);
+        }
+      }
 
-        ArrayList<String> ndcs = (ArrayList<String>) ai_to_ndc_doc.get("values");
-        for (String ndc : ndcs) {
+      for (String ndc : ndcs) {
 
-          HashMap<String, Object> curr_ndc_map = new HashMap<>();
+        HashMap<String, Object> curr_ndc_map = new HashMap<>();
 
-          // ndc_to_active_ingredient
-          DocumentReference ndc_to_ai_docRef =
-              db.collection("ndc_to_active_ingredient").document(ndc);
-          ApiFuture<DocumentSnapshot> ndc_to_ai_future = ndc_to_ai_docRef.get();
-          DocumentSnapshot ndc_to_ai_doc = ndc_to_ai_future.get();
-          ArrayList<String> active_ingredients = (ArrayList<String>) ndc_to_ai_doc.get("values");
-          HashSet<String> curr_a_i_set = new HashSet<>(active_ingredients);
+        // ndc_to_active_ingredient
+        DocumentReference ndc_to_ai_docRef =
+            db.collection("ndc_to_active_ingredient").document(ndc);
+        ApiFuture<DocumentSnapshot> ndc_to_ai_future = ndc_to_ai_docRef.get();
+        DocumentSnapshot ndc_to_ai_doc = ndc_to_ai_future.get();
+        ArrayList<String> active_ingredients = (ArrayList<String>) ndc_to_ai_doc.get("values");
+        HashSet<String> curr_a_i_set = new HashSet<>(active_ingredients);
 
-          //          this logic here ensures that all searches will return only results that
-          // contain all active ingredients and none with something in the allergy.
+        //          this logic here ensures that all searches will return only results that
+        // contain all active ingredients and none with something in the allergy.
 
-          if (!active_ingredients_valid(
-              curr_a_i_set, active_ingredients_set, allergic_ingredients_set)) {
+        // ndc_to_inactive_ingredient
+        DocumentReference ndc_to_iai_docRef =
+            db.collection("ndc_to_inactive_ingredient").document(ndc);
+        ApiFuture<DocumentSnapshot> ndc_to_iai_future = ndc_to_iai_docRef.get();
+        DocumentSnapshot ndc_to_iai_doc = ndc_to_iai_future.get();
+        String inactive_ingredients;
+        if (ndc_to_iai_doc.get("values") != null) {
+          inactive_ingredients = ndc_to_iai_doc.get("values").toString();
+
+          if (!inactive_ingredients_valid(inactive_ingredients, allergic_ingredients_set)) {
             continue;
           }
 
-          // ndc_to_inactive_ingredient
-          DocumentReference ndc_to_iai_docRef =
-              db.collection("ndc_to_inactive_ingredient").document(ndc);
-          ApiFuture<DocumentSnapshot> ndc_to_iai_future = ndc_to_iai_docRef.get();
-          DocumentSnapshot ndc_to_iai_doc = ndc_to_iai_future.get();
-          String inactive_ingredients;
-          if (ndc_to_iai_doc.get("values") != null) {
-            inactive_ingredients = ndc_to_iai_doc.get("values").toString();
-
-            if (!inactive_ingredients_valid(inactive_ingredients, allergic_ingredients_set)) {
-              continue;
-            }
-
-          } else {
-            inactive_ingredients = "N/A";
-          }
-
-          // ndc_to_result
-          DocumentReference ndc_to_res_docRef = db.collection("ndc_to_result").document(ndc);
-          ApiFuture<DocumentSnapshot> ndc_to_res_future = ndc_to_res_docRef.get();
-          DocumentSnapshot ndc_to_res_doc = ndc_to_res_future.get();
-
-          // the rest is getting the data to put into the response
-
-          Map<String, ArrayList<String>> openfda =
-              (Map<String, ArrayList<String>>) ndc_to_res_doc.get("openfda");
-          ArrayList<String> brand_name = openfda.get("brand_name");
-          ArrayList<String> generic_name = openfda.get("generic_name");
-          ArrayList<String> manufacturer_name = openfda.get("manufacturer_name");
-          ArrayList<String> route = openfda.get("route");
-          ArrayList<String> product_type = openfda.get("product_type");
-
-          ArrayList<Map<String, Object>> product_list =
-              (ArrayList<Map<String, Object>>) ndc_to_res_doc.get("products");
-          // only getting the first one for ease of access / plus they should be all the same (just
-          // different strenghts)
-          String dosage_form = (String) product_list.get(0).get("dosage_form");
-          String marketing_status = (String) product_list.get(0).get("marketing_status");
-
-          curr_ndc_map.put("active_ingredients", active_ingredients);
-          curr_ndc_map.put("inactive_ingredients", inactive_ingredients);
-          curr_ndc_map.put("brand_name", brand_name);
-          curr_ndc_map.put("generic_name", generic_name);
-          curr_ndc_map.put("manufacturer_name", manufacturer_name);
-          curr_ndc_map.put("route", route);
-          curr_ndc_map.put("product_type", product_type);
-          curr_ndc_map.put("dosage_form", dosage_form);
-          curr_ndc_map.put("marketing_status", marketing_status);
-          curr_ndc_map.put("product_ndc", ndc);
-
-          results.add(curr_ndc_map);
-
-          // open fda: brand_name, generic_name, manufacturer name, product_type, route
-          // product: brand_name (can get from openfda), dosage_form, route (can get from openfda),
-          // marketing_status
-          // final map: active_ingredients (map), inactive_Ingredients(map), brand_name(openfda),
-          // generic_name (openfda),
-          //          manufacturer_name (openfda), product_type(openfda), route(openfda),
-          // dosage_form(result), marketing_status(result)
+        } else {
+          inactive_ingredients = "N/A";
         }
-        if (results.size() == 0) {
-          throw new NotFoundException("not found in database");
-        }
-        return results;
-      } else {
+
+        // ndc_to_result
+        DocumentReference ndc_to_res_docRef = db.collection("ndc_to_result").document(ndc);
+        ApiFuture<DocumentSnapshot> ndc_to_res_future = ndc_to_res_docRef.get();
+        DocumentSnapshot ndc_to_res_doc = ndc_to_res_future.get();
+
+        // the rest is getting the data to put into the response
+
+        Map<String, ArrayList<String>> openfda =
+            (Map<String, ArrayList<String>>) ndc_to_res_doc.get("openfda");
+        ArrayList<String> brand_name = openfda.get("brand_name");
+        ArrayList<String> generic_name = openfda.get("generic_name");
+        ArrayList<String> manufacturer_name = openfda.get("manufacturer_name");
+        ArrayList<String> route = openfda.get("route");
+        ArrayList<String> product_type = openfda.get("product_type");
+
+        ArrayList<Map<String, Object>> product_list =
+            (ArrayList<Map<String, Object>>) ndc_to_res_doc.get("products");
+        // only getting the first one for ease of access / plus they should be all the same (just
+        // different strenghts)
+        String dosage_form = (String) product_list.get(0).get("dosage_form");
+        String marketing_status = (String) product_list.get(0).get("marketing_status");
+
+
+        curr_ndc_map.put("active_ingredients", active_ingredients);
+        curr_ndc_map.put("inactive_ingredients", inactive_ingredients);
+        curr_ndc_map.put("brand_name", brand_name);
+        curr_ndc_map.put("generic_name", generic_name);
+        curr_ndc_map.put("manufacturer_name", manufacturer_name);
+        curr_ndc_map.put("route", route);
+        curr_ndc_map.put("product_type", product_type);
+        curr_ndc_map.put("dosage_form", dosage_form);
+        curr_ndc_map.put("marketing_status", marketing_status);
+        curr_ndc_map.put("product_ndc", ndc);
+
+        results.add(curr_ndc_map);
+
+        // open fda: brand_name, generic_name, manufacturer name, product_type, route
+        // product: brand_name (can get from openfda), dosage_form, route (can get from openfda),
+        // marketing_status
+        // final map: active_ingredients (map), inactive_Ingredients(map), brand_name(openfda),
+        // generic_name (openfda),
+        //          manufacturer_name (openfda), product_type(openfda), route(openfda),
+        // dosage_form(result), marketing_status(result)
+      }
+      if (results.size() == 0) {
         throw new NotFoundException("not found in database");
       }
+      return results;
+
     } catch (NotFoundException e) {
       throw e;
     } catch (Exception e) {
       throw new DatasourceException(e.getMessage(), e.getCause());
     }
 
-    //    response.put("results",results);
-    //        response.put("response_code", "success");
-    //        response.put("input_active_ingredient", firstActiveIngredient);
-    //      } else {
-    //        response.put("response_code", "error");
-    //        response.put("error", "error_not_found");
-    //        response.put("error_message", firstActiveIngredient + " not found!");
-    //        response.put("input_active_ingredient", firstActiveIngredient);
-    //      }
-    //    }  catch (Exception e) {
-    //      e.printStackTrace();
-    //      response.put("response_code", "error");
-    //      response.put("error", e);
-    //      response.put("error_message", e.getMessage());
-    //      response.put("error_cause", e.getCause());
-    //      response.put("input_active_ingredient", firstActiveIngredient);
-    //    }
-    //
-    //    return response;
   }
+
+
 
   public static void main(String args[]) {
     //    CollectionReference collection = db.collection("ndc_to_ingredients");
@@ -299,8 +288,9 @@ public class FDADataSource {
     try {
       ArrayList<String> active = new ArrayList<>();
       ArrayList<String> allergic = new ArrayList<>();
-      active.add("acetaminophen");
-      allergic.add("codeine phosphate");
+      active.add("ACETAMINOPHEN");
+      active.add("IBUPROFEN");
+//      allergic.add("codeine phosphate");
       res = fdaDataSource.searchActiveIngredient(active, allergic);
     } catch (NotFoundException e) {
       e.printStackTrace();
