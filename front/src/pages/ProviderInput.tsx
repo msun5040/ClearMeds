@@ -64,10 +64,6 @@ const ProviderInput: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Active Ingredients:", activeIngredients);
-    console.log("Allergies:", allergies);
-    console.log("Marketing Fields:", marketingFields);
-
     navigate("/provideroutput", {
       state: {
         activeIngredients,
@@ -75,7 +71,6 @@ const ProviderInput: React.FC = () => {
         marketingFields,
       },
     });
-
     setActiveIngredients("");
     setAllergies("");
     setMarketingFields("");

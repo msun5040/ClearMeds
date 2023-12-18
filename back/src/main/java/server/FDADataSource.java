@@ -189,14 +189,10 @@ public class FDADataSource {
           //          this logic here ensures that all searches will return only results that
           // contain all active ingredients and none with something in the allergy.
 
-
-
           if (!active_ingredients_valid(
               curr_a_i_set, active_ingredients_set, allergic_ingredients_set)) {
             continue;
           }
-
-
 
           // ndc_to_inactive_ingredient
           DocumentReference ndc_to_iai_docRef =
@@ -207,12 +203,9 @@ public class FDADataSource {
           if (ndc_to_iai_doc.get("values") != null) {
             inactive_ingredients = ndc_to_iai_doc.get("values").toString();
 
-
             if (!inactive_ingredients_valid(inactive_ingredients, allergic_ingredients_set)) {
               continue;
             }
-
-
 
           } else {
             inactive_ingredients = "N/A";

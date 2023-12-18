@@ -5,25 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ba6a633-59c6-4de6-93cc-a05bf63ff7df" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml.bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Caching/CacheSearchActiveIngredient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Database/DatabasePopulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Exceptions/BadJSONException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Exceptions/NotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/FDADataSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Handlers/LabelResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Caching/CacheSearchActiveIngredient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Database/DatabasePopulator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Exceptions/BadJSONException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/FDADataSource.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Handlers/ActiveIngredientHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/s0-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <list id="1cd53043-6eaf-4f4f-9698-d9e9f1b09858" name="Changes by isaacyi" comment="" />
@@ -62,24 +48,23 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 0
+}]]></component>
   <component name="ProjectId" id="2YuW5B0kGMChSuO14baVfr5oocJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="TODO_SCOPE" value="All Places" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/data/private" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "elaine"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/data/private" />
@@ -180,21 +165,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
-          <line>34</line>
+          <line>33</line>
           <properties class="server.Handlers.ActiveIngredientHandler" method="handle">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/server/Server.java</url>
-          <line>14</line>
-          <properties class="server.Server" method="&lt;init&gt;">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
@@ -221,12 +197,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>301</line>
+          <line>294</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>302</line>
+          <line>295</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -246,27 +222,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>314</line>
+          <line>307</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>308</line>
+          <line>301</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>266</line>
+          <line>259</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/FDADataSource.java</url>
-          <line>211</line>
+          <line>206</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/Handlers/ActiveIngredientHandler.java</url>
-          <line>95</line>
+          <line>93</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
       </breakpoints>

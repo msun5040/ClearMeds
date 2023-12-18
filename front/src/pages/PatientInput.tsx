@@ -49,10 +49,6 @@ const PatientInput: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Active Ingredients:", activeIngredients);
-    console.log("Allergies:", allergies);
-    console.log("Additional Fields:", additionalFields);
-
     navigate("/patientoutput", {
       state: {
         activeIngredients,
@@ -60,7 +56,6 @@ const PatientInput: React.FC = () => {
         additionalFields,
       },
     });
-
     setActiveIngredients("");
     setAllergies("");
     setAdditionalFields("");
