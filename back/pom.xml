@@ -43,6 +43,11 @@
       <version>1.13.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.14.0</version>
+    </dependency>
     <!--
                Spark is a lightweight framework for creating web applications.
                Spark is most commonly used to create APIs and websites.
@@ -68,6 +73,38 @@
       <artifactId>guava</artifactId>
       <version>32.1.2-jre</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>9.2.0</version>
+    </dependency>
+
+    <!--    <dependency>-->
+    <!--      <groupId>com.google.firebase</groupId>-->
+    <!--      <artifactId>firebase-admin</artifactId>-->
+    <!--      <version>LATEST</version>-->
+    <!--    </dependency>-->
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>LATEST</version>
+      <!-- Replace with the latest version -->
+    </dependency>
+
+    <dependency>
+      <groupId>me.tongfei</groupId>
+      <artifactId>progressbar</artifactId>
+      <version>0.5.5</version>
+    </dependency>
+
+    <!--    <dependency>-->
+    <!--      <groupId>com.google.firebase</groupId>-->
+    <!--      <artifactId>firebase-admin</artifactId>-->
+    <!--      <version>7.0.0</version>-->
+    <!--      &lt;!&ndash; Update to the latest version &ndash;&gt;-->
+    <!--    </dependency>-->
 
     <!--
                JUnit is a unit testing library for Java.

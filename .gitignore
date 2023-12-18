@@ -9,5 +9,5 @@ front/test-results/
 front/playwright-report/
 front/playwright/.cache/
 /target/
-
+back/data/drug-drugsfda-0001-of-0001.json
 

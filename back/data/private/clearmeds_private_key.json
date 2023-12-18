@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "clearmeds-f60c8",
+  "private_key_id": "827595cce104dd7058dca666a6f217e9297fcce1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIlkT5sL2RyqAT\nqmgdusZ5Nzfi3jczcwXMbLd4i2/eZtZiJ/lppqnRKTkzwPTBs6g1pgJeRyuKML37\nj/ran0kzGB+DP5XQacJRffi7dsbIodYGK4+C3bW5SHdN8Kz/e206W+u8Zcv1lSrL\nWcgROUwhLJBGafm5Aw/Q5RHIggT6W9DvmG7Fi6TMjHm+urxlzml++PXVr+UehDHu\nMUGCPhhpDK4184fVL6tdFfZjcOlCKBzhaMGIXFQC2hKRP+o76JjkcD2s5YbBFQ+Z\n+mRRuA9iyFOUc0RfgXMdIm4fAgxary+NF+0GU4kiDft6RRk3otk4RfhgPMCEJPb/\nS+x+8pXNAgMBAAECggEABcLJwgSeGGMiCxgl2ZAz7jOjWynrIzY9/TmJtjoW+tsO\nYyArhHa2W4eX7mrR664iJMosBbUWb3iSkiMAgUukc0Fzvfo5kINJnHdbb86e3FTh\n1I7NYw9edLeIdFEIJVTQMYQOh55s+OE8GejUX5fdQD5CtZWsmOfMX3R8xbJbVaS0\nCV9LiO5jIcbNwKStLgFdR8rKsnixI8a6k6BP6y6mVkicYvywXWshPYGvDnggXWNh\nPU72mGu1Vs/oz3Vvlt++HVISIyqnLiIbwTIzkKaKRx6BuVEAoVLYFCVUpWP+xuLC\nemsgBzL6CphG1e9EB4m82tdSVJXWq07jMCQnPb4yRwKBgQD2fPEyllWDF1WgyDkg\ncW2cPeHB/ePceGpO8GClS7PyyXA6ETOpGMZ/L1XXd6Vf2YTITsyG1QmfQtB46+SH\nMj4pTtNxXzd2On9vWFBlvhzkBxM8bZ2r7KIIT2NxLUWLFMS4j9wUCgPeD9Sn4xIU\n6O0yX4UXWJ54n4Fo4jJ0Drk8mwKBgQDQU97FX22UDiU8JvQB6eds0QJ7FIkQ7nnA\ngXtZbv32+0iUyTEZaLremCyIpHcjhc5IXFeqtK2Y1qBgVOkfvm41UZwzaA/4hs7k\nTjgVWwH4TAu7LMrgT+iNWMOErGlirHrEC6xEGSF6jmW5g5KzApJmNrdH2xtcTmMQ\nnC0CG1l5twKBgBkNZ+JxXy2cwIo/73Z5sN9RdtGlwXQWFRAC5H/IavjBOpPcTbjh\nGMOyhvIIahmM3S8Suzz1CC5UtyWjLC4FkEXYiisat2Nf3LXvbvR4Vy1h/rWEmqLv\nwSRBFWVaaZgSO1Ba5s5umigGyeFqddsENZ+KD9fonOq7o4aKfwBGwtMDAoGBALcp\nRi+aGymU1j/wr5APKp2NlfTItUnhocITFXQoFbnUbJgD29tPLR0QBfeNQgJFXnxY\nU+uONyKtcQvBG8YBE7xlKEQ6NfB39ebcrop4HV9E3PuQAj79gqTjaeN4Ap/yrW04\nJhkpTzoFgIJ+n7grhrO/X50ZkxCxCoBMD3ZOvXg5AoGABRkLsHBpj3dKAUYOkTdg\nLgVv6iABfjFVc2xvXO3FnvSpNL4s15sbol8m/TBWV5QvGagNhs65+QAtI/q58yhR\nA/1Ry0HruiyCVIfeTqwzDRd1/eI8s03c6QNgiP4vTJK68WnuQ9Kxn0ky7U7YC2cl\nPXiSoUTqVOpsLabdGCXAFnU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-1laql@clearmeds-f60c8.iam.gserviceaccount.com",
+  "client_id": "117205698531399087622",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-1laql%40clearmeds-f60c8.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
