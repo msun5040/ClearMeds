@@ -5,6 +5,7 @@ import { PatientResultBox } from "../components/PatientResultBox";
 interface DrugInfo {
   drugBrand: string;
   genericName: string;
+  product_ndc: string;
   activeIngredients: string;
   manufacturers: string;
   marketingStatus: string;
@@ -46,6 +47,7 @@ const PatientOutput: React.FC = () => {
       return {
         drugBrand: result.brand_name[0],
         genericName: result.generic_name[0],
+        product_ndc: result.product_ndc,
         activeIngredients: result.active_ingredients,
         manufacturers: result.manufacturer_name,
         marketingStatus: result.marketing_status,

@@ -44,7 +44,7 @@ public class FDADataSource {
     try {
 
 //      InputStream serviceAccount = new FileInputStream("../../../data/private/clearmeds_private_key.json");
-      InputStream serviceAccount = new FileInputStream("back/data/private/clearmeds_private_key.json");
+      InputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
       //      InputStream serviceAccount =
       //              new
       // FileInputStream("/Users/isaacyi/Desktop/CSCI0320/term-project-tbui12-iyi3-ewang111-msun59/back/data/private/clearmeds_private_key.json");
