@@ -15,9 +15,11 @@ We got our data from the OpenFDA's drug endpoint and label endpoint. In the back
 As for our actual API, we now made sure that instead of creating a call to OpenFDA, it would just look through our database. We made it so that users could search for multiple active ingredients and that our server would only return drugs that have all the ingredients in the list. If users inputted allergies, it would remove all drugs that have those ingredients in them.
 
 ## Errors/Bugs:
+
 None that we know of
 
 ## Tests:
+
 For the backend, we made sure to test that our API server was able to query into our FireStore database that we had initialized. We tested for basic cases such as when a user searches an active ingredient that exists and that searching with an allergy would get rid of the correct drugs with those allergies. Some edge cases we made sure to test were when users input an active ingredient that doesn't exist, an allergy that is insignificant (in terms of impacting output), a list of active ingredients, etc...
 
 ## Instructions on using the program:
