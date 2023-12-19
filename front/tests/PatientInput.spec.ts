@@ -111,3 +111,8 @@ test("On submission, webapp navigates to new page", async ({ page }) => {
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page.getByText('Search Results')).toBeVisible();
 });
+
+test("On back, webapp navigates to home page", async ({ page }) => {
+  await page.getByRole("button", { name: "Back" }).click();
+  await expect(page.getByText("Clear Answers,")).toBeVisible();
+});

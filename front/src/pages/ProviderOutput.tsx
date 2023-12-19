@@ -16,14 +16,14 @@ const PatientOutput: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { activeIngredients, allergies, additionalFields } =
+  const { activeIngredients, allergies, marketingFields } =
     location.state || {};
 
   const handleClickBack = () => {
     if (startIndex >= itemsPerPage) {
       setStartIndex((prevStartIndex) => prevStartIndex - itemsPerPage);
     } else {
-      navigate("/patientinput");
+      navigate("/providerinput");
     }
   };
   const [parsedResults, setParsedResults] = useState<DrugInfo[]>([]);
@@ -112,7 +112,7 @@ const PatientOutput: React.FC = () => {
       </div>
       <div className="search-summary">Allergies: {allergies}</div>
       <div className="search-summary">
-        Additional Fields: {additionalFields}
+        Marketing Status: {marketingFields}
       </div>
 
       <div className="result-container">{renderResults()}</div>
