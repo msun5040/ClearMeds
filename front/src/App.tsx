@@ -9,13 +9,22 @@ import ProviderOutput from "./pages/ProviderOutput";
 import PatientOutput from "./pages/PatientOutput";
 
 const App: React.FC = () => {
+  const [showAlert, setShowAlert] = useState(true);
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/patientinput" element={<PatientInput />} />
-          <Route path="/providerinput" element={<ProviderInput />} />
+          <Route
+            path="/"
+            element={<Home showAlert={showAlert} setShowAlert={setShowAlert} />}
+          />
+          <Route
+            path="/patientinput"
+            element={
+              <PatientInput showAlert={showAlert} setShowAlert={setShowAlert} />
+            }
+          />
+          <Route path="/providerinput" element={<ProviderInput showAlert={showAlert} setShowAlert={setShowAlert}/>} />
           <Route path="/provideroutput" element={<ProviderOutput />} />
           <Route path="/patientoutput" element={<PatientOutput />} />
         </Routes>

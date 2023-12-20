@@ -7,10 +7,16 @@ import {
 } from "../components/trie";
 import medicationTrie from "../components/medicationList";
 
-const ProviderInput: React.FC = () => {
+interface disclaimerProps {
+  showAlert : boolean
+  setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ProviderInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) => {
   const navigate = useNavigate();
 
-  const handleClickBack = () => {
+  const handleClickBack = (alertValue: boolean) => {
+    setShowAlert(true)
     navigate("/");
   };
 
@@ -196,7 +202,7 @@ const ProviderInput: React.FC = () => {
           )}
         </div>
         <div className="input-button-container">
-          <button className="form-button" onClick={handleClickBack}>
+          <button className="form-button" onClick={() => handleClickBack(showAlert)}>
             Back
           </button>
           <button className="form-button" onClick={handleSubmit}>

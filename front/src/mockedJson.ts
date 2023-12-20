@@ -81,3 +81,5 @@ const results = [
     strength: "0.75MG/0.5ML",
   },
 ];
+
+export {results}

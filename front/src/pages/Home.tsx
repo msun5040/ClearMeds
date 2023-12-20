@@ -3,8 +3,13 @@ import Logo from "../components/logo";
 import OutputBox from "../components/OutputBox";
 import { useNavigate } from "react-router-dom";
 
-const Home: React.FC = () => {
-  const [showAlert, setShowAlert] = useState(true);
+interface disclaimerProps {
+  showAlert : boolean
+  setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Home: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) => {
+  
   const navigate = useNavigate();
 
   const handleAccept = () => {
@@ -22,7 +27,10 @@ const Home: React.FC = () => {
           <Logo />
         </div>
 
-        <OutputBox></OutputBox>
+        <OutputBox
+        showAlert = {showAlert}
+        setShowAlert={setShowAlert}
+        ></OutputBox>
 
         {showAlert && (
           <div className="alert-container">

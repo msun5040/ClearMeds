@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function OutputBox() {
+interface disclaimerProps {
+  showAlert : boolean
+  setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function OutputBox(props :disclaimerProps) {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { showAlert } =
-    location.state || {};
-
+  // const [showAlert, setShowAlert] = useState(location.state || {});
+  
   const handleClickPatient = () => {
-    if (showAlert) {
+    if (!props.showAlert) {
       navigate("/patientinput");
     } else {
-      console.log("Please accept the disclaimer before proceeding.");
+      window.alert("Please accept the disclaimer before proceeding.");
     }
   };
 
   const handleClickProvider = () => {
-    if (showAlert) {
+    if (!props.showAlert) {
       navigate("/providerinput");
     } else {
-      console.log("Please accept the disclaimer before proceeding.");
+      window.alert("Please accept the disclaimer before proceeding.");
     }
   };
 
@@ -59,14 +63,13 @@ export default function OutputBox() {
         <div className="text-line-bold"> Healthy Lives.</div>
       </div>
       <div className="user-selector-container">
-      <button className="user-selector-button" onClick={handleClickPatient}>
-        Patients Start Here
-      </button>
-      <button className="user-selector-button" onClick={handleClickProvider}>
-        Providers Start Here
-      </button>
+        <button className="user-selector-button" onClick={handleClickPatient}>
+          Patients Start Here
+        </button>
+        <button className="user-selector-button" onClick={handleClickProvider}>
+          Providers Start Here
+        </button>
       </div>
-      
     </div>
   );
 }
