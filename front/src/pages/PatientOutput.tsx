@@ -25,40 +25,42 @@ const PatientOutput: React.FC = () => {
       navigate("/patientinput");
     }
   };
-  
+
   const [parsedResults, setParsedResults] = useState<DrugInfo[]>([]);
 
-  async function getResult(activeIngredients: string, allergies: string): Promise<DrugInfo[]> {
-  
-  const fetch1 = await fetch(
-    "http://localhost:3232/search_active_ingredient?active_ingredient=" +
-      activeIngredients +
-      "&allergy_ingredient=" +
-      allergies
-  );
-  
-  const json1 = await fetch1.json();
-  const api_call_result = await json1["results"];
-  
-    console.log("api result", api_call_result)
+  async function getResult(
+    activeIngredients: string,
+    allergies: string
+  ): Promise<DrugInfo[]> {
+    const fetch1 = await fetch(
+      "http://localhost:3232/search_active_ingredient?active_ingredient=" +
+        activeIngredients +
+        "&allergy_ingredient=" +
+        allergies
+    );
 
-  if (api_call_result) {
-    return api_call_result.map((result: any) => {
-      return {
-        drugBrand: result.brand_name[0],
-        genericName: result.generic_name[0],
-        product_ndc: result.product_ndc,
-        activeIngredients: result.active_ingredients,
-        manufacturers: result.manufacturer_name,
-        marketingStatus: result.marketing_status,
-      };
-    });
-  } else {
-    return [];
+    const json1 = await fetch1.json();
+    const api_call_result = await json1["results"];
+
+    console.log("api result", api_call_result);
+
+    if (api_call_result) {
+      return api_call_result.map((result: any) => {
+        return {
+          drugBrand: result.brand_name[0],
+          genericName: result.generic_name[0],
+          product_ndc: result.product_ndc,
+          activeIngredients: result.active_ingredients,
+          manufacturers: result.manufacturer_name,
+          marketingStatus: result.marketing_status,
+        };
+      });
+    } else {
+      return [];
+    }
   }
-}
 
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
