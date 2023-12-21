@@ -10,7 +10,9 @@ interface DrugInfo {
 
 export function ProviderResultBox(props: DrugInfo) {
   const handleLearnMore = () => {
-    window.open("https://www.drugs.com/"+ props.activeIngredients + ".html", "_blank");
+    const searchTerm = encodeURIComponent(props.activeIngredients);
+    const url = `https://www.drugs.com/search.php?searchterm=${searchTerm}`;
+    window.open(url, "_blank");
   };
   return (
     <div className="provider-result-box">
