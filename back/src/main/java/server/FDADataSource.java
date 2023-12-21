@@ -44,7 +44,7 @@ public class FDADataSource {
     try {
 
 //      InputStream serviceAccount = new FileInputStream("../../../data/private/clearmeds_private_key.json");
-      InputStream serviceAccount = new FileInputStream("data/private/clearmeds_private_key.json");
+      InputStream serviceAccount = new FileInputStream("back/data/private/clearmeds_private_key.json");
       //      InputStream serviceAccount =
       //              new
       // FileInputStream("/Users/isaacyi/Desktop/CSCI0320/term-project-tbui12-iyi3-ewang111-msun59/back/data/private/clearmeds_private_key.json");
@@ -135,8 +135,8 @@ public class FDADataSource {
       HashSet<String> curr_active_ingredients,
       HashSet<String> active_ingredients_set,
       HashSet<String> allergic_ingredients_set) {
-    for (String a_i : active_ingredients_set) {
-      if (!curr_active_ingredients.contains(a_i) || allergic_ingredients_set.contains(a_i)) {
+    for (String a_i : curr_active_ingredients) {
+      if (allergic_ingredients_set.contains(a_i)) {
         return false;
       }
     }
@@ -153,6 +153,8 @@ public class FDADataSource {
     }
     return true;
   }
+
+
 
 
 
@@ -202,6 +204,10 @@ public class FDADataSource {
 
         //          this logic here ensures that all searches will return only results that
         // contain all active ingredients and none with something in the allergy.
+
+        if (!active_ingredients_valid(curr_a_i_set,active_ingredients_set, allergic_ingredients_set)) {
+          continue;
+        }
 
         // ndc_to_inactive_ingredient
         DocumentReference ndc_to_iai_docRef =
