@@ -6,7 +6,7 @@
 ### Elaine Wang - ewang111
 ### Isaac Yi - iyi3
 
-Estimated Total Completion Time: ___ hours total
+Estimated Total Completion Time: 12 hours weekly
 
 ## Design Choices:
 
@@ -24,5 +24,4 @@ For the backend, we made sure to test that our API server was able to query into
 
 ## Instructions on using the program:
 
-1. Make sure that both the backend server and the frontend server are running
-2. In the front end, 
+Before beginning, make sure that both the backend server and the frontend server are running. The rest should be (hopefully) straightforward! Our website first has a check to ensure users know that the website is not a medical professional and that it should by no means be the only thing consulted to make informed decisions on healthcare. Then, depending on whether the user is a patient or a provider, they can select the corresponding link. At this next page, users can select the active ingredient(s) that they are looking for, as well as any ingredients that they might be allergic to. After hitting submit, users will see a list of recommended drugs that have the same active ingredient without the allergies listed. Each drug will also have additional information that we hope will be useful.
