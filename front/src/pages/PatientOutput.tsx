@@ -58,14 +58,19 @@ const PatientOutput: React.FC = () => {
   }
 }
 
+const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true); // Set loading to true when starting the API request
         const result = await getResult(activeIngredients, allergies);
         setParsedResults(result);
-        console.log(parsedResults)
+        console.log(parsedResults);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false when the API request is completed (or failed)
       }
     };
 
@@ -80,6 +85,10 @@ const PatientOutput: React.FC = () => {
   };
 
   const renderResults = () => {
+    if (loading) {
+      return <div className="loader"></div>; // Render the loader with the defined CSS class
+    }
+
     return (
       <>
         <div className="result-panel-container">
