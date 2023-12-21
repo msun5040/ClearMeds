@@ -8,15 +8,18 @@ import {
 import medicationTrie from "../components/medicationList";
 
 interface disclaimerProps {
-  showAlert : boolean
+  showAlert: boolean;
   setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) => {
+const PatientInput: React.FC<disclaimerProps> = ({
+  showAlert,
+  setShowAlert,
+}) => {
   const navigate = useNavigate();
 
   const handleClickBack = (alertValue: boolean) => {
-    setShowAlert(true)
+    setShowAlert(true);
     navigate("/");
   };
 
@@ -32,6 +35,9 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
     useState<string[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] =
+    useState<number>(-1);
+  const suggestionListRef = useRef<HTMLUListElement>(null);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -43,6 +49,8 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
 
     const suggestions = findSuggestions(medicationTrie, userInput);
     suggestionsFunction(suggestions);
+
+    setActiveSuggestionIndex(0);
   };
 
   const handleSuggestionClick = (
@@ -69,10 +77,77 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
 
   const handleClickOutside = (event: MouseEvent) => {
     if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-      // Click is outside of the input field, hide suggestions
       setActiveIngredientsSuggestions([]);
       setAllergiesSuggestions([]);
       setAdditionalFieldsSuggestions([]);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      if (activeIngredientsSuggestions.length > 0 && activeSuggestionIndex !== -1) {
+        event.preventDefault();
+        const selectedSuggestion = activeIngredientsSuggestions[activeSuggestionIndex];
+        setActiveIngredients(selectedSuggestion);
+        setActiveIngredientsSuggestions([]);
+      } else if (allergiesSuggestions.length > 0 && activeSuggestionIndex !== -1) {
+        event.preventDefault();
+        const selectedSuggestion = allergiesSuggestions[activeSuggestionIndex];
+        setAllergies(selectedSuggestion);
+        setAllergiesSuggestions([]);
+      } else {
+        handleSubmit();
+      }
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (activeSuggestionIndex < activeIngredientsSuggestions.length - 1) {
+        console.log("in active")
+        setActiveSuggestionIndex((prevIndex) => prevIndex + 1);
+        scrollIntoViewDown(activeIngredientsSuggestions);
+      } else if (activeSuggestionIndex < allergiesSuggestions.length - 1) {
+        console.log("in allergies")
+        setActiveSuggestionIndex((prevIndex) => prevIndex + 1);
+        scrollIntoViewDown(allergiesSuggestions);
+      }
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (activeSuggestionIndex > 0) {
+        setActiveSuggestionIndex((prevIndex) => prevIndex - 1);
+        scrollIntoViewUp(activeIngredientsSuggestions);
+      } else if (activeSuggestionIndex === 0 && allergiesSuggestions.length > 0) {
+        setActiveSuggestionIndex(allergiesSuggestions.length - 1);
+        scrollIntoViewUp(allergiesSuggestions);
+      }
+    }
+  };
+
+  const scrollIntoViewUp = (suggestions: string[]) => {
+    if (suggestionListRef.current && activeSuggestionIndex !== -1) {
+      const selectedElement = suggestionListRef.current.children[activeSuggestionIndex] as HTMLElement;
+  
+      const listRect = suggestionListRef.current.getBoundingClientRect();
+      const itemRect = selectedElement.getBoundingClientRect();
+  
+      if (itemRect.bottom > listRect.bottom) {
+        selectedElement.scrollIntoView({ behavior: "smooth", block: "end" });
+      } else if (itemRect.top < listRect.top) {
+        selectedElement.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }
+  };
+
+  const scrollIntoViewDown = (suggestions: string[]) => {
+    if (suggestionListRef.current && activeSuggestionIndex !== -1) {
+      const selectedElement = suggestionListRef.current.children[activeSuggestionIndex] as HTMLElement;
+  
+      const listRect = suggestionListRef.current.getBoundingClientRect();
+      const itemRect = selectedElement.getBoundingClientRect();
+  
+      if (itemRect.bottom > listRect.bottom) {
+        selectedElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (itemRect.top < listRect.top) {
+        selectedElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   };
 
@@ -105,19 +180,19 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
               )
             }
             ref={inputRef}
+            onKeyDown={handleKeyDown}
           />
           {activeIngredientsSuggestions.length > 0 && (
-            <ul>
-              {activeIngredientsSuggestions.map((suggestion) => (
+            <ul ref={suggestionListRef}>
+              {activeIngredientsSuggestions.map((suggestion, index) => (
                 <li
                   key={suggestion}
-                  onClick={() =>
-                    handleSuggestionClick(
-                      suggestion,
-                      setActiveIngredients,
-                      setActiveIngredientsSuggestions
-                    )
-                  }
+                  onClick={() => handleSuggestionClick(
+                    suggestion,
+                    setActiveIngredients,
+                    setActiveIngredientsSuggestions
+                  )}
+                  className={index === activeSuggestionIndex ? "selected" : ""}
                 >
                   {suggestion}
                 </li>
@@ -134,10 +209,12 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
             onChange={(e) =>
               handleInputChange(e, setAllergies, setAllergiesSuggestions)
             }
+            ref={inputRef}
+            onKeyDown={handleKeyDown}
           />
           {allergiesSuggestions.length > 0 && (
-            <ul>
-              {allergiesSuggestions.map((suggestion) => (
+            <ul ref={suggestionListRef}>
+              {allergiesSuggestions.map((suggestion, index) => (
                 <li
                   key={suggestion}
                   onClick={() =>
@@ -147,6 +224,7 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
                       setAllergiesSuggestions
                     )
                   }
+                  className={index === activeSuggestionIndex ? "selected" : ""}
                 >
                   {suggestion}
                 </li>
@@ -188,7 +266,10 @@ const PatientInput: React.FC<disclaimerProps> = ({ showAlert, setShowAlert }) =>
           )}
         </div>
         <div className="input-button-container">
-          <button className="form-button" onClick={() => handleClickBack(showAlert)}>
+          <button
+            className="form-button"
+            onClick={() => handleClickBack(showAlert)}
+          >
             Back
           </button>
           <button className="form-button" onClick={handleSubmit}>

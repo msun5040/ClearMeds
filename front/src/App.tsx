@@ -24,7 +24,15 @@ const App: React.FC = () => {
               <PatientInput showAlert={showAlert} setShowAlert={setShowAlert} />
             }
           />
-          <Route path="/providerinput" element={<ProviderInput showAlert={showAlert} setShowAlert={setShowAlert}/>} />
+          <Route
+            path="/providerinput"
+            element={
+              <ProviderInput
+                showAlert={showAlert}
+                setShowAlert={setShowAlert}
+              />
+            }
+          />
           <Route path="/provideroutput" element={<ProviderOutput />} />
           <Route path="/patientoutput" element={<PatientOutput />} />
         </Routes>

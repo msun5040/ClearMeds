@@ -30,7 +30,7 @@
   font-family: "HKGrotesk", HKGrotesk-Light;
   line-height: 1.1;
   max-width: 200px;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap;
 }
 
 body {
@@ -70,17 +70,17 @@ body {
 }
 
 .form::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+  width: 12px;
 }
 
 .form::-webkit-scrollbar-track {
   background: #f8e06a;
-  border-top-right-radius: 10px; 
+  border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .form::-webkit-scrollbar-thumb {
-  background-color: #cfcfcf; 
+  background-color: #cfcfcf;
   border-radius: 10px;
 }
 
@@ -125,7 +125,6 @@ body {
   position: absolute;
   top: 15%;
   left: 50px;
-
 }
 
 .form-text {
@@ -161,11 +160,11 @@ body {
   width: 100%;
   max-height: 150px;
   overflow-y: auto;
-  border: 1px solid #ccc;
   border-top: none;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .suggestions-container li {
@@ -178,8 +177,25 @@ body {
   background-color: #f2f2f2;
 }
 
+.suggestions-container ul::-webkit-scrollbar {
+  background-color: #f8e06a;
+  width: 12px;
+}
+
+.suggestions-container ul::-webkit-scrollbar-track {
+  background: white;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-color: #f8e06a;
+}
+
+.suggestions-container ul::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf;
+  border-radius: 10px;
+}
+
 .output-title {
-  font-family: 'HKGrotesk', HKGrotesk Regular;
+  font-family: "HKGrotesk", HKGrotesk Regular;
   font-size: calc(3vw + 3vh);
   color: black;
   top: 0px;
@@ -205,7 +221,7 @@ body {
   background: #78b6c1;
   border: none;
   width: 100%;
-  height: 100%; 
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -217,9 +233,9 @@ body {
 .result-panel-container {
   border-radius: 15px;
   width: 100%;
-  height: auto; 
+  height: auto;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 8vh;
@@ -228,7 +244,7 @@ body {
   min-height: 50vh;
 }
 
-.result-box{
+.result-box {
   background: #f8e06a;
   border: none;
   border-radius: 15px;
@@ -243,27 +259,27 @@ body {
 }
 
 .result-box::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+  width: 12px;
 }
 
 .result-box::-webkit-scrollbar-track {
   background: #f8e06a;
-  border-top-right-radius: 10px; 
+  border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .result-box::-webkit-scrollbar-thumb {
-  background-color: #cfcfcf; 
+  background-color: #cfcfcf;
   border-radius: 10px;
 }
 
-.result-entry-title{
+.result-entry-title {
   font-family: "HKGrotesk", HKGrotesk Regular;
   font-size: calc(1.5vw + 1.5vh);
   font-weight: bold;
 }
 
-.result-entry-subtitle{
+.result-entry-subtitle {
   font-family: "HKGrotesk", HKGrotesk Regular;
   font-size: calc(1vw + 1vh);
   font-weight: bold;
@@ -271,7 +287,7 @@ body {
 
 .result-entry-text-header,
 .result-entry-text-body {
-  font-family: 'HKGrotesk', 'HKGrotesk Regular', HKGrotesk Regular;
+  font-family: "HKGrotesk", "HKGrotesk Regular", HKGrotesk Regular;
   text-align: left;
   font-size: calc(0.75vw + 0.75vh);
   margin-left: 1vw;
@@ -286,14 +302,14 @@ body {
   margin-bottom: 0.5vh;
 }
 
-.result-entry-pair{
+.result-entry-pair {
   display: flex;
-  align-items: center; /* Align items vertically in the center */
-  margin-right: 0.01px; /* Adjust the margin between pairs */
-  margin-bottom: 0.01px; /* Adjust the margin between pairs */
+  align-items: center;
+  margin-right: 0.01px;
+  margin-bottom: 0.01px;
 }
 
-patient-output-learnmore-container{
+patient-output-learnmore-container {
   justify-content: center;
 }
 .patient-output-learnmore {
@@ -323,7 +339,7 @@ patient-output-learnmore-container{
   margin-top: 1vh;
 }
 
-.provider-result-box{
+.provider-result-box {
   background: #f8e06a;
   border: none;
   border-radius: 15px;
@@ -342,13 +358,13 @@ patient-output-learnmore-container{
   display: flex;
 }
 
-.provider-column-left{
+.provider-column-left {
   width: 900px;
   padding: 10px;
 }
 
-.provider-column{
-  width: 100%; 
+.provider-column {
+  width: 100%;
   padding: 10px;
 }
 
@@ -452,20 +468,20 @@ patient-output-learnmore-container{
   margin-top: 3%;
   margin-left: 3.5%;
   margin-bottom: 0;
-  width: 90%; /* Set width relative to parent */
-  height: 70%; /* Set height relative to parent */
+  width: 90%;
+  height: 70%;
   overflow: hidden;
 }
 
 .text-line {
   font-family: "HKGrotesk", HKGrotesk Regular;
-  font-size: calc(3vw + 3vh); /* Adjusted font size using vw and vh units */
+  font-size: calc(3vw + 3vh);
   color: black;
 }
 
 .text-line-bold {
   font-family: "HKGrotesk", HKGrotesk Bold;
-  font-size: calc(3vw + 3vh); /* Adjusted font size using vw and vh units */
+  font-size: calc(3vw + 3vh);
   color: black;
   font-weight: bold;
 }
@@ -477,16 +493,15 @@ patient-output-learnmore-container{
 }
 
 .user-selector-button {
-  padding: 10px 20px; /* Adjusted padding for better proportions */
-  margin: 10px 10px; /* Adjusted margin for better spacing */
-  font-size: 1.5rem; /* Using rem units for font size */
+  padding: 10px 20px;
+  margin: 10px 10px;
+  font-size: 1.5rem;
   cursor: pointer;
   height: 20%;
   width: 47%;
-  border: 2px solid #96cfdb; /* Changed border color */
-  border-radius: 10px; /* Increased border-radius for a softer look */
-  background-color: #96cfdb; /* Changed background color */
-  color: #000; /* Set text color to white for better contrast */
+  border: 2px solid #96cfdb;
+  border-radius: 10px;
+  color: #000;
   transition: all 0.3s ease;
 }
 
@@ -494,7 +509,7 @@ patient-output-learnmore-container{
   background-color: #e0e0e0;
 }
 
-.input-message{
+.input-message {
   margin-top: 2vh;
 }
 
@@ -505,4 +520,8 @@ patient-output-learnmore-container{
   to {
     transform: rotate(360deg);
   }
+}
+
+.selected {
+  background-color: #c2c2c2;
 }
