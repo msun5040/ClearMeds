@@ -7,7 +7,7 @@ const logo = () => {
         <image href={capsule} width="150" height="150" />
       </svg>
       <div className="logo-text">
-        <span className="logo-text-line">The ClearRx</span>
+        <span className="logo-text-line">The ClearMeds</span>
         <span className="logo-text-line">Project</span>
       </div>
     </div>

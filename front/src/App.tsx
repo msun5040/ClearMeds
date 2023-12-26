@@ -10,8 +10,9 @@ import PatientOutput from "./pages/PatientOutput";
 
 const App: React.FC = () => {
   const [showAlert, setShowAlert] = useState(true);
+
   return (
-    <Router>
+    <Router basename="/ClearMeds"> {/* Set basename to match your homepage */}
       <div className="App">
         <Routes>
           <Route
