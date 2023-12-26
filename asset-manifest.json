@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/ClearMeds/static/css/main.2bdb5d2f.css",
-    "main.js": "/ClearMeds/static/js/main.9c7b105a.js",
+    "main.js": "/ClearMeds/static/js/main.73a1ba07.js",
     "static/media/HKGrotesk-ExtraBold.woff": "/ClearMeds/static/media/HKGrotesk-ExtraBold.8d6051fa245a5bb6e94f.woff",
     "static/media/HKGrotesk-Regular.woff": "/ClearMeds/static/media/HKGrotesk-Regular.11b821c8f3568b9bf3ff.woff",
     "index.html": "/ClearMeds/index.html",
     "static/media/capsule.svg": "/ClearMeds/static/media/capsule.0ef8fe5de11a1d07e9f4c86f9dfbc754.svg",
     "main.2bdb5d2f.css.map": "/ClearMeds/static/css/main.2bdb5d2f.css.map",
-    "main.9c7b105a.js.map": "/ClearMeds/static/js/main.9c7b105a.js.map"
+    "main.73a1ba07.js.map": "/ClearMeds/static/js/main.73a1ba07.js.map"
   },
   "entrypoints": [
     "static/css/main.2bdb5d2f.css",
-    "static/js/main.9c7b105a.js"
+    "static/js/main.73a1ba07.js"
   ]
 }
